@@ -160,7 +160,8 @@ Our simulation can be split into two phases: Initialization and Runtime:
 ## Tetrads
 Moving forward we are going to be working with space time metrics, and positions and vectors with a time component. In our 2D polar implementation this means that the metric tensor gets upgraded to a 3x3 matrix.
 
-$$g_{\mu\nu} = \begin{bmatrix}
+$$g_{\mu\nu} =
+\begin{bmatrix}
 -1 & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 0 & r(l)^2
@@ -170,7 +171,8 @@ The time component will always be the first column and negative. This is mainly 
 
 One of the core pillars of General Relativity is the notion that space is locally flat (Minkowskian) and globally curved. 
 
-$$\eta_{\mu\nu} =\begin{bmatrix}
+$$\eta_{\mu\nu} =
+\begin{bmatrix}
 -1 & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 0 & 1
