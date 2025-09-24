@@ -11,6 +11,7 @@ We will start by a derivation of the null geodesic equation and parallel transpo
 
 In order to leverage the symetry of a wormhole we will be working in **Polar Coordinates**.
 The 2D implementation of our wormhole will be using this coordinate system: $(r, \theta )$. The parametric equations are shown below.
+
 $$\begin{align*}
 x &= r \cos\theta \\
 y &= r \sin\theta
@@ -29,12 +30,14 @@ This ensures the coordinate transformation depends on the geometry of the wormho
 The first thing we must define is our Jacobian. The Jacobian is a Tensor Field that lets us transform vectors at some point P from cartesian $(x,y)$ to our new coordinate system $(l,\theta)$.
 
 We first define our transformation:
+
 $$\begin{align*}
 x &= r(l) \cos\theta \\
 y &= r(l) \sin\theta
 \end{align*}$$
 
 Then we derive the Jacobian. To compute $g$ for our modified Polar coordinates we need the Jacobian that maps to Cartesian coordinates.
+
 $$J: (l, \theta) \mapsto (x, y) = 
 \begin{bmatrix}
 {\frac{\partial x}{\partial l}} & {\frac{\partial x}{\partial \theta}} \\
@@ -52,19 +55,20 @@ The metric $ds^2 = g_{\mu\nu}dx^{\mu}dx^{\upsilon}$ takes two vectors and return
 
 $$g = J^TJ = 
 \begin{bmatrix}
-{\frac{\partial x}{\partial l}}^2 {\frac{\partial y}{\partial l}}^2 &
+{\frac{\partial x}{\partial l}}^2 \cdot {\frac{\partial y}{\partial l}}^2 &
 {\frac{\partial x}{\partial \theta}} {\frac{\partial x}{\partial l}} +  {\frac{\partial y}{\partial \theta}} {\frac{\partial y}{\partial l}}\\
 {\frac{\partial x}{\partial \theta}} {\frac{\partial x}{\partial l}} +  {\frac{\partial y}{\partial \theta}} {\frac{\partial y}{\partial l}} &
-{\frac{\partial y}{\partial l}}^2 {\frac{\partial x}{\partial l}}^2
-\end{bmatrix} \\= 
-\begin{bmatrix}
+{\frac{\partial y}{\partial l}}^2 \cdot {\frac{\partial x}{\partial l}}^2
+\end{bmatrix}=$$
+
+$$\begin{bmatrix}
 r'(l)cos^2(\theta) + r'(l)sin^2(\theta) & -r(l)cos(\theta)sin(\theta) + r(l)cos(\theta)sin(\theta)\\
 -r(l)cos(\theta)sin(\theta) + r(l)cos(\theta)sin(\theta) & r'(l)r(l)^{2}cos^2(\theta) + r'(l)r(l)^{2}sin^2(\theta)
 \end{bmatrix} =
 \begin{bmatrix}
 r'(l) & 0 \\
 0 & r'(l)^2r(l)^2
-\end{bmatrix} $$
+\end{bmatrix}$$
 
 But wait! We defined $l$ as **proper radial distance**. It is defined such that:
 $$dl = dr = 1$$
@@ -83,6 +87,7 @@ $$\Gamma^\mu_{\alpha\beta} = \frac{1}{2}\mathfrak{g}^{\mu\lambda}(\frac{\partial
 $$\text{where} \quad \mathfrak{g}=g^{-1}$$
 
 For a 2D system like ours, there are a total of 6 christoffel symbols. Because our metric tensor is a diagonal matrix we can assume many of them will be zero.
+
 $$\begin{align*}
 &\Gamma^l_{ll} = \frac{1}{2}\cdot1(\frac{\partial}{\partial l}1 + \frac{\partial}{\partial l}1 - \frac{\partial}{\partial l}1) = 0 \\
 &\Gamma^l_{\theta l} = \frac{1}{2}\cdot1(0 + 0- 0) = 0 = \Gamma^l_{l\theta} \\
@@ -93,6 +98,7 @@ $$\begin{align*}
 \end{align*}$$
 
 We have a total of three non-zero christoffel symbols:
+
 $$\begin{align*}
 &\Gamma^l_{\theta \theta} = -r(l)r'(l) \\
 &\Gamma^\theta_{\theta l} = \Gamma^\theta_{l \theta} = \frac{r(l)}{r'(l)}
@@ -114,13 +120,16 @@ $$\begin{align*}
 ## Implementation
 Our null geodesics are a system of 2nd order ordinary differential equations. Solving these analytically as very difficult and in many cases impossible. Thankfully we don't need a general solution to our geodesic equation. We can use a technique called **numerical integration**. The idea is simple, instead of trying to find a parametric equation where we can calculate the coordinate at param 500 along a path, we can just take 500 tiny steps along the path.
 The simplest form of numerical integration is called **Eulers method**:
+
 $$\begin{align*}
 x_{n+1} = x_n + v_n \cdot \Delta \lambda \\
 v_{n+1} = v_n + a_n \cdot \Delta \lambda
 \end{align*}$$
+
 It updates **position and velocity** using current values at time step $n$. The drawbacks is that its not energy conserving and it accumulates error quickly.
 
 **Symplectic Euler** is a small but important variation of Euler’s method. It updates **velocity first**, then use the **new velocity** to update position.
+
 $$\begin{align*}
 v_{n+1} = v_n + a_n \cdot \Delta \lambda \\
 x_{n+1} = x_n + v_{n+1} \cdot \Delta \lambda
@@ -129,10 +138,12 @@ x_{n+1} = x_n + v_{n+1} \cdot \Delta \lambda
 The last numerical integrator we will look at is **Runge–Kutta method**.
 RK4 improves accuracy by sampling the derivative **at multiple points within each time step**, rather than just once at the beginning like Euler's method.
 
-Given an ODE;
+Given an ODE:
+
 $$\frac{dx}{d\lambda} = f(\lambda,x), \quad y(\lambda_0)=y_0$$
 
 Let $h = \Delta\lambda$ (time step):
+
 $$\begin{align*}
 &k_1 = f(\lambda_n, x_n) \\
 &k_2 = f(\lambda_n + \frac{h}{2}, x_n + \frac{h}{2}k_1) \\
@@ -160,29 +171,37 @@ Our simulation can be split into two phases: Initialization and Runtime:
 ## Tetrads
 Moving forward we are going to be working with space time metrics, and positions and vectors with a time component. In our 2D polar implementation this means that the metric tensor gets upgraded to a 3x3 matrix.
 
-$$g_{\mu\nu} =
+$$
+g_{\mu\nu} =
 \begin{bmatrix}
 -1 & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 0 & r(l)^2
-\end{bmatrix} $$
+\end{bmatrix}
+$$
 
 The time component will always be the first column and negative. This is mainly to distinguish the temporal component from the spatial ones.
 
 One of the core pillars of General Relativity is the notion that space is locally flat (Minkowskian) and globally curved. 
 
-$$\eta_{\mu\nu} =
+$$
+\eta_{\mu\nu} =
 \begin{bmatrix}
 -1 & 0 & 0 \\
 0 & 1 & 0 \\
 0 & 0 & 1
-\end{bmatrix} $$
+\end{bmatrix}
+$$
+
 The **Minkowskian Metric** describes local flat space. It is what we will use to store the observer's orientation driven by the user (mouse move).
 
 The observer's local tangent frame must be transformed to this globally curved space in order to be offset along the geodesic. This is where **tetrads** come in.
 Tetrads will transform vectors from locally flat cartesian space to our globally curved polar space and back.
+
 $$g_{\mu\nu} = \eta_{\alpha\beta}e^\alpha_\mu e^\beta_\nu$$
+
 Or in matrix form:
+
 $$g = e^T \cdot \eta \cdot e$$
 
 Actually, building a tetrad is quite easy. First we observer that spatially it performs a similar function to our Jacobian from earlier. However, the Jacobian describe the differentials along each basis vector. It is not a tangent basis in it of itself. It must be orthonormalized into order to be a valid tangent frame. Naive orthonormalization with cross products may work in flat Euclidean space, but we have a curved metric to respect! We need to use **Relativistic Gramm-Schmidt** to orthonormalize our Jacobian.
@@ -193,20 +212,20 @@ $$\begin{align*}
 proj_{u^\mu}(v^\mu) &= \frac{g_{\mu\nu} v^\mu u^\nu}{g_{\alpha\beta} u^\alpha u^\beta} \equiv \frac{v^\mu u_\nu}{u^\alpha u_\alpha} \\
 normalise(u^\mu) &= \frac{u^\mu}{g_{\alpha\beta} u^\alpha u^\beta} \equiv \frac{u^\mu}{u^\alpha u_\alpha}\\
 \\
-u_0 &= v_0\\
-u_1 &= v_1 - proj_{u_0}(v_1) \\
+&u_0 = v_0\\
+&u_1 = v_1 - proj_{u_0}(v_1) \\
 \\
-u_2 &= v_2 - proj_{u_0}(v_2) \\
-u_2 &= u_2 - proj_{u_1}(u_2) \\
+&u_2 = v_2 - proj_{u_0}(v_2) \\
+&u_2 = u_2 - proj_{u_1}(u_2) \\
 \\
-u_3 &= v_3 - proj_{u_0}(v_3) \\
-u_3 &= u_3 - proj_{u_1}(u_3) \\
-u_3 &= u_3 - proj_{u_2}(u_3) \\
+&u_3 = v_3 - proj_{u_0}(v_3) \\
+&u_3 = u_3 - proj_{u_1}(u_3) \\
+&u_3 = u_3 - proj_{u_2}(u_3) \\
 \\
-u_0 &= normalise(u_0)\\
-u_1 &= normalise(u_1)\\
-u_2 &= normalise(u_2)\\
-u_3 &= normalise(u_3)\\
+&u_0 = normalise(u_0)\\
+&u_1 = normalise(u_1)\\
+&u_2 = normalise(u_2)\\
+&u_3 = normalise(u_3)\\
 \end{align*}$$
 
 ```c++	
@@ -241,6 +260,7 @@ $$\begin{align*}
 \end{align*}$$
 
 Recall the **Christoffel Symbols** we calculated earlier.
+
 $$\begin{align*}
 &\Gamma^l_{\theta \theta} = -r(l)r'(l) \\
 &\Gamma^\theta_{\theta l} = \Gamma^\theta_{l \theta} = \frac{r(l)}{r'(l)}
