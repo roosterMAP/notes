@@ -9,6 +9,7 @@ We will start by a derivation of the null geodesic equation and parallel transpo
 
 ## Tensor Calculus
 Lets do a quick overview of some important notes regarding tensors.
+
 $$
 \begin{array}{|c|c|c|c|}
 \hline
@@ -61,6 +62,7 @@ This ensures the coordinate transformation depends on the geometry of the wormho
 The first thing we must do is define is our Jacobian. The Jacobian is a Tensor Field that lets us transform vectors at some point P from cartesian $(x,y)$ to our wormhole coordinates $(r(l),\theta)$.
 
 We first define our transformation:
+
 $$\begin{align*}
 x &= r(l) \cos\theta \\
 y &= r(l) \sin\theta
@@ -88,7 +90,7 @@ $$g_{uv} = J^TJ =
 {\frac{\partial x}{\partial \theta}} {\frac{\partial x}{\partial l}} +  {\frac{\partial y}{\partial \theta}} {\frac{\partial y}{\partial l}}\\
 {\frac{\partial x}{\partial \theta}} {\frac{\partial x}{\partial l}} +  {\frac{\partial y}{\partial \theta}} {\frac{\partial y}{\partial l}} &
 {\frac{\partial y}{\partial l}}^2 {\frac{\partial x}{\partial l}}^2
-\end{bmatrix} \\= 
+\end{bmatrix} \\ = 
 \begin{bmatrix}
 r'(l)cos^2(\theta) + r'(l)sin^2(\theta) & -r(l)cos{\theta}sin{\theta} + r(l)cos{\theta}sin{\theta}\\
 -r(l)cos{\theta}sin{\theta} + r(l)cos{\theta}sin{\theta} & r'(l)r(l)^{2}cos^2(\theta) + r'(l)r(l)^{2}sin^2(\theta)
@@ -117,6 +119,7 @@ $$\Gamma^\mu_{\alpha\beta} = \frac{1}{2}\mathfrak{g}^{\mu\lambda}(\frac{\partial
 $$\text{where} \quad \mathfrak{g}=g^{-1}$$
 
 For a 2D system like ours, there are a total of 6 christoffel symbols. Because our metric tensor is a diagonal matrix we can assume many of them will be zero.
+
 $$\begin{align*}
 &\Gamma^l_{ll} = \frac{1}{2}\cdot1(\frac{\partial}{\partial l}1 + \frac{\partial}{\partial l}1 - \frac{\partial}{\partial l}1) = 0 \\
 &\Gamma^l_{\theta l} = \frac{1}{2}\cdot1(0 + 0- 0) = 0 = \Gamma^l_{l\theta} \\
@@ -127,6 +130,7 @@ $$\begin{align*}
 \end{align*}$$
 
 We have a total of three non-zero christoffel symbols:
+
 $$\begin{align*}
 &\Gamma^l_{\theta \theta} = -r(l)r'(l) \\
 &\Gamma^\theta_{\theta l} = \Gamma^\theta_{l \theta} = \frac{r(l)}{r'(l)}
@@ -148,13 +152,16 @@ $$\begin{align*}
 ## Implementation
 Our null geodesics are a system of 2nd order ordinary differential equations. Solving these analytically as very difficult and in many cases impossible. Thankfully we don't need a general solution to our geodesic equation. We can use a technique called **numerical integration**. The idea is simple, instead of trying to find a parametric equation where we can calculate the coordinate at param 500 along a path, we can just take 500 tiny steps along the path.
 The simplest form of numerical integration is called **Eulers method**:
+
 $$\begin{align*}
 x_{n+1} = x_n + v_n \cdot \Delta \lambda \\
 v_{n+1} = v_n + a_n \cdot \Delta \lambda
 \end{align*}$$
+
 It updates **position and velocity** using current values at time step $n$. The drawbacks is that its not energy conserving and it accumulates error quickly.
 
 **Symplectic Euler** is a small but important variation of Euler’s method. It updates **velocity first**, then use the **new velocity** to update position.
+
 $$\begin{align*}
 v_{n+1} = v_n + a_n \cdot \Delta \lambda \\
 x_{n+1} = x_n + v_{n+1} \cdot \Delta \lambda
@@ -167,6 +174,7 @@ Given an ODE;
 $$\frac{dx}{d\lambda} = f(\lambda,x), \quad y(\lambda_0)=y_0$$
 
 Let $h = \Delta\lambda$ (time step):
+
 $$\begin{align*}
 &k_1 = f(\lambda_n, x_n) \\
 &k_2 = f(\lambda_n + \frac{h}{2}, x_n + \frac{h}{2}k_1) \\
@@ -211,12 +219,16 @@ $$\eta_{\mu\nu} =
 0 & 1 & 0 \\
 0 & 0 & 1
 \end{bmatrix} $$
+
 The **Minkowskian Metric** describes local flat space. It is what we will use to store the observer's orientation driven by the user (mouse move).
 
 The observer's local tangent frame must be transformed to this globally curved space in order to be offset along the geodesic. This is where **tetrads** come in.
 Tetrads will transform vectors from locally flat cartesian space to our globally curved wormhole space and back.
+
 $$g_{\mu\nu} = \eta_{\alpha\beta}e^\alpha_\mu e^\beta_\nu$$
+
 Or in matrix form:
+
 $$g = e^T \cdot \eta \cdot e$$
 
 Actually, building a tetrad is quite easy. First we observer that spatially it performs a similar function to our Jacobian from earlier. However, the Jacobian describe the differentials along each basis vector. It is not a tangent basis in it of itself. It must be orthonormalized into order to be a valid tangent frame. Naive orthonormalization with cross products may work in flat Euclidean space, but we have a curved metric to respect! We need to use **Relativistic Gramm-Schmidt** to orthonormalize our Jacobian.
@@ -275,6 +287,7 @@ $$\begin{align*}
 \end{align*}$$
 
 Recall the **Christoffel Symbols** we calculated earlier.
+
 $$\begin{align*}
 &\Gamma^l_{\theta \theta} = -r(l)r'(l) \\
 &\Gamma^\theta_{\theta l} = \Gamma^\theta_{l \theta} = \frac{r(l)}{r'(l)}
@@ -353,11 +366,9 @@ $$\begin{align*}
 &{\frac{\partial x}{\partial l}} = r'(l)sin{\theta}cos{\phi} \quad\quad
 &{\frac{\partial x}{\partial \theta}} = r(l)cos{\theta}cos{\phi} \quad\quad
 &{\frac{\partial x}{\partial \phi}} = -r(l)sin{\theta}sin{\phi} \\
-
 &{\frac{\partial y}{\partial l}} = r'(l)cos{\theta} \quad\quad
 &{\frac{\partial y}{\partial \theta}} = -r(l)sin{\theta} \quad\quad
 &{\frac{\partial y}{\partial \phi}} = 0.0 \\
-
 &{\frac{\partial z}{\partial l}} = r'(l)sin{\theta}sin{\phi} \quad\quad
 &{\frac{\partial z}{\partial \theta}} = r(l)cos{\theta}sin{\phi} \quad\quad
 &{\frac{\partial z}{\partial \phi}} = r(l)sin{\theta}cos{\phi} \\
@@ -369,49 +380,44 @@ $$g_\mu\nu = \frac{\partial\vec{x}}{\partial q^\mu} \frac{\partial\vec{x}}{\part
 
 Before we start, keep in mind that we defined $l$ as **proper radial distance**. It is defined such tha $dl = dr = 1$.
 
-$$\begin{align*}
+$$
+\begin{align*}
 g_{ll} &= \frac{\partial\vec{x}}{\partial{l}} \cdot \frac{\partial\vec{x}}{\partial{l}} =
+\begin{bmatrix} \sin{\theta}\cos{\phi} \\ \cos{\theta} \\ \sin{\theta}\sin{\phi} \end{bmatrix} \cdot
+\begin{bmatrix} \sin{\theta}\cos{\phi} \\ \cos{\theta} \\ \sin{\theta}\sin{\phi} \end{bmatrix} \\
+&= \sin^2(\theta)\cos^2(\phi) + \cos^2(\theta) + \sin^2(\theta)\sin^2(\phi) \\
+&= \sin^2(\theta)(\cos^2(\phi) + \sin^2(\phi)) + \cos^2(\theta) \\
+&= \sin^2(\theta) + \cos^2(\theta) = 1
+\end{align*}
+$$
 
-\begin{bmatrix} sin{\theta}cos{\phi} \\ cos{\theta} \\ sin{\theta}sin{\phi}\end{bmatrix}
-\cdot
-\begin{bmatrix} sin{\theta}cos{\phi} \\ cos{\theta} \\ sin{\theta}sin{\phi}\end{bmatrix} \\
-
-&= sin^2(\theta)cos^2(\phi) + cos^2{\phi} + sin^2(\theta)sin^2(\phi) \\
-&= sin^2(\theta)(cos^2(\phi) + sin^2(\phi)) + cos^2(\theta) = sin^2{\theta} + cos^2(\theta) \\
-&= 1
-\end{align*}$$
 
 $$\begin{align*}
 g_{l\theta} &= \frac{\partial\vec{x}}{\partial{l}} \cdot \frac{\partial\vec{x}}{\partial{\theta}} =
-
 \begin{bmatrix} sin{\theta}cos{\phi} \\ cos{\theta} \\ sin{\theta}sin{\phi}\end{bmatrix}
 \cdot
 \begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix} \\
-
 &= r(l)sin{\theta}cos{\theta}cos^2(\phi) - r(l)sin{\theta}cos{\theta} + r(l)sin{\theta}cos{\theta}sin^2(\phi) \\
 &= r(l)sin{\theta}cos{\theta}(cos^2(\phi) + sin^2(\phi)) - r(l)sin{\theta}cos{\theta} \\
 &= r(l)sin( \theta )cos( \theta ) - r(l)sin{\theta}cos{\theta} \\
 &= 0 = g_{\theta l}
 \end{align*}$$
 
+
 $$\begin{align*}
 g_{l\phi} &= \frac{\partial\vec{x}}{\partial{l}} \cdot \frac{\partial\vec{x}}{\partial{\phi}} =
-
 \begin{bmatrix} sin{\theta}cos{\phi} \\ cos{\theta} \\ sin{\theta}sin{\phi}\end{bmatrix}
 \cdot
 \begin{bmatrix} -r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix} \\
-
 &=-r(l)sin^2(\theta)cos{\phi}sin{\phi} + r(l)sin^2{\theta}sin{\phi}cos{\phi} \\
 &= 0 = g_{\phi l}
 \end{align*}$$
 
 $$\begin{align*}
 g_{\theta\theta} &= \frac{\partial\vec{x}}{\partial{\theta}} \cdot \frac{\partial\vec{x}}{\partial{\theta}} = 
-
 \begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix}
 \cdot
 \begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix} \\
-
 &= r(l)^2cos^2(\theta)cos^2{\phi} + r(l)^2cos^2( \theta )sin^2(\phi) + r(l)^2sin^2(\theta) \\
 &= r(l)^2cos^2(\theta)(cos^2(\phi) + sin^2(\phi)) + r(l)^2sin^2(\theta) \\
 &= r(l)^2(cos^2(\theta)+sin^2(\theta)) \\
@@ -421,22 +427,18 @@ g_{\theta\theta} &= \frac{\partial\vec{x}}{\partial{\theta}} \cdot \frac{\partia
 
 $$\begin{align*}
 g_{\theta\phi} &= \frac{\partial\vec{x}}{\partial{\theta}} \cdot \frac{\partial\vec{x}}{\partial{\phi}} = 
-
 \begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix}
 \cdot
 \begin{bmatrix} r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix} \\
-
 &= -r(l)^2sin{\theta}cos{\theta}sin{\phi}cos{\phi} + r(l)^2sin{\theta}cos{\theta}sin{\phi}cos{\phi} \\
 &= 0 = g_{\phi\theta}
 \end{align*}$$
 
 $$\begin{align*}
 g_{\phi\phi} &= \frac{\partial\vec{x}}{\partial{\phi}} \cdot \frac{\partial\vec{x}}{\partial{\phi}} = 
-
 \begin{bmatrix} -r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix}
 \cdot
 \begin{bmatrix} -r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix} \\
-
 &= r(l)^2sin^2(\theta)sin^2(\phi) + r(l)sin^2(\theta)cos^2(\phi) \\
 &= r(l)^2sin^2(\theta)(sin^2(\phi) + cos^2(\phi)) \\
 &= r(l)^2sin^2(\theta)
@@ -464,7 +466,8 @@ Recall from earlier:
 
 $$\Gamma^\mu_{\alpha\beta} = \frac{1}{2}\mathfrak{g}^{\mu\lambda}(\frac{\partial g_{\lambda\alpha}}{\partial x^\beta} + \frac{\partial g_{\lambda\beta}}{\partial x^\alpha} + \frac{\partial g_{\alpha\beta}}{\partial x^\lambda})$$
 
-$$\begin{align*}
+$$
+\begin{align*}
 &\Gamma^l_{ll} = \frac{1}{2}(1)(0 + 0 - 0) = 0 \\
 &\Gamma^l_{l \theta} = \frac{1}{2}(1)(0 + 0 - 0) = 0 = \Gamma^l_{\theta l} \\
 &\Gamma^l_{l \phi} = \frac{1}{2}(1)(0 + 0 - 0) = 0 = \Gamma^l_{\phi l} \\
@@ -479,16 +482,16 @@ $$\begin{align*}
 &\Gamma^\phi_{l \theta} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)}(0)) = 0 = \Gamma^\phi_{\theta l} \\
 &\Gamma^\phi_{l \phi} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)})(\partial_l(r(l)^2sin^2(\theta))) = \frac{2r'(l)r(l)sin^2(\theta)}{2r(l)^2sin^2(\theta)} = \frac{r'(l)}{r(l)} = \Gamma^\phi_{\phi l}\\
 &\Gamma^\phi_{\theta \theta} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)}(0)) = 0 \\
-&\Gamma^\phi_{\theta \phi} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)})(\partial_\theta(r(l)^2sin^2(\theta))) = \frac{2r(l)^2sin{\theta}cos{\theta}}{2r(l)^2sin^2(\theta)} = \frac{cos{\theta}}{sin{\theta}} = cot{\theta} = \Gamma^\phi_{\phi\theta} \\
-&\Gamma^\theta_{\phi\phi} = \frac{1}{2}(\frac{1}{r(l)^2})(-\partial_\theta(r(l)^2sin^2(\theta))) = \frac{-2r(l)^2sin{\theta}cos{\theta}}{2r(l)^2} = -sin{\theta}cos{\theta}
-\end{align*}$$
+&\Gamma^\phi_{\theta \phi} = \frac{1}{2}(\frac{1}{r(l)^2\sin^2(\theta)})(\partial_\theta(r(l)^2\sin^2(\theta))) = \frac{2r(l)^2\sin{\theta}cos{\theta}}{2r(l)^2\sin^2(\theta)} = \cot \theta = \Gamma^\phi_{\phi\theta} \\
+&\Gamma^\theta_{\phi\phi} = \frac{1}{2}(\frac{1}{r(l)^2})(-\partial_\theta(r(l)^2sin^2(\theta))) = \frac{-2r(l)^2sin{\theta}cos{\theta}}{2r(l)^2} = -sin{\theta}cos{\theta} \\
+\end{align*}
+$$
 
 And finally we have our non-zero christoffel symbols:
 
 $$\begin{align*}
 &\Gamma^l_{\theta\theta} = -r'(l)r(l) \quad
 &\Gamma^l_{\phi\phi} = -r'(l)r(l)sin^2(\theta) \\
-
 &\Gamma^\theta_{\phi\phi} = -sin{\theta}cos{\theta} \quad
 &\Gamma^\theta_{l\theta} = \Gamma^\theta_{\theta l} = \frac{r'(l)}{r(l)} \\
 &\Gamma^\phi_{l\phi} = \Gamma^\phi_{\phi l} = \frac{r'(l)}{r(l)} \quad
@@ -498,6 +501,7 @@ $$\begin{align*}
 ## Null Geodesic Equations
 
 Recal the null geodesic formula from earlier:
+
 $$\frac{d^2 x^\alpha}{d\lambda^2 } + \Gamma^\alpha_{\beta\gamma} \frac{dx^\beta}{d\lambda} \frac{dx^\gamma}{d\lambda} = 0$$
 
 $$
@@ -505,10 +509,8 @@ $$
 &\frac{d^2l}{d\lambda^2} + \Gamma^l_{\theta\theta}(\frac{d\theta}{d\lambda}\frac{d\theta}{d\lambda^2}) + \Gamma^l_{\phi\phi}(\frac{d\phi}{d\lambda}\frac{d\phi}{d\lambda}) = 0 \\
 \Rightarrow &\frac{d^2l}{d\lambda^2} = r(l)'r(l)\theta'' + r'(l)r(l)sin^2(\theta)(\phi')^2 = \\
 &r'(l)r(l)(\theta'' + sin^2(\theta)(\phi')^2) \\\\
-
 &\frac{d^2\theta}{d\lambda^2} + 2\frac{r'(l)}{r(l)}l'\theta' - sin{\theta}cos{\theta}(\phi')^2 = 0 \\
 \Rightarrow&\frac{d^2\theta}{d\lambda^2} = -2\frac{r'(l)}{r(l)}l'\theta' + sin{\theta}cos{\theta}(\phi')^2 \\\\
-
 &\frac{d^2\phi}{d\lambda^2} + \frac{r'(l)}{r(l)}l'\phi' - \frac{r'(l)}{r(l)}\phi'l' + cot{\theta}\theta'\phi' + cot{\theta}\theta'\phi' = 0 \\
 \Rightarrow&\frac{d^2\phi}{d\lambda^2} = -2\frac{r'(l)}{r(l)}l'\phi' - 2cot{\theta}\theta'\phi'
 \end{align*}
@@ -665,12 +667,14 @@ $$
 $$
 
 Define the Hamiltonian for the system:
+
 $$
 \mathcal{H} = p_q q' - \mathcal{L} \\
 \mathcal{H} = \frac{1}{4}( p_l^2 + \frac{p_\theta^2}{r(l)^2} + \frac{p_\phi^2}{r(l)^2sin^2\theta} )
 $$
 
 Now evolve the system using the Hamiltonian equations of motion:
+
 $$
 q'^i = \frac{\partial\mathcal{H}}{\partial p_i} \quad\quad p'^i = -\frac{\partial\mathcal{H}}{\partial q_i}
 $$
@@ -689,21 +693,20 @@ A big downside of the Spherical Coordinate system is the presense of coordinate 
 One option to avoid them is to convert to Cartesian Coordinates. Doing this with the 2nd order geodesic equations is very difficult and yeilds monster expressions, but doing it with the Hamiltonian equations seemed more doable. The derivation below converts a 2D wormhole system from polar to cartesian. Polar coordinates have a coordinate singularity at the origin. Converting to cartesian would theoretically address this issue.
 
 $$
+\begin{align*}
 \text{Shape Function} \quad\quad r(l) = \sqrt{l^2 + r_0^2} \\
 \text{Metric} \quad\quad g_{\mu,\nu}(l, \theta) = \begin{bmatrix}
 1 & 0 \\
 0 & r(l)^2
 \end{bmatrix} \\
-
 \text{Inverse Metric} \quad\quad \mathfrak{g}^{\mu\nu} =
 \begin{bmatrix}
 1 & 0 \\
 0 & \frac{1}{r(l)^2}
 \end{bmatrix} \\
-
 \text{Hamiltonian} \quad\quad \mathcal{H} = \frac{1}{2}({p_l^2 + \frac{p_\theta^2}{r(l)^2}}) \\
-
 \text{Hamiltons Equations} \quad \frac{dx^\mu}{d\lambda} = \frac{\partial \mathcal{H}}{\partial p_\mu} \quad,\quad \frac{dp_\mu}{d\lambda} = -\frac{\mathcal{H}}{\partial x^\mu}
+\end{align*}
 $$
 
 Now we conver $\mathcal{H}$ to Cartesian.
