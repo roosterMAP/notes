@@ -25,9 +25,7 @@ dx^\mu & \text{Dual basis covector} & (0,1) & \text{Cotangent basis} \\
 J^\mu_{\ \bar{\nu}} = \partial x^\mu / \partial \bar{x}^{\bar{\nu}} & \text{Jacobian (change of coordinates)} & (1,1) & \text{Basis transform} \\
 J^{\bar{\mu}}_{\ \nu} = \partial \bar{x}^{\bar{\mu}} / \partial x^\nu & \text{Inverse Jacobian} & (1,1) & \text{Basis transform} \\
 e^\mu_a & \text{Tetrad (global to local)} & (1,1) & \text{Change of basis} \\
-\omega^a_\mu & \text{Inverse tetrad (local to global)} & (1,1) & \text{Change of basis} \\
-e^\mu_a & \text{Tetrad (global to local)} & (1,1) & \text{Change of basis} \\
-\omega^a_\mu & \text{Inverse tetrad (local to global)} & (1,1) & \text{Change of basis} \\
+e^a_\mu & \text{Inverse tetrad (local to global)} & (1,1) & \text{Change of basis} \\
 \hline
 u^\mu a^\nu & \text{Outer product of two vectors} & (1,0) \otimes (1,0) & (2,0)\ \text{Tensor} \\
 u_\mu a^\nu & \text{Mixed outer product} & (0,1) \otimes (1,0) & (1,1)\ \text{Tensor} \\
@@ -44,6 +42,7 @@ $$
 
 In order to leverage the symetry of a wormhole we will be working in **Polar Coordinates**.
 The 2D implementation of our wormhole will be using this coordinate system: $(r, \theta )$. The parametric equations are shown below.
+
 $$\begin{align*}
 x &= r \cos\theta \\
 y &= r \sin\theta
@@ -63,12 +62,15 @@ The first thing we must do is define is our Jacobian. The Jacobian is a Tensor F
 
 We first define our transformation:
 
-$$\begin{align*}
+$$
+\begin{align*}
 x &= r(l) \cos\theta \\
 y &= r(l) \sin\theta
-\end{align*}$$
+\end{align*}
+$$
 
 Then we derive the Jacobian. To compute $g_{uv}$ for our modified Polar coordinates we need the Jacobian that maps to Cartesian coordinates.
+
 $$J: (l, \theta) \mapsto (x, y) = 
 \begin{bmatrix}
 {\frac{\partial x}{\partial l}} & {\frac{\partial x}{\partial \theta}} \\
@@ -669,8 +671,10 @@ $$
 Define the Hamiltonian for the system:
 
 $$
-\mathcal{H} = p_q q' - \mathcal{L} \\
-\mathcal{H} = \frac{1}{4}( p_l^2 + \frac{p_\theta^2}{r(l)^2} + \frac{p_\phi^2}{r(l)^2sin^2\theta} )
+\begin{align*}
+\mathcal{H} &= p_q q' - \mathcal{L} \\
+\mathcal{H} &= \frac{1}{4}( p_l^2 + \frac{p_\theta^2}{r(l)^2} + \frac{p_\phi^2}{r(l)^2sin^2\theta} )
+\end{align*}
 $$
 
 Now evolve the system using the Hamiltonian equations of motion:
@@ -718,7 +722,13 @@ $$
 \end{align*}
 $$
 
-Lets define $\vec{x} = \begin{bmatrix} x \\ y \end{bmatrix}$, lets re-express $\mathcal{H}(x, y, p_x, p_y)$.
+Let's define
+
+$$
+\vec{x} = \begin{bmatrix} x \\ y \end{bmatrix}
+$$
+
+and re-express $\mathcal{H}(x, y, p_x, p_y)$.
 
 $$
 \hat{n} = \begin{bmatrix} cos{\theta} \\ sin{\theta} \end{bmatrix} \\
