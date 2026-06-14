@@ -3,7 +3,7 @@
 
 In the previous project, we rendered a simplified version of a morris-Thorne Wormhole using differential geometry. We started with a metric in modified spherical coordinates and derive Christoffell Sybols, then used those to build the first order system of Parallel Transport equations and a second order system of Null Goedesic equations. We also build the Hamiltonian for the system to get a first order system of null geodesic equations that evolve in a phase space. The observer was tracked along null geodesics and the tetrad frame was build by simply transforming the minkowskian basis of the observer with the jacobian of the modified spherical coordinate system we defined, then orthonormalizing with respect to the metric. While this works from a rendering perspective, many laws of physics were ignored. The observer was assumed to have no mass and no velocity. Instead of evolving the observes position and inertialm frame through the curved space-time of the wormhole, we were simply teleporting the player to different points along a null geodesic.
 
-In this project we will faithfully simulate a spinning black hole and the physical timelike path an observer would take while traversing its gravitational field. We will start by exploring the Schwarzschild metric and the coordinate singularity that appears at the event horizon, motivating the need for horizon-penetrating coordinate systems. Then we will analyize the Kerr-Newmann metric and weigh the difficulties of solving geodesic equations with regular geometric methods. This will take us into a deep dive of the work of Brandon Carter who discovered how to leverage symmetris in the Kerr-Newmann system to elegantly solve both null and timelike geodesics. This seminal paper will be the backbone of our implementation. Once done, we will shift our focus to our innertial observe and do a deep dive of tetrad construction and parallel transport. We will analyze both numerical and analytical methods. Tieing these together will give us a faithful simulation of an observer in a Kerr gravitational field. To complete the picture, we will also briefly explore the physics of accretion flows, relativistic aberration, gravitational redshift, and radiative transfer. Finally, we will discuss analytical solutions of the null geodesic equations, the evaluation of elliptic integrals, and several other techniques used to render black holes in real time.
+In this project we will faithfully simulate a spinning black hole and the physical timelike path an observer would take while traversing its gravitational field. We will start by exploring the Schwarzschild metric and the coordinate singularity that appears at the event horizon, motivating the need for horizon-penetrating coordinate systems. Then we will analyze the Kerr-Newman metric and weigh the difficulties of solving geodesic equations with regular geometric methods. This will take us into a deep dive of the work of Brandon Carter who discovered how to leverage symmetris in the Kerr-Newman system to elegantly solve both null and timelike geodesics. This seminal paper will be the backbone of our implementation. Once done, we will shift our focus to our innertial observe and do a deep dive of tetrad construction and parallel transport. We will analyze both numerical and analytical methods. Tieing these together will give us a faithful simulation of an observer in a Kerr gravitational field. To complete the picture, we will also briefly explore the physics of accretion flows, relativistic aberration, gravitational redshift, and radiative transfer. Finally, we will discuss analytical solutions of the null geodesic equations, the evaluation of elliptic integrals, and several other techniques used to render black holes in real time.
 
 
 ## What is a Black Hole?
@@ -225,9 +225,15 @@ In theory, we could calculate christoffel symbols and solve parallel transport a
 
 One last thing, you may have noticed that we have non-diagonal terms at $g_{vr}$ and $g_{rv}$. This is perfectly fine, it only means that our basis vector are non-orthogonal. Its perfectly fine to work in a coordinate system like this.
 
-## Kerr-Newmann metric
+## Kerr-Newman metric
 
 The Kerr metric was discovered by Roy Kerr in 1963 as the exact solution describing a rotating black hole, and Ezra Newman and collaborators generalized it in 1965 to include electric charge, producing the Kerr-Newman metric.
+
+This new metric takes into consideration two additional properties of the black hole:
+- spin $a$
+- charge $e$
+
+We are including $e$ for completness, but in nature we generally assume that no blackholes have charge simply because if they did they would quicly attract matter of the opposite charge and return to neutral immidiatly. We also dont consider the other Standard Model gauge charges such as color charge or weak isospin even though there are fun theories about them in some Big Bang models.
 
 $$
 x^\mu = ( t, r, \theta, \phi )
@@ -249,6 +255,17 @@ r^2 + a^2
 \sin^2\theta\,d\phi^2 .
 \end{aligned}
 $$
+
+The metric uses two new terms: $\rho^2$ and $\Delta$.
+- $\rho^2$ is the equivelant of $r^2$ in Schwarzschild. Because Kerr rotates about its splin axis, its geometry is flattened/oblate. $\rho^2$ appropriatly scale based off the spin $a$ and latitudinal angle of approach $\theta$.
+- Horizon(s) occure when $\Delta = 0$. You can solve this using the quadratic equation: $r_\pm = m \pm \sqrt{m^2 - a^2 - e^2}$. [Graphing](https://www.desmos.com/calculator/qbt6lvyepg) this will give you two circles. When $a=0$ the inner horizon collapses into a point and the system reduces down to the Schwarzschild case. When $a=m$ we can an extremal black hole where the inner and outer horizon perfectly overlap (assuming $e=0$).
+
+Before we dive in, it is useful to check how Kerr-Newman reduces to simpler metrics.
+- If $e=0$, the metric becomes the Kerr metric: a rotating, uncharged black hole.
+- If $a=0$, the metric becomes the Reissner-Nordström metric: a charged, non-rotating black hole.
+- If both $a=0$ and $e=0$, then $rho^2 = r^2$ and\Delta = r^2 - 2mr = r(r-2m), so the metric reduces to Schwarzschild.
+
+Here is the same metric in matrix form:
 
 $$
 \rho^2 = r^2 + a^2\cos^2\theta
@@ -299,4 +316,349 @@ r^2 + a^2
 \frac{a^2(2mr - e^2)\sin^2\theta}{\rho^2}
 \right)\sin^2\theta
 \end{pmatrix}
+$$
+
+### The Ergosphere
+
+Lets analyze components of the metric like we did for Schwarzschild.
+
+Remember $ds^2 = -d\tau^2$:
+
+Lets consider a static observer where $dr=d\theta=d\phi=0$.
+
+$$
+d\tau = \sqrt{1-\frac{2mr-e^2}{\rho^2}}dt
+$$
+
+[Graphing](https://www.desmos.com/calculator/iw5vagheof) this looks very similar to Schwarzchild except $g_{tt}$ depends both on $r$ and $\theta$. So, gravitational time dilation is nolonger purely radial. It depends on the latitude relative to the back holes spin axis.
+Setting $g_{tt}=0$ and solving for $r$ gives us:
+
+$$
+r_{\text{ergo}} = m + \sqrt{m^2 - a^2\cos^2{\theta}-e^2}
+$$
+
+We can add this to our [graph](https://www.desmos.com/calculator/ofqdzk3z9a) of the inner and outer horizon. We get a third larger circle.
+Lets dig deeper into the nature of this new ergosphere.
+
+Consider an observe trying to stay fixed at $r$ and $\theta$: $dr = d\theta = 0$.
+
+$$
+\Omega = \text{angular velocity} = \frac{d\phi}{dt}
+\\
+d\phi = \Omega dt
+$$
+
+Substituting into the metric gives us:
+
+$$
+ds^2 = (g_{tt} + 2g_{t\phi}\Omega + g_{\phi\phi}\Omega^2)dt^2
+$$
+
+For a massive observer, the path must be timelike:
+
+$$
+g_{tt} + 2g_{t\phi}\Omega + g_{\phi\phi}\Omega^2 < 0
+$$
+
+Once again we can solve for $\Omega$ using the quadratic equation, giving us two limiting angular velocities.
+
+$$
+\Omega_\pm = \frac{-g_{t\phi} \pm \sqrt{g_{t\phi}^2 - g_{tt}g_{\phi\phi}}}{g_{\phi\phi}}
+$$
+
+Earlier, we [graphed](https://www.desmos.com/calculator/iw5vagheof) the $d\tau$ where $dr=d\theta=d\phi=0$. We could see the curve was discontinuous at $r=2m$. This is because our solution became complex for $0 < r < 2m$. Now we know why. Having zero angular velocity past this point is not allowed for a physical observer because $g_{tt}$ becomes spacelike past the ergosphere. Thus we define the ergosphere as a region where all observers must corotate with the black hole because past that point they must have some angular velocity. The effect of a spinning black hole giving static observers angular velocity via its rotating spacetime is called *frame dragging* because the inertial frame of the observer is being dragged along the $\phi$ direction.
+
+
+### Principal Null Directions
+
+In the Schwarzchild case we were able to set $ds^2 = d\theta = d\phi = 0$ to track a radially infalling photon. This gave us a pretty simple expression we could itegrate. This expression is called a *Principal Null Direction*: the path of a photon with no angular momentum falling from infinity. This is not so easy to derive in Kerr because of the frame dragging. We will just have to take this for granted bellow:
+
+$$
+\frac{dt}{dr} = \frac{r^2 + a^2}{\Delta}
+$$
+$$
+\frac{d\phi}{dr} = \frac{a}{\Delta}
+$$
+
+Integrating $\frac{dt}{dr}$ gives us:
+
+$$
+\int\frac{r^2 + a^2}{\Delta}dr = r +
+\frac{r_+^2+a^2}{r_+-r_-}\ln|r-r_+| -
+\frac{r_-^2+a^2}{r_+-r_-}\ln|r-r_-| + C
+$$
+
+When you [graph](https://www.desmos.com/calculator/eruofhwhbc) this you can clearly see the divergence at the inner and outer horizons.
+
+Like with Schwarzchild, this will allow us to define a coordinate transformation that will remove the divergence at the horizons.
+
+### Regularizing Coordinate Transformation
+
+Like with Schwarzchild, we define our advanced/retarded coordinates:
+
+$$
+du = dt + (r^2 + a^2)\Delta^{-1}
+\\
+d\phi_u = d\phi + a\Delta^{-1}
+$$
+
+$$
+dv = dt - (r^2 + a^2)\Delta^{-1}
+\\
+d\phi_v = d\phi - a^2\Delta^{-1}
+$$
+
+Substituting into the metric gives us:
+
+$$
+\begin{aligned}
+ds^2 ={}&
+-\left(1-\frac{2mr-e^2}{\rho^2}\right)dv^2
++2\,dv\,dr
++\rho^2\,d\theta^2
+-\frac{2a(2mr-e^2)\sin^2\theta}{\rho^2}\,dv\,d\phi
+\\
+&-2a\sin^2\theta\,dr\,d\phi
++
+\frac{
+\left(r^2+a^2\right)^2
+-
+a^2\Delta\sin^2\theta
+}{
+\rho^2
+}
+\sin^2\theta\,d\phi^2 .
+\end{aligned}
+$$
+
+
+In matrix form, the coordinate transformation is:
+
+$$
+J^\mu_\nu
+=
+\frac{\partial x^{\mu}_{\mathrm{EF}}}{\partial x^{\nu}_{\mathrm{BL}}}
+=
+\begin{pmatrix}
+1 & \dfrac{r^2+a^2}{\Delta} & 0 & 0
+\\
+0 & 1 & 0 & 0
+\\
+0 & 0 & 1 & 0
+\\
+0 & \dfrac{a}{\Delta} & 0 & 1
+\end{pmatrix}
+$$
+
+Multiplying against the Boyer-Lindquist Metric gives us:
+
+$$
+g_{\mu\nu}
+=
+\begin{pmatrix}
+-\left(1-\frac{2mr-e^2}{\rho^2}\right)
+&
+1
+&
+0
+&
+-\frac{a(2mr-e^2)\sin^2\theta}{\rho^2}
+\\
+
+1
+&
+0
+&
+0
+&
+-a\sin^2\theta
+\\
+
+0
+&
+0
+&
+\rho^2
+&
+0
+\\
+
+-\frac{a(2mr-e^2)\sin^2\theta}{\rho^2}
+&
+-a\sin^2\theta
+&
+0
+&
+\frac{
+\left(r^2+a^2\right)^2
+-
+a^2\Delta\sin^2\theta
+}{
+\rho^2
+}
+\sin^2\theta
+\end{pmatrix}
+$$
+
+Moving forward, we will use the ingoing Eddington-Finkelstein time coordinate $v$. This can be confusing when following Brandon Carter's paper, because older Kerr literature does not always match the modern $u$/$v$ naming convention. In modern notation, advanced or ingoing time is usually written as
+
+$$
+v = t + r_\ast,
+$$
+
+while retarded or outgoing time is written as
+
+$$
+u = t - r_\ast.
+$$
+
+Carter instead uses the symbol $u$ and refers to it as retarded time, but the sign of his coordinate transformation matches what we would now call the ingoing or advanced coordinate. To avoid confusion, these notes will use the word *ingoing* and the variable $v$ throughout.
+
+Also, Carter does not refer to this as an Eddington-Finkelstein coordinate transformation. The modern terminology was not yet standard in the Kerr literature, so the transformation appears as part of the coordinate construction rather than under the name *Eddington-Finkelstein*.
+
+
+### Evaluating the ingoing Eddington-Finkelstein Metric
+
+A quick look at our new metric in matrix form makes it clear that it is regular at the horizon. Unlike the Boyer-Lindquist metric, $\Delta$ never appears in the denominator of any term and $\rho^2$ is well behaved.
+
+Lets evaluate what it would take to naivley derive our second order geodesic equations from the Christoffel-symbols like we did for the Morris-Thorne wormhole:
+
+In four dimensions, our Christoffel-symbol $\Gamma_{\alpha\beta}^\mu$ has 4x4x4=64 raw components. Since the lower indices are symmetric, only 40 are independent. For this metric, many are nonzero, and expanding the lower-index symmetry gives dozens of terms in the geodesic equations.
+
+$$
+\frac{d^2 x^\alpha}{d\lambda^2 } + \Gamma^\alpha_{\beta\mu} \frac{dx^\beta}{d\lambda} \frac{dx^\mu}{d\lambda} = 0
+$$
+
+becomes four coupled second-order equations, each containing a pile of terms with up to 10 velocity-pair terms per equation.
+
+The good news is that the EF Christoffels should also be regular at the horizon, because the EF metric and inverse metric are regular there. The bad news is that they are a steaming pile of algebraic shit.
+
+
+### Kerr Symmetries
+
+The equations of motion of a test particle of mass $\mu$ and charge $\epsilon$ may be derived by the Lagrangian:
+
+$$
+L = \frac{1}{2} g_{ij}\dot{x}^i\dot{x}^j + \epsilon A_i\dot{x}^i
+$$
+
+where the dot over a symbol denotes ordinary differentiation wrt an affine parameter $\lambda$. In order to obtain the equations of motion for our test particle, we can relate to propter time by using $\tau = \mu \lambda$. 
+
+Remember our line element for a timelike observer:
+
+$$
+ds^2 = g_{ij} dx^i dx^j \quad\text{and}\quad ds^2 = -d\tau^2
+$$
+
+By substituting $\mu = \tau/\lambda$ we obtain:
+
+$$
+g_{ij}\dot{x}^i\dot{x}^j = -\mu^2
+$$
+
+
+In order to support the electromagnetic field of the black hole with charge $e$, we define $A$ as the covariant vector potential:
+
+$$
+A = e \rho^{-2}r(dv-a sin^2\theta d\phi)
+$$
+
+Honestly, I know little about electromagnetism and have only included charge for completness. It is enough to know that the vector potential $A$ only shifts the canonical momentum.
+
+In order to transform to a Hamiltonian formulation we introduce the momenta to obtain:
+
+$$
+p_i = g_{ij}\dot{x}^j + \epsilon A_i
+$$
+
+and thus obtaining the Hamiltonian:
+
+$$
+H = \frac{1}{2}g^{ij}(p_i - \epsilon A_i)(p_j - \epsilon A_j))
+$$
+
+From our definition of the canonical momentum we get:
+
+$$
+p_i - \epsilon A_i = g_{ij}\dot{x}^j
+$$
+
+Substituting into out definition of the hamiltonian we get:
+
+$$
+H = \frac{1}{2}g^{ij} g_{ik}\dot{x}^k g_{jl}\dot{x}^l = \frac{1}{2}g_{kl} \dot{x}^k \dot{x}^l = -\frac{1}{2} \mu^2
+$$
+
+
+When defining our initial conditions we calculate our canonical momenta. But some of these momenta are conserved quantities that arrise from various symmetries in the system since they correspond to constants in the covector field. If we assume that the black hole is eternal and does not change size and splins at a constant rate, we can assume a conservation of energy symmetry and a conservation of angular momentum symmetry.
+
+Thus we define out first two constants of motion:
+
+$$
+E = -p_v
+\\
+\Phi = p_\phi
+$$
+
+
+### Jacobi Separation
+
+Instead of building a set of coupled ordinary differential equations to express the motion of a test particle, Carter uses the Hamilton-Jacobi equation to express the motion as a single first order partial differential equation. But this can only happen if the system is fully seperable.
+
+The general form of the Hamilton-Jacobi equation is
+
+$$
+\frac{\partial S}{\partial \lambda} = \frac{1}{2}g^{ij} ( \frac{\partial S}{\partial x^i} - \epsilon A_i ) ( \frac{\partial S}{\partial x^j} - \epsilon A_j )
+$$
+
+If there is a seperable solution it must take the form:
+
+$$
+S = -\frac{1}{2}\mu^2\lambda - Ev + \Phi\phi + S_\theta(\theta) + S_r(r)
+$$
+
+Where S is the action. The canonical momenta are recovered from $S$ by
+
+$$
+p_i = \frac{\partial S}{\partial x^i}
+$$
+
+
+Inserting this into the Hamiltonian means replacing each momentum $p_i$ with $\partial S/\partial x^i$. If the resulting Hamilton-Jacobi equation separates into an $r$-dependent piece and a $\theta$-dependent piece, then the motion admits an additional conserved quantity. This separation constant is the Carter constant.
+
+$$
+(\frac{dS_\theta}{d\theta})^2 + a^2 \mu^2 \cos^2\theta + (aE\sin\theta - \Phi \sin^{-1}\theta)^2 =
+-\Delta (\frac{dS_r}{dr})^2 + 2( E( r^2 + a^2 ) - a \Phi + \epsilon e r )(\frac{dS_r}{dr}) - \mu^2r^2
+$$
+
+Thus, both sides are equal to a new constant of motion $K$.
+
+$$
+K = p_\theta^2 + a^2 \mu^2 \cos^2\theta + (aE\sin\theta - \Phi \sin^{-1}\theta)^2
+\\
+K = -\Delta p_r^2 + 2( E( r^2 + a^2 ) - a \Phi + \epsilon e r )p_r - \mu^2r^2
+$$
+
+With $K$ can also solve for $\frac{dS_\theta}{d\theta}$ and $\frac{dS_r}{dr}$ at any point during the systems evolution. Here we define two new functions $\Theta(\theta)$ and $R(r)$.
+
+$$
+\frac{dS_\theta}{d\theta} = \sqrt{\Theta}
+$$
+
+$$
+\frac{dS_r}{dr} = \frac{P + \sqrt{R}}{\Delta}
+$$
+
+where
+
+$$
+\begin{aligned}
+\Theta(\theta) &= Q - \cos^2\theta \left[ a^2(\mu^2 - E^2) + \frac{\Phi^2}{\sin^2\theta} \right]
+\\[6pt]
+R(r) &= P^2 - \Delta \left(\mu^2 r^2 + K\right)
+\\[6pt]
+P(r) &= E(r^2+a^2)-a\Phi+\epsilon e r
+\\[6pt]
+Q &= K-(\Phi-aE)^2
+\end{aligned}
 $$
