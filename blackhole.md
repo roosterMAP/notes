@@ -81,7 +81,7 @@ $$
 Above is the Einstein Field Equation. At a high level, the Einstein Field Equations are an equality between spacetime geometry and matter. The stress-energy tensor $T_{\mu\nu}$ describes how mass and energy are distributed in space, while the metric tensor $g_{\mu\nu}$ describes the resulting curvature of spacetime. It nice to think of matter telling spacetime how to curve, and spacetime telling matter how to move. Once a metric is known, all of the local geometry follows from it. The Christoffel symbols, geodesic equations, parallel transport equations, and curvature tensors can all be derived from $g_{\mu\nu}$. In principle, this is enough to simulate motion through Schwarzschild spacetime directly.
 
 
-Using geometrized units where \(G = c = 1\), the line element for the Schwarzschild metric is
+Using geometrized units where $G = c = 1$, the line element for the Schwarzschild metric is
 
 $$
 ds^2 =
@@ -660,5 +660,182 @@ R(r) &= P^2 - \Delta \left(\mu^2 r^2 + K\right)
 P(r) &= E(r^2+a^2)-a\Phi+\epsilon e r
 \\[6pt]
 Q &= K-(\Phi-aE)^2
+\end{aligned}
+$$
+
+
+Thus, the final solution for the Jacobi action is:
+
+$$
+S = -\frac{1}{2} \mu^2 \lambda -
+E u + \Phi\phi +
+\int^\theta \sqrt{\Theta}d\theta +
+\int^r \frac{P}{\Delta}dr +
+\int^r \frac{\sqrt{R}}{\Delta}dr
+$$
+
+An important thing to keep in mind is that the sign of the two square roots are independend of eachother.
+
+The integrated forms of the geodesic and orbit equations can now be obtained by using the fact that partial derivatives of the Jacobi actin wrt the constants of motion are themselves constant. Thus, but differentiating wrt $K$, $\mu$, $E$, and $\Phi$, we obtain:
+
+$$
+\begin{aligned}
+& \int^\theta \frac{d\theta}{\sqrt{\Theta}} = \int^r \frac{dr}{\sqrt{R}}
+\\[6pt]
+\lambda &= \int^\theta \frac{a^2\cos^2{\theta}}{\sqrt{\Theta}}d\theta +
+\int^r \frac{r^2}{\sqrt{R}}dr
+\\[6pt]
+u &= \int^\theta \frac{-a(aE\sin^2{\theta}-\Phi)}{\sqrt{\Theta}}d\theta +
+\int^r \frac{r^2+a^2}{\Delta}(1-\frac{P}{\sqrt{R}})dr
+\\[6pt]
+\phi &= \int^\theta \frac{-(aE-\Phi \sin^{-2}{\theta})}{\sqrt{\Theta}}d\theta + \int^r \frac{a}{\Delta}(1-\frac{P}{\sqrt{R}})dr
+\end{aligned}
+$$
+
+We can re-express this in terms of the first-order differential system by either directly integrating the form above or directly from the deffinition of the constants:
+
+$$
+\begin{aligned}
+\rho^2 \dot{\theta} &= \sqrt{\Theta}
+\\[6pt]
+\rho^2 \dot{r} &= \sqrt{R}
+\\[6pt]
+\rho^2 \dot{u} &= -a(aE\sin^2\theta - \Phi) + (r^2+a^2)\Delta^{-1}(\sqrt{R}-P)
+\\[6pt]
+\rho^2 \dot{\phi} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(\sqrt{R}-P)
+\end{aligned}
+$$
+
+
+### Geodesic Completness
+
+The separated equations are
+
+Now we consider if we can extend the geodesics to unbounded values of $\lambda$. We can easily see that any geodesic can be extended indefinitely unless is reaches the singularity at $\rho^2=0$ or unless the one the integrals diverge.
+
+We can show that $d\lambda$ diverges if $\Theta$ and $R$ are zeros by taking our $\dot{\theta}$ and $\dot{r}$ equations and solving for $d\lambda$:
+
+$$
+\begin{aligned}
+d\lambda &= \rho^2(\frac{d\theta}{\sqrt{\Theta}})
+\\[6pt]
+d\lambda &= \rho^2(\frac{dr}{\sqrt{R}})
+\end{aligned}
+$$
+
+
+At first glance, this makes it look like zeros of $R$ or $\Theta$ are singular. Usually they are not. A simple zero of $R$ or $\Theta$ represents a turning point where the corresponding component of motion momentarily vanishes and then reverses sign. The affine-parameter integral remains finite.
+
+A divergence only occurs when the zero is repeated. For example, if
+
+$$
+R(r) \sim (r-r_0)^2,
+$$
+
+then
+
+$$
+\int \frac{dr}{\sqrt{R(r)}}
+\sim
+\int \frac{dr}{|r-r_0|}
+$$
+
+diverges. This describes a geodesic that asymptotically approaches a limiting orbit, such as a spherical photon orbit.
+
+Thus, the dangerous surfaces are not ordinary zeros of $R$ and $\Theta$, but true singularities such as $\rho^2=0$, or coordinate singularities such as $\Delta=0$ when using a chart that is not regular at the horizon.
+
+Lets shift out focus to the coordinate singularity at $\Delta=0$ in the $\dot{u}$ and $\dot{\phi}$ equations. You might be thinking "why did we bother transforming to ingoing Eddington-Finkelstein cordinates if it doesnt remove divergence at the horizons? Wasnt that the point?" The truth is that making the metric regular at the horizons does not guarantee the geodesic equations are also regular.
+
+Thankfully the fix is quite simple. First we can re-express  $\dot{u}$ and $\dot{\phi}$ as:
+
+$$
+\begin{aligned}
+\rho^2 \dot{u} &= -a(aE\sin^2\theta - \Phi) + (r^2+a^2)\Delta^{-1}(1+\frac{P}{\sqrt{R}})
+\\[6pt]
+\rho^2 \dot{\phi} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(1+\frac{P}{\sqrt{R}})
+\end{aligned}
+$$
+
+Then, provided P is nonzero, we obtain the expansion:
+
+$$
+\frac{P}{\sqrt{R}} = \pm[1\pm\frac{\mu^2r^2 + K}{2P}(\frac{\Delta}{P}) + O(\frac{\Delta}{P})^2]
+$$
+
+The sign depends on which choise fo $\sqrt{R}$ is under consideration.
+
+Substituting with the correct sign will cancel out the $\Delta$ terms and give us:
+
+$$
+\begin{aligned}
+\rho^2 \dot{u} &= -a(aE\sin^2\theta - \Phi) + \frac{(r^2+a^2)(\mu^2r^2 + K)}{2P^2}
+\\[6pt]
+\rho^2 \dot{\phi} &= -(aE -\Phi\sin^{-2}{\theta}) + \frac{a(\mu^2r^2 + K)}{2P^2}
+\end{aligned}
+$$
+
+
+Now we can see that an ingoing geodesic can smoothly traverse the future horizon.
+This will be enough for the case of our renderer. However, this does not cover the entire maximally extended global structure. If a geodesic avoids the ring singularity at $\rho^2=0$, it may pass through $r=0$ into a negative-$r$ region of the extended Kerr-Newman geometry. Carter introduces additional coordinate patches to describe horizon crossings with the opposite null orientation and to cover more of the maximal extension. For the purposes of an infalling observer that terminates at the singularity, this extra patching is not necessary.
+
+The starting point for this transformation is the remark that the invertible form can be extended in a symmetric manner in an inverted direction in terms of a new time and angle coordinate $w$ and $\tilde{\phi}$:
+
+$$
+\begin{aligned}
+d\hat{t} &= -dw + (r^2+a^2)\Delta^{-1}dr
+\\
+d\hat{\phi} &= -d\tilde{\phi} + a\Delta^{-1}dr
+\end{aligned}
+$$
+
+Substituting into the Boyer-Lindquist metric gives us a new form of the Kerr-Newman metric. This transformation between these two forms can be given directly as:
+
+$$
+\begin{aligned}
+du + dw &= 2(r^2 + a^2)\Delta^{-1}dr
+\\
+d\phi + d\tilde{\phi} &= 2a\Delta^{-1}dr
+\end{aligned}
+$$
+
+We can substitute into our $\dot{v}$ and $\dot{\phi}$ equations to get a new set of $\dot{w}$ and $\dot{\tilde{\phi}}$ equations. From there we can once again cancel out the divergent $\Delta$ terms via the series expansion, taking care to respect the sign of $\sqrt(R)$.
+
+Finally, we have obtained out maximally extended geodesics. Solong as our observer/photon doesn't hit the singularity at $\rho^2=0$, he can go from $+\infty$ to $-\infty$.
+
+
+### Mino Time
+
+
+We can make our lives easier by defining a new affine-like parameter $\gamma$, commonly called Mino time, by
+
+$$
+d\lambda = \rho^2\,d\gamma,
+$$
+
+or equivalently
+
+$$
+d\gamma = \frac{d\lambda}{\rho^2}.
+$$
+
+Then
+
+$$
+\frac{dx^\mu}{d\gamma}
+=
+\rho^2\frac{dx^\mu}{d\lambda}.
+$$
+
+This removes the explicit $\rho^2$ factors from the separated equations.
+
+$$
+\begin{aligned}
+\frac{d\theta}{d\gamma} &= \sqrt{\Theta}
+\\[6pt]
+\frac{dr}{d\gamma} &= \sqrt{R}
+\\[6pt]
+\frac{du}{d\gamma} &= -a(aE\sin^2\theta - \Phi) + (r^2+a^2)\Delta^{-1}(\sqrt{R}-P)
+\\[6pt]
+\frac{d\phi}{d\gamma} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(\sqrt{R}-P)
 \end{aligned}
 $$
