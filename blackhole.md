@@ -1,12 +1,12 @@
 # Rendering A Black Hole
 
 
-In the previous project, we rendered a simplified version of a morris-Thorne Wormhole using differential geometry. We started with a metric in modified spherical coordinates and derive Christoffell Sybols, then used those to build the first order system of Parallel Transport equations and a second order system of Null Goedesic equations. We also build the Hamiltonian for the system to get a first order system of null geodesic equations that evolve in a phase space. The observer was tracked along null geodesics and the tetrad frame was build by simply transforming the minkowskian basis of the observer with the jacobian of the modified spherical coordinate system we defined, then orthonormalizing with respect to the metric. While this works from a rendering perspective, many laws of physics were ignored. The observer was assumed to have no mass and no velocity. Instead of evolving the observes position and inertialm frame through the curved space-time of the wormhole, we were simply teleporting the player to different points along a null geodesic.
+In the previous project, we rendered a simplified version of a Morris-Thorne Wormhole using differential geometry. We started with a metric in modified spherical coordinates and derive Christoffell Symbols, then used those to build the first order system of Parallel Transport equations and a second order system of Null Goedesic equations. We also constructed the Hamiltonian for the system to get a first order set of null geodesic equations that evolve in a phase space. The observer was tracked along null geodesics and the tetrad frame was build by simply transforming the minkowskian basis of the observer with the jacobian of the modified spherical coordinate system we defined, then orthonormalizing with respect to the metric. While this works from a rendering perspective, many laws of physics were ignored. The observer was assumed to have no mass and no velocity. Instead of evolving the observes position and inertial frame through the curved space-time of the wormhole, we were simply teleporting the player to different points along a null geodesic.
 
-In this project we will faithfully simulate a spinning black hole and the physical timelike path an observer would take while traversing its gravitational field. We will start by exploring the Schwarzschild metric and the coordinate singularity that appears at the event horizon, motivating the need for horizon-penetrating coordinate systems. Then we will analyze the Kerr-Newman metric and weigh the difficulties of solving geodesic equations with regular geometric methods. This will take us into a deep dive of the work of Brandon Carter who discovered how to leverage symmetris in the Kerr-Newman system to elegantly solve both null and timelike geodesics. This seminal paper will be the backbone of our implementation. Once done, we will shift our focus to our innertial observe and do a deep dive of tetrad construction and parallel transport. We will analyze both numerical and analytical methods. Tieing these together will give us a faithful simulation of an observer in a Kerr gravitational field. To complete the picture, we will also briefly explore the physics of accretion flows, relativistic aberration, gravitational redshift, and radiative transfer. Finally, we will discuss analytical solutions of the null geodesic equations, the evaluation of elliptic integrals, and several other techniques used to render black holes in real time.
+In this project we will faithfully simulate a spinning black hole and the physical timelike path an observer would take while traversing its gravitational field. We will start by exploring the Schwarzschild metric and the coordinate singularity at the event horizon, motivating the need for a horizon-penetrating coordinate system. Then we will analyze the Kerr-Newman metric and weigh the difficulties of solving geodesic equations with regular geometric methods. This will take us into a deep dive of the work of Brandon Carter who discovered how to leverage symmetris in the Kerr-Newman system to elegantly solve both null and timelike geodesics. This seminal paper will be the backbone of our implementation. Once done, we will shift our focus to our innertial observe and do a deep dive of tetrad construction and parallel transport. We will analyze both numerical and analytical methods. Tieing these together will give us a faithful simulation of an observer in a Kerr gravitational field. To complete the picture, we will also briefly explore the physics of accretion flows, relativistic aberration, gravitational redshift, and radiative transfer. Finally, we will discuss analytical solutions of the null geodesic equations, the evaluation of elliptic integrals, and several other techniques used to render black holes in real time.
 
 
-## What is a Black Hole?
+# Geometry
 
 Before jumping into the Schwarzschild metric, lets start with the older Newtonian intuition that led people toward the idea of black holes in the first place. A black hole is not merely an object with a large escape velocity; in general relativity, it is a region of spacetime whose causal structure prevents anything inside a boundary from escaping to infinity. But historically, the first hint of such an object came from a much simpler question: what happens if a star is so massive and compact that even light cannot escape?
 
@@ -65,6 +65,7 @@ $$
 
 which will reappear as the Schwarzschild radius. To understand why this radius is not merely an escape-velocity threshold, but a geometric boundary in spacetime, we need the Schwarzschild metric.
 
+
 ## Schwarzschild metric
 
 
@@ -94,7 +95,7 @@ r^2 d\theta^2
 r^2\sin^2\theta \, d\phi^2
 $$
 
-Out coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\theta\,d\phi^2$.
+Our coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\theta\,d\phi^2$.
 
 The same metric in matrix form is
 
@@ -129,14 +130,14 @@ $$
 d\tau = \sqrt{1 - \frac{2m}{r}}\,dt
 $$
 
-As the observer falls deeped into the gravitational field, his clock ticks more slowly. By graphing $d\tau$ we can see that as r decreases from $+\infty$, $d\tau$ decreases and hits 0 at $r=2m$. This is the event horizon.
+As the observer falls deeped into the gravitational field, his clock ticks more slowly. By [graphing](https://www.desmos.com/calculator/ygin2afpqh) $d\tau$ we can see that as r decreases from $+\infty$, $d\tau$ decreases and hits 0 at $r=2m$. This is the event horizon.
 
 A clock at $r=4m$ has $d\tau = \sqrt\frac{1}{2}dt$. This clock runs about 70% slower than a clock thats in assymptotally flat space. 
 
 ### Radial Components
 
 
-First, lets graph the experience of an infalling observer by setting, $ds^2 = d\theta = d\phi = 0$. Technically, this is an infalling photon. An infalling observer would have $ds^2<0$.
+First, lets consider the experience of an infalling observer by setting, $ds^2 = d\theta = d\phi = 0$. Technically, this is an infalling photon. An infalling observer would have $ds^2<0$.
 
 $$
 0 =
@@ -158,7 +159,7 @@ $$
 - \- branch corresponds to ingoing ray
 - vertical asymptote at &r=2m& is the event horizon where coordinate time t becomes singular.
 
-Graphing this shows us that as our photon approaches the horizon at 2m, it takes longer and longer to reach it. In fact, it never reaches it as coordinate time t explodes to $\infty$. This is, of course, from the perspective of a distant observer.
+[Graphing](https://www.desmos.com/calculator/dlamphkgig) this shows us that as our photon approaches the horizon at 2m, it takes longer and longer to reach it. In fact, it never reaches it as coordinate time t explodes to $\infty$. This is, of course, from the perspective of a distant observer.
 
 By integrating $\frac{dt}{dr}$ we can graph how the t and r coordinate behave as the photon falls in.
 
@@ -169,7 +170,7 @@ $$
 -(r + 2m \ln\left|\frac{r}{2m} - 1\right|) + C
 $$
 
-Graphing multiple curves each with a different $C$ gives us an array of photon paths falling into the black hole. We can see that as r decreases, t increases, and the curve approaches a slope of nearly -1 far from the black hole. But t diverges as it approaches the horizon at $r=2m$. But on the other side of the horizon it seems to progress as normal.
+[Graphing](https://www.desmos.com/calculator/xyhpjhzc8l) multiple curves each with a different $C$ gives us an array of photon paths falling into the black hole. We can see that as r decreases, t increases, and the curve approaches a slope of nearly -1 far from the black hole. But t diverges as it approaches the horizon at $r=2m$. But on the other side of the horizon it seems to progress as normal.
 
 It almost makes you want to pull t down from infinity to make this curve continuous through the horizon. The good news is we can do just that. It turns out that this singularity at $r=2m$ is actually a coordinate singularity and it can be removed using simple coordinate transformation.
 
@@ -533,6 +534,8 @@ becomes four coupled second-order equations, each containing a pile of terms wit
 
 The good news is that the EF Christoffels should also be regular at the horizon, because the EF metric and inverse metric are regular there. The bad news is that they are a steaming pile of algebraic shit.
 
+# Motion
+
 
 ### Kerr Symmetries
 
@@ -707,6 +710,58 @@ $$
 $$
 
 
+### Turning Points
+
+An important property of the separated potentials $R(r)$ and $\Theta(\theta)$ is that their zeros define turning points of the motion. Simply put, a turning point is a point where one component of the geodesic velocity shrinks to zero and then reverses sign.
+
+For example, imagine a massive test particle in a scattering orbit through the black hole's gravitational field. As the particle falls toward the black hole, $r$ decreases and $dr/d\lambda$ is negative. But if the particle does not plunge, it eventually reaches a minimum radius, slingshots around the black hole, and escapes back toward infinity. At that minimum radius,
+
+$$
+R(r)=0
+$$
+
+and therefore
+
+$$
+\frac{dr}{d\lambda}=0.
+$$
+
+After this point, the radial branch changes sign and $r$ begins increasing again. This is a radial turning point.
+
+The same idea applies to polar motion. A particle in a non-equatorial orbit oscillates above and below the equatorial plane as it winds around the black hole. The peaks and valleys of this oscillation occur where
+
+$$
+\Theta(\theta)=0
+$$
+
+and therefore
+
+$$
+\frac{d\theta}{d\lambda}=0.
+$$
+
+These are latitudinal turning points.
+
+In Carter's separated equations, we account for turning points by tracking the signs of $\sqrt{R}$ and $\sqrt{\Theta}$. When the particle reaches a radial or polar turning point, the corresponding sign must flip:
+
+$$
+\sqrt{R} \rightarrow -\sqrt{R}
+$$
+
+or
+
+$$
+\sqrt{\Theta} \rightarrow -\sqrt{\Theta}.
+$$
+
+Numerically, this can be a little unreliable if we simply wait for $R$ or $\Theta$ to cross zero, especially when using finite step sizes. When we move to implementation, we will use a more robust method to step cleanly across turning points.
+
+Ordinary turning points correspond to simple roots of $R$ or $\Theta$. These are not singularities; the motion reverses in finite affine parameter. Double roots are different. They describe limiting orbits that are approached asymptotically, such as unstable spherical photon orbits, and the affine parameter can diverge. This is covered in the next section.
+
+These turning points are also the basis for analytically solving the system. The roots of $R(r)$ and $\Theta(\theta)$ determine the allowed regions of motion and eventually lead to the elliptic integrals used in the analytic geodesic solutions.
+
+
+
 ### Geodesic Completness
 
 The separated equations are
@@ -798,6 +853,8 @@ d\phi + d\tilde{\phi} &= 2a\Delta^{-1}dr
 \end{aligned}
 $$
 
+This means transforming from an infalling coordinate system to an outgoing one. Its convenient that this transformation is its own inverse.
+
 We can substitute into our $\dot{v}$ and $\dot{\phi}$ equations to get a new set of $\dot{w}$ and $\dot{\tilde{\phi}}$ equations. From there we can once again cancel out the divergent $\Delta$ terms via the series expansion, taking care to respect the sign of $\sqrt(R)$.
 
 Finally, we have obtained out maximally extended geodesics. Solong as our observer/photon doesn't hit the singularity at $\rho^2=0$, he can go from $+\infty$ to $-\infty$.
@@ -839,3 +896,223 @@ $$
 \frac{d\phi}{d\gamma} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(\sqrt{R}-P)
 \end{aligned}
 $$
+
+
+
+# Observation
+
+## Types of Observers
+
+Something that will be very important this time around is the distinction between timelike, null, and spacelike paths through spacetime.
+
+Throughout these notes, we use the metric signature
+
+$$
+(-,+,+,+).
+$$
+
+With this convention, the squared norm of a vector $v^\mu$ is
+
+$$
+g_{\mu\nu}v^\mu v^\nu.
+$$
+
+Massive observers follow timelike curves. If the curve is parameterized by proper time $\tau$, then the observer's 4-velocity is
+
+$$
+v^\mu = \frac{dx^\mu}{d\tau},
+$$
+
+and its normalization is
+
+$$
+g_{\mu\nu}v^\mu v^\nu = -1.
+$$
+
+More generally, if we use an affine parameter $\lambda$ related to proper time by $\tau=\mu\lambda$, then
+
+$$
+g_{\mu\nu}\dot{x}^\mu\dot{x}^\nu = -\mu^2.
+$$
+
+Massless particles, such as photons, follow null curves. Since photons experience no proper time, it is better to describe them using a null 4-velocity. Their defining condition is
+
+$$
+g_{\mu\nu}v^\mu v^\nu = 0.
+$$
+
+Finally, spacelike curves have positive norm:
+
+$$
+g_{\mu\nu}v^\mu v^\nu > 0.
+$$
+
+A physical observer cannot follow a spacelike worldline; doing so would require faster-than-light motion and would break causality. If a massive observer's 4-velocity ever becomes spacelike in the simulation, then something has gone wrong.
+
+It is important to remain conscious of the type of observer or test particle being modeled. Massive observers require timelike worldlines and local orthonormal tetrads. Photons follow null geodesics and are usually evolved using null tangent vectors or momenta. Keeping these cases separate is crucial for deriving equations, constructing frames, and debugging the simulation.
+
+
+
+## Tetrads
+
+This time around we are going to dive much deeper into tetrads and attempt to intuit them a bit better.
+
+A good way to think of tetrads is to think of them as the inertial frame of the observer. Lets say we have an observer moving through space. This observe has both a timelike velocity and an orientation. This is actually all you need to describe an observer and its all encapsulated in this tetrad tensor.
+
+Keep in mind, we are working with tetrads for massive observers. Tetrads for massless particles like photons need their own special null tetrad which we will not cover in these notes.
+
+The first column of the tensor encodes the 4-velicity, and the other three store the bases vectors. Thats it!
+
+More formally, a tetrad is defined as a set of four linearly independent, orthonormal vector fields $e_\mu^\alpha$ that map a local inertial frame (flat Minkowski space) to the tangent space of the curved manifold.
+
+$$
+g_{\mu\nu}e_{a}{}^\mu e_{b}{}^\nu
+=
+\eta_{ab}.
+$$
+
+If our observer emmits a ray in his local Minkowski space, we can transform that ray into global curved space with the tetrad.
+
+The first tetrad we can build is the ZAMO tetrad, which stands for *zero angular momentum observer*.
+
+$$
+\Sigma = (r^2+a^2)^2 - \Delta a^2\sin^2\theta
+$$
+
+$$
+e_{(a)}{}^\mu
+=
+\left[
+\begin{array}{cccc}
+\vert & \vert & \vert & \vert \\
+e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
+\vert & \vert & \vert & \vert
+\end{array}
+\right]
+=
+\begin{pmatrix}
+\sqrt{\dfrac{\Sigma}{\rho^2\Delta}} & 0 & 0 & 0
+\\[8pt]
+0 & \sqrt{\dfrac{\Delta}{\rho^2}} & 0 & 0
+\\[8pt]
+0 & 0 & -\dfrac{1}{\sqrt{\rho^2}} & 0
+\\[8pt]
+\dfrac{(2mr-e^2)a}{\sqrt{\rho^2\Delta\Sigma}} & 0 & 0 &
+\dfrac{1}{\sin\theta}\sqrt{\dfrac{\rho^2}{\Sigma}}
+\end{pmatrix}
+$$
+
+In the previous section we covered orthonormalizing wrt a metric. This ZAMO tetrad is not the same as taking the principal null direction for $e_1$, $e_2$, $e_3$ and a null 4-velocity $e_0=(-1,0,0,0)$ and orthonormalizing wrt the metric. If you look at $e_0$ (the first column), you will see that it has been finely tuned to perfectly account for the frame dragging of the black hole.
+
+Another note, this ZAMO tetrad is in Boyer-Lindquist coordinates and will have to be transformed to ingoing Eddington-Finkelstein using the Jacobian provided in a previous section. This also makes this tetrad construction singular at the horizon. But we will tackle that problem in a later section.
+
+Before we do that, lets construct a few more tetrad. Say we have a massive observer with an arbitrary orientation in a different coordinate system, moving with an arbitrary velocity.
+
+Constructing a tetrad from an orientation and velocity
+
+Suppose we have an observer at some spacetime point (x^\mu), and we know the metric (g_{\mu\nu}(x)) at that point. We want to construct a tetrad whose time axis is the observer's 4-velocity and whose spatial axes encode the observer's orientation.
+
+The cleanest way to think about this is in two stages.
+
+1. Construct a static tetrad $E$.
+2. Apply a local Lorentz boost to encode velocity.
+
+Lets start on the first step:
+
+We construct a local rest-frame tetrad $E_{(a)}{}^\mu$ satisfying $\eta_{ab}.$
+Here $E_{(0)}{}^\mu $ is the time axis of the local rest frame, while $E_{(1)}{}^\mu, E_{(2)}{}^\mu, E_{(3)}{}^\mu$
+are the oriented spatial axes. In practice, these spatial axes can come from the observer's orientation matrix, transformed into the coordinate basis using the appropriate Jacobian, and then orthonormalized with respect to the metric.
+
+Once we have this rest-frame tetrad, we can encode the observer's velocity as a local Minkowski-space 3-velocity
+$\vec{v} = (v^{(1)},v^{(2)},v^{(3)}),$
+with
+$|\vec{v}|^2 < 1.$
+
+The corresponding Lorentz factor is
+$\gamma =\frac{1}{\sqrt{1-|\vec{v}|^2}}$
+and the observer's local 4-velocity is
+$
+\gamma
+\begin{pmatrix}
+1\
+v^{(1)}\
+v^{(2)}\
+v^{(3)}
+\end{pmatrix}
+$
+.
+The second step is to construct a local Lorentz boost to encode this velocity into the static tetrad $E_a$.
+
+$$
+\Lambda^{a}_{b} =
+\begin{pmatrix}
+\gamma & q_1 & q_2 & q_3
+\\
+q_1 & 1+\dfrac{\gamma-1}{q^2}q_1^2 &
+\dfrac{\gamma-1}{q^2}q_1q_2 &
+\dfrac{\gamma-1}{q^2}q_1q_3
+\\
+q_2 &
+\dfrac{\gamma-1}{q^2}q_2q_1 &
+1+\dfrac{\gamma-1}{q^2}q_2^2 &
+\dfrac{\gamma-1}{q^2}q_2q_3
+\\
+q_3 &
+\dfrac{\gamma-1}{q^2}q_3q_1 &
+\dfrac{\gamma-1}{q^2}q_3q_2 &
+1+\dfrac{\gamma-1}{q^2}q_3^2
+\end{pmatrix}
+$$
+
+Finally, we commit this Lorentz boost to the static tetrad to obtain out final boosted tetrad:
+
+$$
+e = E \Lambda
+$$
+
+The important idea is that orientation is handled by the rest-frame tetrad $E_{(a)}{}^\mu$, while velocity is handled by a Lorentz boost in the local Minkowski frame. This keeps the construction conceptually clean: first build a local inertial frame, then boost it.
+
+### The Symmetric Carter Tetrad
+
+In a separate publication in 1968, Brandon Carter publish another paper describing the construction of a BL tetrad from the symmetries we used earlier. This tetrad is the first step towards analytical parallel transform.
+
+$$
+e_{(a)}{}^\mu
+=
+\left[
+\begin{array}{cccc}
+\vert & \vert & \vert & \vert \\
+e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
+\vert & \vert & \vert & \vert
+\end{array}
+\right]
+=
+\begin{pmatrix}
+\dfrac{r^2+a^2}{\rho\sqrt{\Delta}} & 0 & 0 & \dfrac{a\sin\theta}{\rho}
+\\[8pt]
+0 & \dfrac{\sqrt{\Delta}}{\rho} & 0 & 0
+\\[8pt]
+0 & 0 & \dfrac{1}{\rho} & 0
+\\[8pt]
+\dfrac{a}{\rho\sqrt{\Delta}} & 0 & 0 & \dfrac{1}{\rho\sin\theta}
+\end{pmatrix}.
+$$
+
+
+## Parallel Transport
+
+
+
+
+
+# References
+
+[1]
+B. Carter,
+Global Structure of the Kerr Family of Gravitational Fields,
+Physical Review 174, 1559–1571 (1968).
+
+[2]
+J.-A. Marck,
+Solution to the equations of parallel transport in Kerr geometry; tidal tensor,
+Proceedings of the Royal Society A 385, 431–438 (1983).
