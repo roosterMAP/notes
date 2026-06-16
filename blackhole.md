@@ -976,7 +976,7 @@ If our observer emmits a ray in his local Minkowski space, we can transform that
 The first tetrad we can build is the ZAMO tetrad, which stands for *zero angular momentum observer*.
 
 $$
-\Sigma = (r^2+a^2)^2 - \Delta a^2\sin^2\theta
+\rho^2 = (r^2+a^2)^2 - \Delta a^2\sin^2\theta
 $$
 
 $$
@@ -991,14 +991,14 @@ e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 \right]
 =
 \begin{pmatrix}
-\sqrt{\dfrac{\Sigma}{\rho^2\Delta}} & 0 & 0 & 0
+\sqrt{\dfrac{\rho^2}{\rho^2\Delta}} & 0 & 0 & 0
 \\[8pt]
 0 & \sqrt{\dfrac{\Delta}{\rho^2}} & 0 & 0
 \\[8pt]
 0 & 0 & -\dfrac{1}{\sqrt{\rho^2}} & 0
 \\[8pt]
-\dfrac{(2mr-e^2)a}{\sqrt{\rho^2\Delta\Sigma}} & 0 & 0 &
-\dfrac{1}{\sin\theta}\sqrt{\dfrac{\rho^2}{\Sigma}}
+\dfrac{(2mr-e^2)a}{\sqrt{\rho^2\Delta\rho^2}} & 0 & 0 &
+\dfrac{1}{\sin\theta}\sqrt{\dfrac{\rho^2}{\rho^2}}
 \end{pmatrix}
 $$
 
@@ -1074,7 +1074,7 @@ The important idea is that orientation is handled by the rest-frame tetrad $E_{(
 
 ### The Symmetric Carter Tetrad
 
-In a separate publication in 1968, Brandon Carter publish another paper describing the construction of a BL tetrad from the symmetries we used earlier. This tetrad is the first step towards analytical parallel transform.
+In a separate publication in 1968, Brandon Carter publish another paper describing the construction of a Boyer-Lindquist tetrad from the symmetries we used earlier. This tetrad is the first step towards analytical parallel transform. This tetrad is called *symmetric*, not because its a symmetric matrix, but rather it is constructed using the constants of motion that arrise from the symmetries in Kerr we described earlier.
 
 $$
 e_{(a)}{}^\mu
@@ -1102,7 +1102,134 @@ $$
 ## Parallel Transport
 
 
+If we follow J.A.Marcks 1983 paper, we have what looks like a great option for analytically transporting our observer tetrad.
+By starting with Carters Symmetric tetrad, we can construct a local Lorentz transform that will correctly transport our tetrad to the desired point on the timelike geodesic.
 
+While the paper works with a tetrad in Boyer-Lindquist coordinates, the Lorentz transformation occures in the local Minkowskian space of the observer, so it will work just as well with the same tetrad in ingoing Eddington-Finkelstein coordinates. More specifially, Marck constructs a velocity-adapted orthonormal frame and then applies a residual spatial rotation.
+
+Marck's construction is not just a brute-force integration of the parallel transport equation. It exploits a special hidden symmetry of Kerr spacetime: the existence of the Killing-Yano tensor. This tensor is closely related to the Carter constant and is sometimes described as the geometric reason Kerr geodesic motion is separable.
+
+In this section we shall construct an orthonormal tetrad that is parallel transported along an arbitrary timelike geodesic. Let $\lambda = ( \lambda_0, \lambda_1, \lambda_2, \lambda_3 )$ be the desired tetrad.
+
+Lets start with the timelike vector which is tangent to the geodesic, so it is automatically parallel transported.
+
+$$
+\begin{aligned}
+\lambda_{0}^{(0)} &= \frac{1}{\sqrt{\Delta \rho^2}}
+\left\{ E(r^{2}+a^{2}) - a\Phi \right\}, \\[4pt]
+\lambda_{0}^{(1)} &= \sqrt{\frac{\rho^2}{\Delta}}\,\dot{r}, \\[4pt]
+\lambda_{0}^{(2)} &= \sqrt{\rho^2}\,\dot{\theta}, \\[4pt]
+\lambda_{0}^{(3)} &= \frac{1}{\sqrt{\rho^2}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right).
+\end{aligned}
+$$
+
+The clever part is that the Killing-Yano tensor can be contracted with the geodesic velocity to produce another vector that is also parallel transported. In other words, two of the four tetrad legs are essentially fixed by the geodesic and Kerr's hidden symmetry. I dont know much about the Killing-Yano tensor other than it is responsible for Carter’s hidden constant $K$ and it is being exploited to obtain $\lambda_2$.
+
+$$
+\begin{aligned}
+\lambda_{2}^{(0)} &= \sqrt{\frac{\rho^2}{K\Delta}}\, a \cos\theta \,\dot{r}, \\[4pt]
+\lambda_{2}^{(1)} &= \frac{a\cos\theta}{\sqrt{K\rho^2\Delta}}
+\left\{ E(r^{2}+a^{2}) - a\Phi \right\}, \\[4pt]
+\lambda_{2}^{(2)} &= -\frac{r}{\sqrt{K\rho^2}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right), \\[4pt]
+\lambda_{2}^{(3)} &= r \sqrt{\frac{\rho^2}{K}}\, \dot{\theta}.
+\end{aligned}
+$$
+
+This leaves only the two-dimensional plane orthogonal to both $\lambda_0$ and $\lambda_2$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $\tilde{\lambda}_1$ and $\tilde{\lambda}_3$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
+
+$$
+\begin{aligned}
+\tilde{\lambda}_{1}^{(0)}
+&=
+\alpha \sqrt{\frac{\rho^2}{K\Delta}}\, r\,\dot{r},
+\\[4pt]
+\tilde{\lambda}_{1}^{(1)}
+&=
+\alpha \frac{r}{\sqrt{K\rho^2\Delta}}
+\left\{ E(r^{2}+a^{2}) - a\Phi \right\},
+\\[4pt]
+\tilde{\lambda}_{1}^{(2)}
+&=
+\beta \frac{a\cos\theta}{\sqrt{K\rho^2}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right),
+\\[4pt]
+\tilde{\lambda}_{1}^{(3)}
+&=
+-\beta \sqrt{\frac{\rho^2}{K}}\, a\cos\theta\,\dot{\theta},
+\\[32pt]
+\tilde{\lambda}_{3}^{(0)}
+&=
+\alpha \frac{1}{\sqrt{\Delta\rho^2}}
+\left\{ E(r^{2}+a^{2}) - a\Phi \right\},
+\\[4pt]
+\tilde{\lambda}_{3}^{(1)}
+&=
+\alpha \sqrt{\frac{\rho^2}{\Delta}}\,\dot{r},
+\\[4pt]
+\tilde{\lambda}_{3}^{(2)}
+&=
+\beta \sqrt{\rho^2}\,\dot{\theta},
+\\[4pt]
+\tilde{\lambda}_{3}^{(3)}
+&=
+\beta \frac{1}{\sqrt{\rho^2}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right),
+\\[32pt]
+\text{where}\\
+\alpha
+&=
+\frac{\sqrt{K-a^{2}\cos^{2}\theta}}
+     {\sqrt{r^{2}+K}},
+\\[4pt]
+\beta
+&=
+\frac{\sqrt{r^{2}+K}}
+     {\sqrt{K-a^{2}\cos^{2}\theta}}.
+\end{aligned}
+$$
+
+
+The failure of $($\tilde{\lambda}_1$ and $\tilde{\lambda}_3$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad that is parallel transported along the timelike geodesic.
+
+
+$$
+\dot{\Psi}
+=
+\frac{\sqrt{K}}{\rho^2}
+\left(
+\frac{E(r^{2}+a^{2})-a\Phi}{r^{2}+K}
++
+a\,
+\frac{\Phi-aE\sin^{2}\theta}
+     {K-a^{2}\cos^{2}\theta}
+\right).
+$$
+
+
+$$
+\begin{pmatrix}
+\lambda_{1} \\
+\lambda_{3}
+\end{pmatrix}
+=
+\begin{pmatrix}
+\cos\Psi & -\sin\Psi \\
+\sin\Psi & \cos\Psi
+\end{pmatrix}
+\begin{pmatrix}
+\tilde{\lambda}_{1} \\
+\tilde{\lambda}_{3}
+\end{pmatrix}.
+$$
+
+
+Unfortunatly, there is a problem. As stated before, this procedure only works with Carters symmetric tetrad which is constructed in Boyer-Lindquist coordinates. Even though we transformed it to ingoing Eddington-Finkelstein coordinates with our Jacobian, the tetrad is still defined in terms of Boyer-Lindquist null directions... which are singular at the horizon. Thus, terms in the parallel transported tetrad will diverge once they approach the horizons.
+
+Unfortunatly, this is where I reached a dead end on analytically parallel transporting my horizon penetrating ingoing Eddington-Finkelstein tetrad. I did find another paper by Roken that describes a Carter tetrad that meets our requirements, but its ddefined as a Newman–Penrose null tetrad. Converting to a real orthonormal tetrad is easy, but its still null, so its not applicable for our timelike usecase.
+
+So if we cant do it analytically, we'll have to do it numerically.
 
 
 # References
