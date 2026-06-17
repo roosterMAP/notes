@@ -1099,17 +1099,17 @@ e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 $$
 
 
-## Parallel Transport
+## Analytic Parallel Transport
 
 
 If we follow J.A.Marcks 1983 paper, we have what looks like a great option for analytically transporting our observer tetrad.
 By starting with Carters Symmetric tetrad, we can construct a local Lorentz transform that will correctly transport our tetrad to the desired point on the timelike geodesic.
 
-While the paper works with a tetrad in Boyer-Lindquist coordinates, the Lorentz transformation occures in the local Minkowskian space of the observer, so it will work just as well with the same tetrad in ingoing Eddington-Finkelstein coordinates. More specifially, Marck constructs a velocity-adapted orthonormal frame and then applies a residual spatial rotation.
+While the paper works with a tetrad in Boyer-Lindquist coordinates, the transformation occures in the tangent space of the observers othonormal frame, so it will work just as well with the same tetrad in ingoing Eddington-Finkelstein coordinates. More specifially, Marck constructs a velocity-adapted orthonormal frame and then applies a residual spatial rotation.
 
 Marck's construction is not just a brute-force integration of the parallel transport equation. It exploits a special hidden symmetry of Kerr spacetime: the existence of the Killing-Yano tensor. This tensor is closely related to the Carter constant and is sometimes described as the geometric reason Kerr geodesic motion is separable.
 
-In this section we shall construct an orthonormal tetrad that is parallel transported along an arbitrary timelike geodesic. Let $\lambda = ( \lambda_0, \lambda_1, \lambda_2, \lambda_3 )$ be the desired tetrad.
+In this section we shall construct an orthonormal tetrad that is parallel transported along an arbitrary timelike geodesic. Let $\Lambda = ( \lambda_0, \lambda_1, \lambda_2, \lambda_3 )$ be the desired tetrad.
 
 Lets start with the timelike vector which is tangent to the geodesic, so it is automatically parallel transported.
 
@@ -1191,7 +1191,7 @@ $$
 $$
 
 
-The failure of $($\tilde{\lambda}_1$ and $\tilde{\lambda}_3$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad that is parallel transported along the timelike geodesic.
+The failure of $($\tilde{\lambda}_1$ and $\tilde{\lambda}_3$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
 
 
 $$
@@ -1225,11 +1225,54 @@ $$
 $$
 
 
-Unfortunatly, there is a problem. As stated before, this procedure only works with Carters symmetric tetrad which is constructed in Boyer-Lindquist coordinates. Even though we transformed it to ingoing Eddington-Finkelstein coordinates with our Jacobian, the tetrad is still defined in terms of Boyer-Lindquist null directions... which are singular at the horizon. Thus, terms in the parallel transported tetrad will diverge once they approach the horizons.
+As stated earlier, this Lorentz transformation $\Lambda_A^{(a)}$ (which in this case is a tetrad in and of itself) occures in the tangent space of the observer tetrad $e_{(a)}^\mu$. Thus, it must be commited to the base tetrad:
 
-Unfortunatly, this is where I reached a dead end on analytically parallel transporting my horizon penetrating ingoing Eddington-Finkelstein tetrad. I did find another paper by Roken that describes a Carter tetrad that meets our requirements, but its ddefined as a Newman–Penrose null tetrad. Converting to a real orthonormal tetrad is easy, but its still null, so its not applicable for our timelike usecase.
+$$
+E_A^\mu = e_{(a)}^\mu \Lambda_A^{(a)}
+$$
 
-So if we cant do it analytically, we'll have to do it numerically.
+
+Unfortunately, there is a practical problem. Marck's construction is tied to Carter's symmetric tetrad, which is naturally written in Boyer--Lindquist coordinates. Although we can transform this tetrad into ingoing Eddington--Finkelstein coordinates using a Jacobian, this does not necessarily make the tetrad itself horizon-regular. The coordinate system is regular at the outer horizon, but the Carter frame being used as the local reference basis is still a Boyer--Lindquist-adapted frame. Near the horizon it becomes singular or infinitely boosted relative to a regular infalling frame.
+
+
+## Numeric Parallel Transport
+
+
+The first step is to compute the christoffel symbols. Instead of calculating them symbolically, we are going to compute them numerically using *finite difference method*. More specifically, we will use the *central finite difference* method. We sample the metric a little bit behind and a little bit in front of the observer.
+
+Here is the Christoffel symbol formula:
+
+$$
+\Gamma^\mu_{\alpha\beta} = \frac{1}{2}\mathfrak{g}^{\mu\lambda}(\frac{\partial g_{\lambda\alpha}}{\partial x^\beta} + \frac{\partial g_{\lambda\beta}}{\partial x^\alpha} - \frac{\partial g_{\alpha\beta}}{\partial x^\lambda})
+$$
+
+The inverse metric $\mathfrak{g}$ is evaluated at the current point. The metric derivatives $\frac{\partial g}{\partial x}$ are estimated with a *central finite difference*. They compute the partial derivative of the metric $g$:
+
+$$
+\frac{\partial g_{\alpha\beta}}{\partial x^\sigma}
+\approx
+\frac{
+g_{\alpha\beta}(x+\epsilon \hat{x}_\sigma)
+-
+g_{\alpha\beta}(x-\epsilon \hat{x}_\sigma)
+}{2\epsilon}.
+$$
+
+First you compute all metric derivatives using *central finite difference* then compute and cache all 64 Christoffel symbol components for parallel transport. The parallel transport equations are bellow:
+
+$$
+
+\frac{d v^\mu}{d\lambda} = -\Gamma^\mu_{\nu\rho} v^\nu u^\rho,
+\\
+\quad
+u^\rho = \frac{dx^\rho}{d\lambda}.
+
+$$
+
+where $v^\mu$ is the vector being transported and $u^\rho$ is the tangent vector to the observer's worldline.
+
+
+So, before an integration step, we recompute Christoffel symbols, step the observer to the next location on the worldline, recompute the metric at the new position, transport each arm of the tetrad, and orthonormalize wrt the new metric.
 
 
 # References
