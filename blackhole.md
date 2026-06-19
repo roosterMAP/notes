@@ -72,10 +72,9 @@ which will reappear as the Schwarzschild radius. To understand why this radius i
 Before we introduce the metric lets go over what they are and where they come from.
 
 $$
-R_{\mu\nu}
--\frac{1}{2}R\,g_{\mu\nu}
-+\Lambda g_{\mu\nu}
-=
+R_{\mu\nu} -
+\frac{1}{2}R\,g_{\mu\nu} +
+\Lambda g_{\mu\nu} =
 \frac{8\pi G}{c^4}T_{\mu\nu}
 $$
 
@@ -86,12 +85,9 @@ Using geometrized units where $G = c = 1$, the line element for the Schwarzschil
 
 $$
 ds^2 =
--\left(1 - \frac{2m}{r}\right)dt^2
-+
-\left(1 - \frac{2m}{r}\right)^{-1}dr^2
-+
-r^2 d\theta^2
-+
+-\left(1 - \frac{2m}{r}\right)dt^2 +
+\left(1 - \frac{2m}{r}\right)^{-1}dr^2 +
+r^2 d\theta^2 +
 r^2\sin^2\theta \, d\phi^2
 $$
 
@@ -100,8 +96,7 @@ Our coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system rep
 The same metric in matrix form is
 
 $$
-g_{\mu\nu}
-=
+g_{\mu\nu} =
 \begin{pmatrix}
 -\left(1 - \frac{2m}{r}\right) & 0 & 0 & 0 \\
 0 & \left(1 - \frac{2m}{r}\right)^{-1} & 0 & 0 \\
@@ -141,16 +136,14 @@ First, lets consider the experience of an infalling observer by setting, $ds^2 =
 
 $$
 0 =
--\left(1 - \frac{2m}{r}\right)dt^2
-+
+-\left(1 - \frac{2m}{r}\right)dt^2 +
 \left(1 - \frac{2m}{r}\right)^{-1}dr^2
 $$
 
 We want to see how t changes wrt r:
 
 $$
-\frac{dt}{dr}
-=
+\frac{dt}{dr} =
 \pm
 \left(1 - \frac{2m}{r}\right)^{-1}
 $$
@@ -164,9 +157,7 @@ $$
 By integrating $\frac{dt}{dr}$ we can graph how the t and r coordinate behave as the photon falls in.
 
 $$
--\int
-\left(1 - \frac{2m}{r}\right)^{-1} dr
-=
+-\int \left(1 - \frac{2m}{r}\right)^{-1} dr =
 -(r + 2m \ln\left|\frac{r}{2m} - 1\right|) + C
 $$
 
@@ -198,12 +189,9 @@ By solving for t and substituting into the metric we get the Schwarzschild metri
 
 $$
 ds^2 =
--\left(1 - \frac{2m}{r}\right)dv^2
-+
-2\,dv\,dr
-+
-r^2 d\theta^2
-+
+-\left(1 - \frac{2m}{r}\right)dv^2 +
+2\,dv\,dr +
+r^2 d\theta^2 +
 r^2\sin^2\theta\,d\phi^2
 $$
 
@@ -249,8 +237,7 @@ ds^2 ={}&
 +\rho^2\,d\theta^2 \\
 &+
 \left(
-r^2 + a^2
-+
+r^2 + a^2 +
 \frac{a^2(2mr - e^2)\sin^2\theta}{\rho^2}
 \right)
 \sin^2\theta\,d\phi^2 .
@@ -275,8 +262,7 @@ $$
 $$
 
 $$
-g_{\mu\nu}
-=
+g_{\mu\nu} =
 \begin{pmatrix}
 -\left(1 - \frac{2mr - e^2}{\rho^2}\right)
 &
@@ -312,8 +298,7 @@ g_{\mu\nu}
 0
 &
 \left(
-r^2 + a^2
-+
+r^2 + a^2 +
 \frac{a^2(2mr - e^2)\sin^2\theta}{\rho^2}
 \right)\sin^2\theta
 \end{pmatrix}
@@ -377,6 +362,7 @@ In the Schwarzchild case we were able to set $ds^2 = d\theta = d\phi = 0$ to tra
 $$
 \frac{dt}{dr} = \frac{r^2 + a^2}{\Delta}
 $$
+
 $$
 \frac{d\phi}{dr} = \frac{a}{\Delta}
 $$
@@ -419,16 +405,14 @@ ds^2 ={}&
 +\rho^2\,d\theta^2
 -\frac{2a(2mr-e^2)\sin^2\theta}{\rho^2}\,dv\,d\phi
 \\
-&-2a\sin^2\theta\,dr\,d\phi
-+
+&-2a\sin^2\theta\,dr\,d\phi +
 \frac{
-\left(r^2+a^2\right)^2
--
+\left(r^2+a^2\right)^2 -
 a^2\Delta\sin^2\theta
 }{
 \rho^2
 }
-\sin^2\theta\,d\phi^2 .
+\sin^2\theta\,d\phi^2
 \end{aligned}
 $$
 
@@ -436,10 +420,8 @@ $$
 In matrix form, the coordinate transformation is:
 
 $$
-J^\mu_\nu
-=
-\frac{\partial x^{\mu}_{\mathrm{EF}}}{\partial x^{\nu}_{\mathrm{BL}}}
-=
+J^\mu_\nu =
+\frac{\partial x^{\mu}_{\mathrm{EF}}}{\partial x^{\nu}_{\mathrm{BL}}} =
 \begin{pmatrix}
 1 & \dfrac{r^2+a^2}{\Delta} & 0 & 0
 \\
@@ -454,8 +436,7 @@ $$
 Multiplying against the Boyer-Lindquist Metric gives us:
 
 $$
-g_{\mu\nu}
-=
+g_{\mu\nu} =
 \begin{pmatrix}
 -\left(1-\frac{2mr-e^2}{\rho^2}\right)
 &
@@ -490,13 +471,7 @@ g_{\mu\nu}
 &
 0
 &
-\frac{
-\left(r^2+a^2\right)^2
--
-a^2\Delta\sin^2\theta
-}{
-\rho^2
-}
+\frac{ \left(r^2+a^2\right)^2 - a^2\Delta\sin^2\theta}{\rho^2}
 \sin^2\theta
 \end{pmatrix}
 $$
@@ -876,8 +851,7 @@ $$
 Then
 
 $$
-\frac{dx^\mu}{d\gamma}
-=
+\frac{dx^\mu}{d\gamma} =
 \rho^2\frac{dx^\mu}{d\lambda}.
 $$
 
@@ -979,9 +953,8 @@ The first column of the tensor encodes the 4-velicity, and the other three store
 More formally, a tetrad is defined as a set of four linearly independent, orthonormal vector fields $e_\mu^\alpha$ that map a local inertial frame (flat Minkowski space) to the tangent space of the curved manifold.
 
 $$
-g_{\mu\nu}e_{a}{}^\mu e_{b}{}^\nu
-=
-\eta_{ab}.
+g_{\mu\nu}e_{a}{}^\mu e_{b}{}^\nu =
+\eta_{ab}
 $$
 
 If our observer emmits a ray in his local Minkowski space, we can transform that ray into global curved space with the tetrad.
@@ -993,16 +966,14 @@ $$
 $$
 
 $$
-e_{(a)}{}^\mu
-=
+e_{(a)}{}^\mu =
 \left[
 \begin{array}{cccc}
 \vert & \vert & \vert & \vert \\
 e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 \vert & \vert & \vert & \vert
 \end{array}
-\right]
-=
+\right] =
 \begin{pmatrix}
 \sqrt{\dfrac{\rho^2}{\rho^2\Delta}} & 0 & 0 & 0
 \\[8pt]
@@ -1090,16 +1061,14 @@ The important idea is that orientation is handled by the rest-frame tetrad $E_{(
 In a separate publication in 1968, Brandon Carter publish another paper describing the construction of a Boyer-Lindquist tetrad from the symmetries we used earlier. This tetrad is the first step towards analytical parallel transform. This tetrad is called *symmetric*, not because its a symmetric matrix, but rather it is constructed using the constants of motion that arrise from the symmetries in Kerr we described earlier.
 
 $$
-e_{(a)}{}^\mu
-=
+e_{(a)}{}^\mu =
 \left[
 \begin{array}{cccc}
 \vert & \vert & \vert & \vert \\
 e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 \vert & \vert & \vert & \vert
 \end{array}
-\right]
-=
+\right] =
 \begin{pmatrix}
 \dfrac{r^2+a^2}{\rho\sqrt{\Delta}} & 0 & 0 & \dfrac{a\sin\theta}{\rho}
 \\[8pt]
@@ -1108,7 +1077,7 @@ e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 0 & 0 & \dfrac{1}{\rho} & 0
 \\[8pt]
 \dfrac{a}{\rho\sqrt{\Delta}} & 0 & 0 & \dfrac{1}{\rho\sin\theta}
-\end{pmatrix}.
+\end{pmatrix}
 $$
 
 
@@ -1156,34 +1125,34 @@ $$
 \begin{aligned}
 \tilde{\lambda}_{1}^{(0)}
 &=
-\alpha \sqrt{\frac{\rho^2}{K\Delta}}\, r\,\dot{r},
+\alpha \sqrt{\frac{\rho^2}{K\Delta}}\, r\,\dot{r}
 \\[4pt]
 \tilde{\lambda}_{1}^{(1)}
 &=
 \alpha \frac{r}{\sqrt{K\rho^2\Delta}}
-\left\{ E(r^{2}+a^{2}) - a\Phi \right\},
+\left\{ E(r^{2}+a^{2}) - a\Phi \right\}
 \\[4pt]
 \tilde{\lambda}_{1}^{(2)}
 &=
 \beta \frac{a\cos\theta}{\sqrt{K\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right),
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\[4pt]
 \tilde{\lambda}_{1}^{(3)}
 &=
--\beta \sqrt{\frac{\rho^2}{K}}\, a\cos\theta\,\dot{\theta},
+-\beta \sqrt{\frac{\rho^2}{K}}\, a\cos\theta\,\dot{\theta}
 \\[32pt]
 \tilde{\lambda}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^2}}
-\left\{ E(r^{2}+a^{2}) - a\Phi \right\},
+\left\{ E(r^{2}+a^{2}) - a\Phi \right\}
 \\[4pt]
 \tilde{\lambda}_{3}^{(1)}
 &=
-\alpha \sqrt{\frac{\rho^2}{\Delta}}\,\dot{r},
+\alpha \sqrt{\frac{\rho^2}{\Delta}}\,\dot{r}
 \\[4pt]
 \tilde{\lambda}_{3}^{(2)}
 &=
-\beta \sqrt{\rho^2}\,\dot{\theta},
+\beta \sqrt{\rho^2}\,\dot{\theta}
 \\[4pt]
 \tilde{\lambda}_{3}^{(3)}
 &=
@@ -1194,12 +1163,12 @@ $$
 \alpha
 &=
 \frac{\sqrt{K-a^{2}\cos^{2}\theta}}
-     {\sqrt{r^{2}+K}},
+     {\sqrt{r^{2}+K}}
 \\[4pt]
 \beta
 &=
 \frac{\sqrt{r^{2}+K}}
-     {\sqrt{K-a^{2}\cos^{2}\theta}}.
+     {\sqrt{K-a^{2}\cos^{2}\theta}}
 \end{aligned}
 $$
 
@@ -1208,16 +1177,12 @@ The failure of $($\tilde{\lambda}_1$ and $\tilde{\lambda}_3$ to be parallel tran
 
 
 $$
-\dot{\Psi}
-=
+\dot{\Psi} =
 \frac{\sqrt{K}}{\rho^2}
 \left(
-\frac{E(r^{2}+a^{2})-a\Phi}{r^{2}+K}
-+
-a\,
-\frac{\Phi-aE\sin^{2}\theta}
-     {K-a^{2}\cos^{2}\theta}
-\right).
+\frac{E(r^{2}+a^{2})-a\Phi}{r^{2}+K} +
+a\frac{\Phi-aE\sin^{2}\theta}{K-a^{2}\cos^{2}\theta}
+\right)
 $$
 
 
@@ -1225,8 +1190,7 @@ $$
 \begin{pmatrix}
 \lambda_{1} \\
 \lambda_{3}
-\end{pmatrix}
-=
+\end{pmatrix} =
 \begin{pmatrix}
 \cos\Psi & -\sin\Psi \\
 \sin\Psi & \cos\Psi
@@ -1234,7 +1198,7 @@ $$
 \begin{pmatrix}
 \tilde{\lambda}_{1} \\
 \tilde{\lambda}_{3}
-\end{pmatrix}.
+\end{pmatrix}
 $$
 
 
@@ -1265,21 +1229,20 @@ $$
 \frac{\partial g_{\alpha\beta}}{\partial x^\sigma}
 \approx
 \frac{
-g_{\alpha\beta}(x+\epsilon \hat{x}_\sigma)
--
+g_{\alpha\beta}(x+\epsilon \hat{x}_\sigma) -
 g_{\alpha\beta}(x-\epsilon \hat{x}_\sigma)
-}{2\epsilon}.
+}{2\epsilon}
 $$
 
 First you compute all metric derivatives using *central finite difference* then compute and cache all 64 Christoffel symbol components for parallel transport. The parallel transport equations are bellow:
 
 $$
-
-\frac{d v^\mu}{d\lambda} = -\Gamma^\mu_{\nu\rho} v^\nu u^\rho,
+\begin{aligned}
+\frac{d v^\mu}{d\lambda} &= -\Gamma^\mu_{\nu\rho} v^\nu u^\rho,
 \\
 \quad
-u^\rho = \frac{dx^\rho}{d\lambda}.
-
+u^\rho &= \frac{dx^\rho}{d\lambda}
+\end{aligned}
 $$
 
 where $v^\mu$ is the vector being transported and $u^\rho$ is the tangent vector to the observer's worldline.
