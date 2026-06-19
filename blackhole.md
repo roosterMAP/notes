@@ -1138,7 +1138,7 @@ $$
 \begin{aligned}
 \tilde{\lambda}_{1}^{(0)}
 &=
-\alpha \sqrt{\frac{\rho^2}{K\Delta}}\, r\,\dot{r}
+\alpha \sqrt{\frac{\rho^2}{K\Delta}} r\dot{r}
 \\
 \tilde{\lambda}_{1}^{(1)}
 &=
@@ -1152,14 +1152,10 @@ $$
 \\
 \tilde{\lambda}_{1}^{(3)}
 &=
--\beta \sqrt{\frac{\rho^2}{K}}\, a\cos{\theta}\dot{\theta}
-\end{aligned}
-$$
-
-and
-
-$$
-\begin{aligned}
+-\beta \sqrt{\frac{\rho^2}{K}} a\cos{\theta}\dot{\theta}
+\\
+\quad
+\\
 \tilde{\lambda}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
@@ -1167,11 +1163,11 @@ $$
 \\
 \tilde{\lambda}_{3}^{(1)}
 &=
-\alpha \sqrt{\frac{\rho^{2}}{\Delta}}\,\dot{r}
+\alpha \sqrt{\frac{\rho^{2}}{\Delta}}\dot{r}
 \\
 \tilde{\lambda}_{3}^{(2)}
 &=
-\beta \sqrt{\rho^{2}}\,\dot{\theta}
+\beta \sqrt{\rho^{2}}\dot{\theta}
 \\
 \tilde{\lambda}_{3}^{(3)}
 &=
