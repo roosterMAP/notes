@@ -1134,51 +1134,43 @@ $$
 
 This leaves only the two-dimensional plane orthogonal to both $\lambda_0$ and $\lambda_2$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $\tilde{\lambda}_1$ and $\tilde{\lambda}_3$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
 
-$$
-\begin{array}{rcl}
-a &= b \\
-c &= d
-\end{array}
-$$
 
 $$
-\begin{aligned}
 \tilde{\lambda}_{1}^{(0)}
-&=
+=
 \alpha \sqrt{\frac{\rho^2}{K\Delta}} r\dot{r}
 \\
 \tilde{\lambda}_{1}^{(1)}
-&=
+=
 \alpha \frac{r}{\sqrt{K\rho^2\Delta}}
 ( E(r^{2}+a^{2}) - a\Phi )
 \\
 \tilde{\lambda}_{1}^{(2)}
-&=
+=
 \beta \frac{a\cos\theta}{\sqrt{K\rho^2}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\
 \tilde{\lambda}_{1}^{(3)}
-&=
+=
 -\beta \sqrt{\frac{\rho^2}{K}} a\cos{\theta}\dot{\theta}
 \\
 \tilde{\lambda}_{3}^{(0)}
-&=
+=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
 \left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
 \tilde{\lambda}_{3}^{(1)}
-&=
+=
 \alpha \sqrt{\frac{\rho^{2}}{\Delta}}\dot{r}
 \\
 \tilde{\lambda}_{3}^{(2)}
-&=
+=
 \beta \sqrt{\rho^{2}}\dot{\theta}
 \\
 \tilde{\lambda}_{3}^{(3)}
-&=
+=
 \beta \frac{1}{\sqrt{\rho^{2}}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
-\end{aligned}
 $$
 
 where
