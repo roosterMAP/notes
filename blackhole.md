@@ -1103,7 +1103,7 @@ $$
 \lambda_{0}^{(3)}
 &=
 \frac{1}{\sqrt{\rho^2}}
-( aE\sin\theta - \frac{\Phi}{\sin\theta})
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \end{aligned}
 $$
 
@@ -1123,7 +1123,7 @@ $$
 \lambda_{2}^{(2)}
 &=
 -\frac{r}{\sqrt{K\rho^2}}
-( aE\sin\theta - \frac{\Phi}{\sin\theta})
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\
 \lambda_{2}^{(3)}
 &=
@@ -1147,7 +1147,7 @@ $$
 \tilde{\lambda}_{1}^{(2)}
 &=
 \beta \frac{a\cos\theta}{\sqrt{K\rho^2}}
-( aE\sin\theta - \frac{\Phi}{\sin\theta})
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\
 \tilde{\lambda}_{1}^{(3)}
 &=
@@ -1161,21 +1161,21 @@ $$
 \begin{aligned}
 \tilde{\lambda}_{3}^{(0)}
 &=
-\alpha \frac{1}{\sqrt{\Delta\rho^2}}
-( E(r^{2}+a^{2}) - a\Phi )
+\alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
+\left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
 \tilde{\lambda}_{3}^{(1)}
 &=
-\alpha \sqrt{\frac{\rho^2}{\Delta}}\,\dot{r}
+\alpha \sqrt{\frac{\rho^{2}}{\Delta}}\,\dot{r}
 \\
 \tilde{\lambda}_{3}^{(2)}
 &=
-\beta \sqrt{\rho^2}\,\dot{\theta}
+\beta \sqrt{\rho^{2}}\,\dot{\theta}
 \\
 \tilde{\lambda}_{3}^{(3)}
 &=
-\beta \frac{1}{\sqrt{\rho^2}}
-( aE\sin\theta - \frac{\Phi}{\sin\theta})
+\beta \frac{1}{\sqrt{\rho^{2}}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \end{aligned}
 $$
 
