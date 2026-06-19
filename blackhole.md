@@ -1156,7 +1156,7 @@ $$
 \end{aligned}
 
 \\
-\,
+\quad
 \\
 
 \begin{aligned}
