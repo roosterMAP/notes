@@ -25,6 +25,7 @@ F = G\frac{Mm}{r^2} \quad\text{where G is a constant}
 $$
 
 By integrating the force law wrt $r$ we can get the gravitational potential for a test mass $m$ moving away from a larger mass $M$:
+
 $$
 K = \frac{1}{2} m v^2
 \\
@@ -125,7 +126,7 @@ $$
 d\tau = \sqrt{1 - \frac{2m}{r}}\,dt
 $$
 
-As the observer falls deeped into the gravitational field, his clock ticks more slowly. By [graphing](https://www.desmos.com/calculator/ygin2afpqh) $d\tau$ we can see that as r decreases from $+\infty$, $d\tau$ decreases and hits 0 at $r=2m$. This is the event horizon.
+As the observer falls deeper into the gravitational field, his clock ticks more slowly. By [graphing](https://www.desmos.com/calculator/ygin2afpqh) $d\tau$ we can see that as r decreases from $+\infty$, $d\tau$ decreases and hits 0 at $r=2m$. This is the event horizon.
 
 A clock at $r=4m$ has $d\tau = \sqrt\frac{1}{2}dt$. This clock runs about 70% slower than a clock thats in assymptotally flat space. 
 
@@ -165,7 +166,7 @@ $$
 
 It almost makes you want to pull t down from infinity to make this curve continuous through the horizon. The good news is we can do just that. It turns out that this singularity at $r=2m$ is actually a coordinate singularity and it can be removed using simple coordinate transformation.
 
-Lets take our radial integral and use it to define a new term $r_\ast$. As we obvserved in our graph earlier, $r_\ast$ contains exactly the logarithmic divergence needed to cancel the divergence in t. This is exactly the regularizing behavior we want. As I stated above in the most handwavy way possible, we can "pull down" t from infinity by subtracting the divergence in $r_\ast$ (for infalling rays). We do the reverse for outgoing rays.
+Lets take our radial integral and use it to define a new term $r_\ast$. As we observed in our graph earlier, $r_\ast$ contains exactly the logarithmic divergence needed to cancel the divergence in t. This is exactly the regularizing behavior we want. As I stated above in the most handwavy way possible, we can "pull down" t from infinity by subtracting the divergence in $r_\ast$ (for infalling rays). We do the reverse for outgoing rays.
 
 Thus we can define two new temporal coordinates: advanced and retarded null coordinates are:
 
@@ -182,7 +183,7 @@ $$
 v = t + r_\ast
 $$
 
-This coordinate transformation was initially disovered by Arthur Eddington in 1924 back befor the modern interpretation of the horizon as a one-way causal boundary. Finkelstein’s 1958 contribution was the physical reinterpretation that showed the Schwarzchild surface $r=2m$ as a one-way point of no-return.
+This coordinate transformation was initially discovered by Arthur Eddington in 1924 back before the modern interpretation of the horizon as a one-way causal boundary. Finkelstein’s 1958 contribution was the physical reinterpretation that showed the Schwarzchild surface $r=2m$ as a one-way point of no-return.
 
 By solving for t and substituting into the metric we get the Schwarzschild metric in ingoing Eddington-Finkelstein $x^\mu = (v, r, \theta, \phi)$.
 
@@ -198,8 +199,7 @@ $$
 And in matrix form:
 
 $$
-g_{\mu\nu}
-=
+g_{\mu\nu} =
 \begin{pmatrix}
 -\left(1 - \frac{2m}{r}\right) & 1 & 0 & 0 \\
 1 & 0 & 0 & 0 \\
@@ -208,7 +208,7 @@ g_{\mu\nu}
 \end{pmatrix}
 $$
 
-From here you can see that there is nononger divergent behavior at the horizon. We still have divergence then $r=0$, but we are not going into proving that this is a real curvature singularity and not a coordinate singularity.
+From here you can see that there is no longer divergent behavior at the horizon. We still have divergence then $r=0$, but we are not going into proving that this is a real curvature singularity and not a coordinate singularity.
 
 In theory, we could calculate christoffel symbols and solve parallel transport and geodesic equations.
 
@@ -297,10 +297,7 @@ g_{\mu\nu} =
 &
 0
 &
-\left(
-r^2 + a^2 +
-\frac{a^2(2mr - e^2)\sin^2\theta}{\rho^2}
-\right)\sin^2\theta
+\left( r^2 + a^2 + \frac{a^2(2mr - e^2)\sin^2\theta}{\rho^2} \right)\sin^2\theta
 \end{pmatrix}
 $$
 
@@ -471,21 +468,20 @@ g_{\mu\nu} =
 &
 0
 &
-\frac{ \left(r^2+a^2\right)^2 - a^2\Delta\sin^2\theta}{\rho^2}
-\sin^2\theta
+\frac{ \left(r^2+a^2\right)^2 - a^2\Delta\sin^2\theta}{\rho^2}\sin^2\theta
 \end{pmatrix}
 $$
 
 Moving forward, we will use the ingoing Eddington-Finkelstein time coordinate $v$. This can be confusing when following Brandon Carter's paper, because older Kerr literature does not always match the modern $u$/$v$ naming convention. In modern notation, advanced or ingoing time is usually written as
 
 $$
-v = t + r_\ast,
+v = t + r_\ast
 $$
 
 while retarded or outgoing time is written as
 
 $$
-u = t - r_\ast.
+u = t - r_\ast
 $$
 
 Carter instead uses the symbol $u$ and refers to it as retarded time, but the sign of his coordinate transformation matches what we would now call the ingoing or advanced coordinate. To avoid confusion, these notes will use the word *ingoing* and the variable $v$ throughout.
@@ -497,7 +493,7 @@ Also, Carter does not refer to this as an Eddington-Finkelstein coordinate trans
 
 A quick look at our new metric in matrix form makes it clear that it is regular at the horizon. Unlike the Boyer-Lindquist metric, $\Delta$ never appears in the denominator of any term and $\rho^2$ is well behaved.
 
-Lets evaluate what it would take to naivley derive our second order geodesic equations from the Christoffel-symbols like we did for the Morris-Thorne wormhole:
+Lets evaluate what it would take to naively derive our second order geodesic equations from the Christoffel-symbols like we did for the Morris-Thorne wormhole:
 
 In four dimensions, our Christoffel-symbol $\Gamma_{\alpha\beta}^\mu$ has 4x4x4=64 raw components. Since the lower indices are symmetric, only 40 are independent. For this metric, many are nonzero, and expanding the lower-index symmetry gives dozens of terms in the geodesic equations.
 
@@ -632,11 +628,11 @@ where
 $$
 \begin{aligned}
 \Theta(\theta) &= Q - \cos^2\theta \left[ a^2(\mu^2 - E^2) + \frac{\Phi^2}{\sin^2\theta} \right]
-\\[6pt]
+\\
 R(r) &= P^2 - \Delta \left(\mu^2 r^2 + K\right)
-\\[6pt]
+\\
 P(r) &= E(r^2+a^2)-a\Phi+\epsilon e r
-\\[6pt]
+\\
 Q &= K-(\Phi-aE)^2
 \end{aligned}
 $$
@@ -659,13 +655,13 @@ The integrated forms of the geodesic and orbit equations can now be obtained by 
 $$
 \begin{aligned}
 & \int^\theta \frac{d\theta}{\sqrt{\Theta}} = \int^r \frac{dr}{\sqrt{R}}
-\\[6pt]
+\\
 \lambda &= \int^\theta \frac{a^2\cos^2{\theta}}{\sqrt{\Theta}}d\theta +
 \int^r \frac{r^2}{\sqrt{R}}dr
-\\[6pt]
+\\
 u &= \int^\theta \frac{-a(aE\sin^2{\theta}-\Phi)}{\sqrt{\Theta}}d\theta +
 \int^r \frac{r^2+a^2}{\Delta}(1-\frac{P}{\sqrt{R}})dr
-\\[6pt]
+\\
 \phi &= \int^\theta \frac{-(aE-\Phi \sin^{-2}{\theta})}{\sqrt{\Theta}}d\theta + \int^r \frac{a}{\Delta}(1-\frac{P}{\sqrt{R}})dr
 \end{aligned}
 $$
@@ -675,11 +671,11 @@ We can re-express this in terms of the first-order differential system by either
 $$
 \begin{aligned}
 \rho^2 \dot{\theta} &= \sqrt{\Theta}
-\\[6pt]
+\\
 \rho^2 \dot{r} &= \sqrt{R}
-\\[6pt]
+\\
 \rho^2 \dot{u} &= -a(aE\sin^2\theta - \Phi) + (r^2+a^2)\Delta^{-1}(\sqrt{R}-P)
-\\[6pt]
+\\
 \rho^2 \dot{\phi} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(\sqrt{R}-P)
 \end{aligned}
 $$
@@ -746,7 +742,7 @@ We can show that $d\lambda$ diverges if $\Theta$ and $R$ are zeros by taking our
 $$
 \begin{aligned}
 d\lambda &= \rho^2(\frac{d\theta}{\sqrt{\Theta}})
-\\[6pt]
+\\
 d\lambda &= \rho^2(\frac{dr}{\sqrt{R}})
 \end{aligned}
 $$
@@ -779,7 +775,7 @@ Thankfully the fix is quite simple. First we can re-express  $\dot{u}$ and $\dot
 $$
 \begin{aligned}
 \rho^2 \dot{u} &= -a(aE\sin^2\theta - \Phi) + (r^2+a^2)\Delta^{-1}(1+\frac{P}{\sqrt{R}})
-\\[6pt]
+\\
 \rho^2 \dot{\phi} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(1+\frac{P}{\sqrt{R}})
 \end{aligned}
 $$
@@ -797,7 +793,7 @@ Substituting with the correct sign will cancel out the $\Delta$ terms and give u
 $$
 \begin{aligned}
 \rho^2 \dot{u} &= -a(aE\sin^2\theta - \Phi) + \frac{(r^2+a^2)(\mu^2r^2 + K)}{2P^2}
-\\[6pt]
+\\
 \rho^2 \dot{\phi} &= -(aE -\Phi\sin^{-2}{\theta}) + \frac{a(\mu^2r^2 + K)}{2P^2}
 \end{aligned}
 $$
@@ -860,11 +856,11 @@ This removes the explicit $\rho^2$ factors from the separated equations.
 $$
 \begin{aligned}
 \frac{d\theta}{d\gamma} &= \sqrt{\Theta}
-\\[6pt]
+\\
 \frac{dr}{d\gamma} &= \sqrt{R}
-\\[6pt]
+\\
 \frac{du}{d\gamma} &= -a(aE\sin^2\theta - \Phi) + (r^2+a^2)\Delta^{-1}(\sqrt{R}-P)
-\\[6pt]
+\\
 \frac{d\phi}{d\gamma} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(\sqrt{R}-P)
 \end{aligned}
 $$
@@ -877,7 +873,7 @@ Numerically, crossing turning points by tracking the sign of the potential funct
 $$
 \begin{aligned}
 \frac{d^2r}{d\gamma^2} &= \frac{1}{2} \frac{dR}{dr} = 2ErP (r-M)(r^2+K) r\Delta
-\\[6pt]
+\\
 \frac{d^2\theta}{d\gamma^2} &= \frac{1}{2} \frac{d\Theta}{d\theta} = -\left(aE\sin\theta-\frac{\Phi}{\sin\theta}\right)
 \left(aE\cos\theta+\frac{\Phi\cos\theta}{\sin^2\theta}\right)
 +
@@ -976,11 +972,11 @@ e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 \right] =
 \begin{pmatrix}
 \sqrt{\dfrac{\rho^2}{\rho^2\Delta}} & 0 & 0 & 0
-\\[8pt]
+\\
 0 & \sqrt{\dfrac{\Delta}{\rho^2}} & 0 & 0
-\\[8pt]
+\\
 0 & 0 & -\dfrac{1}{\sqrt{\rho^2}} & 0
-\\[8pt]
+\\
 \dfrac{(2mr-e^2)a}{\sqrt{\rho^2\Delta\rho^2}} & 0 & 0 &
 \dfrac{1}{\sin\theta}\sqrt{\dfrac{\rho^2}{\rho^2}}
 \end{pmatrix}
@@ -1071,11 +1067,11 @@ e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 \right] =
 \begin{pmatrix}
 \dfrac{r^2+a^2}{\rho\sqrt{\Delta}} & 0 & 0 & \dfrac{a\sin\theta}{\rho}
-\\[8pt]
+\\
 0 & \dfrac{\sqrt{\Delta}}{\rho} & 0 & 0
-\\[8pt]
+\\
 0 & 0 & \dfrac{1}{\rho} & 0
-\\[8pt]
+\\
 \dfrac{a}{\rho\sqrt{\Delta}} & 0 & 0 & \dfrac{1}{\rho\sin\theta}
 \end{pmatrix}
 $$
@@ -1097,12 +1093,23 @@ Lets start with the timelike vector which is tangent to the geodesic, so it is a
 
 $$
 \begin{aligned}
-\lambda_{0}^{(0)} &= \frac{1}{\sqrt{\Delta \rho^2}}
-\left\{ E(r^{2}+a^{2}) - a\Phi \right\}, \\[4pt]
-\lambda_{0}^{(1)} &= \sqrt{\frac{\rho^2}{\Delta}}\,\dot{r}, \\[4pt]
-\lambda_{0}^{(2)} &= \sqrt{\rho^2}\,\dot{\theta}, \\[4pt]
-\lambda_{0}^{(3)} &= \frac{1}{\sqrt{\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right).
+\lambda_{0}^{(0)}
+&=
+\frac{1}{\sqrt{\Delta \rho^2}}
+\left( E(r^{2}+a^{2}) - a\Phi \right)
+\\
+\lambda_{0}^{(1)}
+&=
+\sqrt{\frac{\rho^2}{\Delta}}\,\dot{r}
+\\
+\lambda_{0}^{(2)}
+&=
+\sqrt{\rho^2}\,\dot{\theta}
+\\
+\lambda_{0}^{(3)}
+&=
+\frac{1}{\sqrt{\rho^2}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \end{aligned}
 $$
 
@@ -1110,12 +1117,23 @@ The clever part is that the Killing-Yano tensor can be contracted with the geode
 
 $$
 \begin{aligned}
-\lambda_{2}^{(0)} &= \sqrt{\frac{\rho^2}{K\Delta}}\, a \cos\theta \,\dot{r}, \\[4pt]
-\lambda_{2}^{(1)} &= \frac{a\cos\theta}{\sqrt{K\rho^2\Delta}}
-\left\{ E(r^{2}+a^{2}) - a\Phi \right\}, \\[4pt]
-\lambda_{2}^{(2)} &= -\frac{r}{\sqrt{K\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right), \\[4pt]
-\lambda_{2}^{(3)} &= r \sqrt{\frac{\rho^2}{K}}\, \dot{\theta}.
+\lambda_{2}^{(0)}
+&=
+\sqrt{\frac{\rho^2}{K\Delta}}\, a \cos\theta \,\dot{r}
+\\
+\lambda_{2}^{(1)}
+&=
+\frac{a\cos\theta}{\sqrt{K\rho^2\Delta}}
+\left( E(r^{2}+a^{2}) - a\Phi \right)
+\\
+\lambda_{2}^{(2)}
+&=
+-\frac{r}{\sqrt{K\rho^2}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+\\
+\lambda_{2}^{(3)}
+&=
+r \sqrt{\frac{\rho^2}{K}}\, \dot{\theta}
 \end{aligned}
 $$
 
@@ -1126,45 +1144,54 @@ $$
 \tilde{\lambda}_{1}^{(0)}
 &=
 \alpha \sqrt{\frac{\rho^2}{K\Delta}}\, r\,\dot{r}
-\\[4pt]
+\\
 \tilde{\lambda}_{1}^{(1)}
 &=
 \alpha \frac{r}{\sqrt{K\rho^2\Delta}}
 \left\{ E(r^{2}+a^{2}) - a\Phi \right\}
-\\[4pt]
+\\
 \tilde{\lambda}_{1}^{(2)}
 &=
 \beta \frac{a\cos\theta}{\sqrt{K\rho^2}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
-\\[4pt]
+\\
 \tilde{\lambda}_{1}^{(3)}
 &=
 -\beta \sqrt{\frac{\rho^2}{K}}\, a\cos\theta\,\dot{\theta}
-\\[32pt]
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
 \tilde{\lambda}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^2}}
 \left\{ E(r^{2}+a^{2}) - a\Phi \right\}
-\\[4pt]
+\\
 \tilde{\lambda}_{3}^{(1)}
 &=
 \alpha \sqrt{\frac{\rho^2}{\Delta}}\,\dot{r}
-\\[4pt]
+\\
 \tilde{\lambda}_{3}^{(2)}
 &=
 \beta \sqrt{\rho^2}\,\dot{\theta}
-\\[4pt]
+\\
 \tilde{\lambda}_{3}^{(3)}
 &=
 \beta \frac{1}{\sqrt{\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right),
-\\[32pt]
-\text{where}\\
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+\end{aligned}
+$$
+
+where
+
+$$
+\begin{aligned}
 \alpha
 &=
 \frac{\sqrt{K-a^{2}\cos^{2}\theta}}
      {\sqrt{r^{2}+K}}
-\\[4pt]
+\\
 \beta
 &=
 \frac{\sqrt{r^{2}+K}}
