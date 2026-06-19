@@ -1,10 +1,8 @@
 # Rendering A Black Hole
 
-
 In the previous project, we rendered a simplified version of a Morris-Thorne Wormhole using differential geometry. We started with a metric in modified spherical coordinates and derive Christoffell Symbols, then used those to build the first order system of Parallel Transport equations and a second order system of Null Goedesic equations. We also constructed the Hamiltonian for the system to get a first order set of null geodesic equations that evolve in a phase space. The observer was tracked along null geodesics and the tetrad frame was build by simply transforming the minkowskian basis of the observer with the jacobian of the modified spherical coordinate system we defined, then orthonormalizing with respect to the metric. While this works from a rendering perspective, many laws of physics were ignored. The observer was assumed to have no mass and no velocity. Instead of evolving the observes position and inertial frame through the curved space-time of the wormhole, we were simply teleporting the player to different points along a null geodesic.
 
 In this project we will faithfully simulate a spinning black hole and the physical timelike path an observer would take while traversing its gravitational field. We will start by exploring the Schwarzschild metric and the coordinate singularity at the event horizon, motivating the need for a horizon-penetrating coordinate system. Then we will analyze the Kerr-Newman metric and weigh the difficulties of solving geodesic equations with regular geometric methods. This will take us into a deep dive of the work of Brandon Carter who discovered how to leverage symmetris in the Kerr-Newman system to elegantly solve both null and timelike geodesics. This seminal paper will be the backbone of our implementation. Once done, we will shift our focus to our innertial observe and do a deep dive of tetrad construction and parallel transport. We will analyze both numerical and analytical methods. Tieing these together will give us a faithful simulation of an observer in a Kerr gravitational field. To complete the picture, we will also briefly explore the physics of accretion flows, relativistic aberration, gravitational redshift, and radiative transfer. Finally, we will discuss analytical solutions of the null geodesic equations, the evaluation of elliptic integrals, and several other techniques used to render black holes in real time.
-
 
 # Geometry
 
@@ -66,9 +64,7 @@ $$
 
 which will reappear as the Schwarzschild radius. To understand why this radius is not merely an escape-velocity threshold, but a geometric boundary in spacetime, we need the Schwarzschild metric.
 
-
 ## Schwarzschild metric
-
 
 Before we introduce the metric lets go over what they are and where they come from.
 
@@ -80,7 +76,6 @@ R_{\mu\nu} -
 $$
 
 Above is the Einstein Field Equation. At a high level, the Einstein Field Equations are an equality between spacetime geometry and matter. The stress-energy tensor $T_{\mu\nu}$ describes how mass and energy are distributed in space, while the metric tensor $g_{\mu\nu}$ describes the resulting curvature of spacetime. It nice to think of matter telling spacetime how to curve, and spacetime telling matter how to move. Once a metric is known, all of the local geometry follows from it. The Christoffel symbols, geodesic equations, parallel transport equations, and curvature tensors can all be derived from $g_{\mu\nu}$. In principle, this is enough to simulate motion through Schwarzschild spacetime directly.
-
 
 Using geometrized units where $G = c = 1$, the line element for the Schwarzschild metric is
 
@@ -131,7 +126,6 @@ As the observer falls deeper into the gravitational field, his clock ticks more 
 A clock at $r=4m$ has $d\tau = \sqrt\frac{1}{2}dt$. This clock runs about 70% slower than a clock thats in assymptotally flat space. 
 
 ### Radial Components
-
 
 First, lets consider the experience of an infalling observer by setting, $ds^2 = d\theta = d\phi = 0$. Technically, this is an infalling photon. An infalling observer would have $ds^2<0$.
 
@@ -186,7 +180,6 @@ $$
 This coordinate transformation was initially discovered by Arthur Eddington in 1924 back before the modern interpretation of the horizon as a one-way causal boundary. Finkelstein’s 1958 contribution was the physical reinterpretation that showed the Schwarzchild surface $r=2m$ as a one-way point of no-return.
 
 By solving for t and substituting into the metric we get the Schwarzschild metric in ingoing Eddington-Finkelstein $x^\mu = (v, r, \theta, \phi)$.
-
 
 $$
 ds^2 =
@@ -348,7 +341,6 @@ $$
 
 Earlier, we [graphed](https://www.desmos.com/calculator/iw5vagheof) the $d\tau$ where $dr=d\theta=d\phi=0$. We could see the curve was discontinuous at $r=2m$. This is because our solution became complex for $0 < r < 2m$. Now we know why. Having zero angular velocity past this point is not allowed for a physical observer because $g_{tt}$ becomes spacelike past the ergosphere. Thus we define the ergosphere as a region where all observers must corotate with the black hole because past that point they must have some angular velocity. The effect of a spinning black hole giving static observers angular velocity via its rotating spacetime is called *frame dragging* because the inertial frame of the observer is being dragged along the $\phi$ direction.
 
-
 ### Principal Null Directions
 
 In the Schwarzchild case we were able to set $ds^2 = d\theta = d\phi = 0$ to track a radially infalling photon. This gave us a pretty simple expression we could itegrate. This expression is called a *Principal Null Direction*: the path of a photon with no angular momentum falling from infinity. This is not so easy to derive in Kerr because of the frame dragging. We will just have to take this for granted bellow:
@@ -409,7 +401,6 @@ a^2\Delta\sin^2\theta
 \sin^2\theta d\phi^2
 \end{aligned}
 $$
-
 
 In matrix form, the coordinate transformation is:
 
@@ -482,7 +473,6 @@ Carter instead uses the symbol $u$ and refers to it as retarded time, but the si
 
 Also, Carter does not refer to this as an Eddington-Finkelstein coordinate transformation. The modern terminology was not yet standard in the Kerr literature, so the transformation appears as part of the coordinate construction rather than under the name *Eddington-Finkelstein*.
 
-
 ### Evaluating the ingoing Eddington-Finkelstein Metric
 
 A quick look at our new metric in matrix form makes it clear that it is regular at the horizon. Unlike the Boyer-Lindquist metric, $\Delta$ never appears in the denominator of any term and $\rho^2$ is well behaved.
@@ -501,7 +491,6 @@ The good news is that the EF Christoffels should also be regular at the horizon,
 
 # Motion
 
-
 ### Kerr Symmetries
 
 The equations of motion of a test particle of mass $\mu$ and charge $\epsilon$ may be derived by the Lagrangian:
@@ -510,9 +499,9 @@ $$
 L = \frac{1}{2} g_{ij}\dot{x}^i\dot{x}^j + \epsilon A_i\dot{x}^i
 $$
 
-where the dot over a symbol denotes ordinary differentiation wrt an affine parameter $\lambda$. In order to obtain the equations of motion for our test particle, we can relate to propter time by using $\tau = \mu \lambda$. 
+where the dot over a symbol denotes ordinary differentiation wrt an affine parameter $\lambda$. In order to obtain the equations of motion for our test particle, we can relate to proper time by using $\tau = \mu \lambda$. 
 
-Remember our line element for a timelike observer:
+Remember our line element for a time-like observer:
 
 $$
 ds^2 = g_{ij} dx^i dx^j \quad\text{and}\quad ds^2 = -d\tau^2
@@ -524,14 +513,13 @@ $$
 g_{ij}\dot{x}^i\dot{x}^j = -\mu^2
 $$
 
-
 In order to support the electromagnetic field of the black hole with charge $e$, we define $A$ as the covariant vector potential:
 
 $$
 A = e \rho^{-2}r(dv-a sin^2\theta d\phi)
 $$
 
-Honestly, I know little about electromagnetism and have only included charge for completness. It is enough to know that the vector potential $A$ only shifts the canonical momentum.
+Honestly, I know little about electromagnetism and have only included charge for completeness. It is enough to know that the vector potential $A$ only shifts the canonical momentum.
 
 In order to transform to a Hamiltonian formulation we introduce the momenta to obtain:
 
@@ -557,8 +545,7 @@ $$
 H = \frac{1}{2}g^{ij} g_{ik}\dot{x}^k g_{jl}\dot{x}^l = \frac{1}{2}g_{kl} \dot{x}^k \dot{x}^l = -\frac{1}{2} \mu^2
 $$
 
-
-When defining our initial conditions we calculate our canonical momenta. But some of these momenta are conserved quantities that arrise from various symmetries in the system since they correspond to constants in the covector field. If we assume that the black hole is eternal and does not change size and splins at a constant rate, we can assume a conservation of energy symmetry and a conservation of angular momentum symmetry.
+When defining our initial conditions we calculate our canonical momenta. But some of these momenta are conserved quantities that arise from various symmetries in the system since they correspond to constants in the covector field. If we assume that the black hole is eternal and does not change size and spins at a constant rate, we can assume a conservation of energy symmetry and a conservation of angular momentum symmetry.
 
 Thus we define out first two constants of motion:
 
@@ -567,7 +554,6 @@ E = -p_v
 \\
 \Phi = p_\phi
 $$
-
 
 ### Jacobi Separation
 
@@ -590,7 +576,6 @@ Where S is the action. The canonical momenta are recovered from $S$ by
 $$
 p_i = \frac{\partial S}{\partial x^i}
 $$
-
 
 Inserting this into the Hamiltonian means replacing each momentum $p_i$ with $\partial S/\partial x^i$. If the resulting Hamilton-Jacobi equation separates into an $r$-dependent piece and a $\theta$-dependent piece, then the motion admits an additional conserved quantity. This separation constant is the Carter constant.
 
@@ -630,7 +615,6 @@ P(r) &= E(r^2+a^2)-a\Phi+\epsilon e r
 Q &= K-(\Phi-aE)^2
 \end{aligned}
 $$
-
 
 Thus, the final solution for the Jacobi action is:
 
@@ -673,7 +657,6 @@ $$
 \rho^2 \dot{\phi} &= -(aE -\Phi\sin^{-2}{\theta}) + a\Delta^{-1}(\sqrt{R}-P)
 \end{aligned}
 $$
-
 
 ### Turning Points
 
@@ -724,7 +707,6 @@ Ordinary turning points correspond to simple roots of $R$ or $\Theta$. These are
 These turning points are also the basis for analytically solving the system. The roots of $R(r)$ and $\Theta(\theta)$ determine the allowed regions of motion and eventually lead to the elliptic integrals used in the analytic geodesic solutions.
 
 
-
 ### Geodesic Completness
 
 The separated equations are
@@ -740,7 +722,6 @@ d\lambda &= \rho^2(\frac{d\theta}{\sqrt{\Theta}})
 d\lambda &= \rho^2(\frac{dr}{\sqrt{R}})
 \end{aligned}
 $$
-
 
 At first glance, this makes it look like zeros of $R$ or $\Theta$ are singular. Usually they are not. A simple zero of $R$ or $\Theta$ represents a turning point where the corresponding component of motion momentarily vanishes and then reverses sign. The affine-parameter integral remains finite.
 
@@ -792,17 +773,16 @@ $$
 \end{aligned}
 $$
 
-
 Now we can see that an ingoing geodesic can smoothly traverse the future horizon.
 This will be enough for the case of our renderer. However, this does not cover the entire maximally extended global structure. If a geodesic avoids the ring singularity at $\rho^2=0$, it may pass through $r=0$ into a negative-$r$ region of the extended Kerr-Newman geometry. Carter introduces additional coordinate patches to describe horizon crossings with the opposite null orientation and to cover more of the maximal extension. For the purposes of an infalling observer that terminates at the singularity, this extra patching is not necessary.
 
-The starting point for this transformation is the remark that the invertible form can be extended in a symmetric manner in an inverted direction in terms of a new time and angle coordinate $w$ and ${\phi}$:
+The starting point for this transformation is the remark that the invertible form can be extended in a symmetric manner in an inverted direction in terms of a new time and angle coordinate $w$ and $\tilde{\phi}$:
 
 $$
 \begin{aligned}
 d\hat{t} &= -dw + (r^2+a^2)\Delta^{-1}dr
 \\
-d\hat{\phi} &= -d{\phi} + a\Delta^{-1}dr
+d\hat{\phi} &= -d\tilde{\phi} + a\Delta^{-1}dr
 \end{aligned}
 $$
 
@@ -812,19 +792,17 @@ $$
 \begin{aligned}
 du + dw &= 2(r^2 + a^2)\Delta^{-1}dr
 \\
-d\phi + d{\phi} &= 2a\Delta^{-1}dr
+d\phi + d\tilde{\phi} &= 2a\Delta^{-1}dr
 \end{aligned}
 $$
 
 This means transforming from an infalling coordinate system to an outgoing one. Its convenient that this transformation is its own inverse.
 
-We can substitute into our $\dot{v}$ and $\dot{\phi}$ equations to get a new set of $\dot{w}$ and $\dot{{\phi}}$ equations. From there we can once again cancel out the divergent $\Delta$ terms via the series expansion, taking care to respect the sign of $\sqrt(R)$.
+We can substitute into our $\dot{v}$ and $\dot{\phi}$ equations to get a new set of $\dot{w}$ and $\dot{\tilde{\phi}}$ equations. From there we can once again cancel out the divergent $\Delta$ terms via the series expansion, taking care to respect the sign of $\sqrt(R)$.
 
 Finally, we have obtained out maximally extended geodesics. Solong as our observer/photon doesn't hit the singularity at $\rho^2=0$, he can go from $+\infty$ to $-\infty$.
 
-
 ### Mino Time
-
 
 We can make our lives easier by defining a new affine-like parameter $\gamma$, commonly called Mino time, by
 
@@ -859,7 +837,6 @@ $$
 \end{aligned}
 $$
 
-
 ### Implementation notes
 
 Numerically, crossing turning points by tracking the sign of the potential functions can be a little unreliable if we simply wait for $R$ or $\Theta$ to cross zero. With finite step sizes, the integrator may step slightly past $R=0$ or $\Theta=0$, causing the square root to become invalid before we have a chance to flip the sign. A more robust approach is to integrate the radial and polar motion as a second-order system. This removes the need to manually flip signs at turning points. The velocity $v_r$ or $v_\theta$ naturally passes through zero and reverses direction under the acceleration term.
@@ -874,7 +851,6 @@ $$
 a^2\sin\theta\cos\theta .
 \end{aligned}
 $$
-
 
 # Observation
 
@@ -927,7 +903,6 @@ $$
 A physical observer cannot follow a spacelike worldline; doing so would require faster-than-light motion and would break causality. If a massive observer's 4-velocity ever becomes spacelike in the simulation, then something has gone wrong.
 
 It is important to remain conscious of the type of observer or test particle being modeled. Massive observers require timelike worldlines and local orthonormal tetrads. Photons follow null geodesics and are usually evolved using null tangent vectors or momenta. Keeping these cases separate is crucial for deriving equations, constructing frames, and debugging the simulation.
-
 
 
 ## Tetrads
@@ -1071,9 +1046,7 @@ e_{(0)}^\mu & e_{(1)}^\mu & e_{(2)}^\mu & e_{(3)}^\mu \\
 \end{pmatrix}
 $$
 
-
 ## Analytic Parallel Transport
-
 
 If we follow J.A.Marcks 1983 paper, we have what looks like a great option for analytically transporting our observer tetrad.
 By starting with Carters Symmetric tetrad, we can construct a local Lorentz transform that will correctly transport our tetrad to the desired point on the timelike geodesic.
@@ -1130,26 +1103,25 @@ r \sqrt{\frac{\rho^2}{K}} \dot{\theta}
 \end{aligned}
 $$
 
-This leaves only the two-dimensional plane orthogonal to both $\lambda_{0}$ and $\lambda_{2}$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, ${\lambda}_{1}$ and ${\lambda}_{3}$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
-
+This leaves only the two-dimensional plane orthogonal to both $\lambda_{0}$ and $\lambda_{2}$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $\tilde{\lambda}_{1}$ and $\tilde{\lambda}_{3}$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
 
 $$
 \begin{aligned}
-{{\lambda}}_{1}^{(0)}
+{\tilde{\lambda}}_{1}^{(0)}
 &=
 \alpha \sqrt{\frac{\rho^{2}}{K\Delta}}\, r\dot{r}
 \\
-{{\lambda}}_{1}^{(1)}
+{\tilde{\lambda}}_{1}^{(1)}
 &=
 \alpha \frac{r}{\sqrt{K\rho^{2}\Delta}}
 \left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
-{{\lambda}}_{1}^{(2)}
+{\tilde{\lambda}}_{1}^{(2)}
 &=
 \beta \frac{a\cos\theta}{\sqrt{K\rho^{2}}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\
-{{\lambda}}_{1}^{(3)}
+{\tilde{\lambda}}_{1}^{(3)}
 &=
 -\beta \sqrt{\frac{\rho^{2}}{K}}\, a\cos\theta\,\dot{\theta}
 \end{aligned}
@@ -1159,20 +1131,20 @@ and
 
 $$
 \begin{aligned}
-{{\lambda}}_{3}^{(0)}
+{\tilde{\lambda}}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
 \left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
-{{\lambda}}_{3}^{(1)}
+{\tilde{\lambda}}_{3}^{(1)}
 &=
 \alpha \sqrt{\frac{\rho^{2}}{\Delta}}\,\dot{r}
 \\
-{{\lambda}}_{3}^{(2)}
+{\tilde{\lambda}}_{3}^{(2)}
 &=
 \beta \sqrt{\rho^{2}}\,\dot{\theta}
 \\
-{{\lambda}}_{3}^{(3)}
+{\tilde{\lambda}}_{3}^{(3)}
 &=
 \beta \frac{1}{\sqrt{\rho^{2}}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
@@ -1190,9 +1162,7 @@ $$
 \end{aligned}
 $$
 
-
-The failure of ${\lambda}_{1}$ and ${\lambda}_{3}$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
-
+The failure of $\tilde{\lambda}_{1}$ and $\tilde{\lambda}_{3}$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
 
 $$
 \dot{\Psi} =
@@ -1202,7 +1172,6 @@ $$
 a\frac{\Phi-aE\sin^{2}\theta}{K-a^{2}\cos^{2}\theta}
 \right)
 $$
-
 
 $$
 \begin{pmatrix}
@@ -1214,11 +1183,10 @@ $$
 \sin\Psi & \cos\Psi
 \end{pmatrix}
 \begin{pmatrix}
-{\lambda}_{1} \\
-{\lambda}_{3}
+\tilde{\lambda}_{1} \\
+\tilde{\lambda}_{3}
 \end{pmatrix}
 $$
-
 
 As stated earlier, this Lorentz transformation $\Lambda_A^{(a)}$ (which in this case is a tetrad in and of itself) occures in the tangent space of the observer tetrad $e_{(a)}^\mu$. Thus, it must be commited to the base tetrad:
 
@@ -1226,12 +1194,9 @@ $$
 E_A^\mu = e_{(a)}^\mu \Lambda_A^{(a)}
 $$
 
-
 Unfortunately, there is a practical problem. Marck's construction is tied to Carter's symmetric tetrad, which is naturally written in Boyer--Lindquist coordinates. Although we can transform this tetrad into ingoing Eddington--Finkelstein coordinates using a Jacobian, this does not necessarily make the tetrad itself horizon-regular. The coordinate system is regular at the outer horizon, but the Carter frame being used as the local reference basis is still a Boyer--Lindquist-adapted frame. Near the horizon it becomes singular or infinitely boosted relative to a regular infalling frame.
 
-
 ## Numeric Parallel Transport
-
 
 The first step is to compute the christoffel symbols. Instead of calculating them symbolically, we are going to compute them numerically using *finite difference method*. More specifically, we will use the *central finite difference* method. We sample the metric a little bit behind and a little bit in front of the observer.
 
@@ -1265,9 +1230,7 @@ $$
 
 where $v^\mu$ is the vector being transported and $u^\rho$ is the tangent vector to the observer's worldline.
 
-
 So, before an integration step, we recompute Christoffel symbols, step the observer to the next location on the worldline, recompute the metric at the new position, transport each arm of the tetrad, and orthonormalize wrt the new metric.
-
 
 # References
 
