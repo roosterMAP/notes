@@ -443,7 +443,6 @@ g_{\mu\nu} =
 &
 -\frac{a(2mr-e^2)\sin^2\theta}{\rho^2}
 \\
-
 1
 &
 0
@@ -452,7 +451,6 @@ g_{\mu\nu} =
 &
 -a\sin^2\theta
 \\
-
 0
 &
 0
@@ -461,7 +459,6 @@ g_{\mu\nu} =
 &
 0
 \\
-
 -\frac{a(2mr-e^2)\sin^2\theta}{\rho^2}
 &
 -a\sin^2\theta
@@ -1096,7 +1093,7 @@ $$
 \lambda_{0}^{(0)}
 &=
 \frac{1}{\sqrt{\Delta \rho^2}}
-\left( E(r^{2}+a^{2}) - a\Phi \right)
+( E(r^{2}+a^{2}) - a\Phi)
 \\
 \lambda_{0}^{(1)}
 &=
@@ -1109,7 +1106,7 @@ $$
 \lambda_{0}^{(3)}
 &=
 \frac{1}{\sqrt{\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+( aE\sin\theta - \frac{\Phi}{\sin\theta})
 \end{aligned}
 $$
 
@@ -1124,12 +1121,12 @@ $$
 \lambda_{2}^{(1)}
 &=
 \frac{a\cos\theta}{\sqrt{K\rho^2\Delta}}
-\left( E(r^{2}+a^{2}) - a\Phi \right)
+( E(r^{2}+a^{2}) - a\Phi)
 \\
 \lambda_{2}^{(2)}
 &=
 -\frac{r}{\sqrt{K\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+( aE\sin\theta - \frac{\Phi}{\sin\theta})
 \\
 \lambda_{2}^{(3)}
 &=
@@ -1148,12 +1145,12 @@ $$
 \tilde{\lambda}_{1}^{(1)}
 &=
 \alpha \frac{r}{\sqrt{K\rho^2\Delta}}
-\left\{ E(r^{2}+a^{2}) - a\Phi \right\}
+( E(r^{2}+a^{2}) - a\Phi )
 \\
 \tilde{\lambda}_{1}^{(2)}
 &=
 \beta \frac{a\cos\theta}{\sqrt{K\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+( aE\sin\theta - \frac{\Phi}{\sin\theta})
 \\
 \tilde{\lambda}_{1}^{(3)}
 &=
@@ -1166,7 +1163,7 @@ $$
 \tilde{\lambda}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^2}}
-\left\{ E(r^{2}+a^{2}) - a\Phi \right\}
+( E(r^{2}+a^{2}) - a\Phi )
 \\
 \tilde{\lambda}_{3}^{(1)}
 &=
@@ -1179,7 +1176,7 @@ $$
 \tilde{\lambda}_{3}^{(3)}
 &=
 \beta \frac{1}{\sqrt{\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+( aE\sin\theta - \frac{\Phi}{\sin\theta})
 \end{aligned}
 $$
 
