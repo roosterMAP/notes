@@ -1108,7 +1108,7 @@ $$
 \end{aligned}
 $$
 
-The clever part is that the Killing-Yano tensor can be contracted with the geodesic velocity to produce another vector that is also parallel transported. In other words, two of the four tetrad legs are essentially fixed by the geodesic and Kerr's hidden symmetry. I dont know much about the Killing-Yano tensor other than it is responsible for Carter’s hidden constant $K$ and it is being exploited to obtain $\lambda_2$.
+The clever part is that the Killing-Yano tensor can be contracted with the geodesic velocity to produce another vector that is also parallel transported. In other words, two of the four tetrad legs are essentially fixed by the geodesic and Kerr's hidden symmetry. I dont know much about the Killing-Yano tensor other than it is responsible for Carter’s hidden constant $K$ and it is being exploited to obtain $\lambda_{2}$.
 
 $$
 \begin{aligned}
@@ -1118,13 +1118,11 @@ $$
 \\
 \lambda_{2}^{(1)}
 &=
-\frac{a\cos\theta}{\sqrt{K\rho^2\Delta}}
-( E(r^{2}+a^{2}) - a\Phi)
+\frac{a\cos\theta}{\sqrt{K\rho^2\Delta}}( E(r^{2}+a^{2}) - a\Phi)
 \\
 \lambda_{2}^{(2)}
 &=
--\frac{r}{\sqrt{K\rho^2}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+-\frac{r}{\sqrt{K\rho^2}}\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\
 \lambda_{2}^{(3)}
 &=
@@ -1132,24 +1130,28 @@ r \sqrt{\frac{\rho^2}{K}} \dot{\theta}
 \end{aligned}
 $$
 
-This
+This leaves only the two-dimensional plane orthogonal to both $`\lambda_{0}`$ and $`\lambda_{2}`$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $`\tilde{\lambda}_{1}`$ and $`\tilde{\lambda}_{3}`$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
 
 
 $$
 \begin{aligned}
-\tilde{\lambda}_{1}^{(0)} &=
-\alpha \sqrt{\frac{\rho^2}{K\Delta}} r\dot{r}
+{\tilde{\lambda}}_{1}^{(0)}
+&=
+\alpha \sqrt{\frac{\rho^{2}}{K\Delta}}\, r\dot{r}
 \\
-\tilde{\lambda}_{1}^{(1)} &=
-\alpha \frac{r}{\sqrt{K\rho^2\Delta}}
-( E(r^{2}+a^{2}) - a\Phi )
+{\tilde{\lambda}}_{1}^{(1)}
+&=
+\alpha \frac{r}{\sqrt{K\rho^{2}\Delta}}
+\left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
-\tilde{\lambda}_{1}^{(2)} &=
-\beta \frac{a\cos\theta}{\sqrt{K\rho^2}}
+{\tilde{\lambda}}_{1}^{(2)}
+&=
+\beta \frac{a\cos\theta}{\sqrt{K\rho^{2}}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\
-\tilde{\lambda}_{1}^{(3)} &=
--\beta \sqrt{\frac{\rho^2}{K}} a\cos{\theta}\dot{\theta}
+{\tilde{\lambda}}_{1}^{(3)}
+&=
+-\beta \sqrt{\frac{\rho^{2}}{K}}\, a\cos\theta\,\dot{\theta}
 \end{aligned}
 $$
 
@@ -1157,17 +1159,21 @@ and
 
 $$
 \begin{aligned}
-\tilde{\lambda}_{3}^{(0)} &=
+{\tilde{\lambda}}_{3}^{(0)}
+&=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
 \left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
-\tilde{\lambda}_{3}^{(1)} &=
-\alpha \sqrt{\frac{\rho^{2}}{\Delta}}\dot{r}
+{\tilde{\lambda}}_{3}^{(1)}
+&=
+\alpha \sqrt{\frac{\rho^{2}}{\Delta}}\,\dot{r}
 \\
-\tilde{\lambda}_{3}^{(2)} &=
-\beta \sqrt{\rho^{2}}\dot{\theta}
+{\tilde{\lambda}}_{3}^{(2)}
+&=
+\beta \sqrt{\rho^{2}}\,\dot{\theta}
 \\
-\tilde{\lambda}_{3}^{(3)} &=
+{\tilde{\lambda}}_{3}^{(3)}
+&=
 \beta \frac{1}{\sqrt{\rho^{2}}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \end{aligned}
@@ -1185,7 +1191,7 @@ $$
 $$
 
 
-The failure of $\tilde{\lambda}_1$ and $\tilde{\lambda}_3$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
+The failure of $`\tilde{\lambda}_{1}`$ and $`\tilde{\lambda}_{3}`$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
 
 
 $$
