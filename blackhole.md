@@ -754,8 +754,6 @@ $$
 \sqrt{\Theta} \rightarrow -\sqrt{\Theta}.
 $$
 
-Numerically, this can be a little unreliable if we simply wait for $R$ or $\Theta$ to cross zero, especially when using finite step sizes. When we move to implementation, we will use a more robust method to step cleanly across turning points.
-
 Ordinary turning points correspond to simple roots of $R$ or $\Theta$. These are not singularities; the motion reverses in finite affine parameter. Double roots are different. They describe limiting orbits that are approached asymptotically, such as unstable spherical photon orbits, and the affine parameter can diverge. This is covered in the next section.
 
 These turning points are also the basis for analytically solving the system. The roots of $R(r)$ and $\Theta(\theta)$ determine the allowed regions of motion and eventually lead to the elliptic integrals used in the analytic geodesic solutions.
@@ -897,6 +895,21 @@ $$
 \end{aligned}
 $$
 
+
+### Implementation notes
+
+Numerically, crossing turning points by tracking the sign of the potential functions can be a little unreliable if we simply wait for $R$ or $\Theta$ to cross zero. With finite step sizes, the integrator may step slightly past $R=0$ or $\Theta=0$, causing the square root to become invalid before we have a chance to flip the sign. A more robust approach is to integrate the radial and polar motion as a second-order system. This removes the need to manually flip signs at turning points. The velocity $v_r$ or $v_\theta$ naturally passes through zero and reverses direction under the acceleration term.
+
+$$
+\begin{aligned}
+\frac{d^2r}{d\gamma^2} &= \frac{1}{2} \frac{dR}{dr} = 2ErP (r-M)(r^2+K) r\Delta
+\\[6pt]
+\frac{d^2\theta}{d\gamma^2} &= \frac{1}{2} \frac{d\Theta}{d\theta} = -\left(aE\sin\theta-\frac{\Phi}{\sin\theta}\right)
+\left(aE\cos\theta+\frac{\Phi\cos\theta}{\sin^2\theta}\right)
++
+a^2\sin\theta\cos\theta .
+\end{aligned}
+$$
 
 
 # Observation
