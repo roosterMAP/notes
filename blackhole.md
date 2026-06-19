@@ -74,7 +74,7 @@ Before we introduce the metric lets go over what they are and where they come fr
 
 $$
 R_{\mu\nu} -
-\frac{1}{2}R\,g_{\mu\nu} +
+\frac{1}{2}Rg_{\mu\nu} +
 \Lambda g_{\mu\nu} =
 \frac{8\pi G}{c^4}T_{\mu\nu}
 $$
@@ -89,10 +89,10 @@ ds^2 =
 -\left(1 - \frac{2m}{r}\right)dt^2 +
 \left(1 - \frac{2m}{r}\right)^{-1}dr^2 +
 r^2 d\theta^2 +
-r^2\sin^2\theta \, d\phi^2
+r^2\sin^2\theta  d\phi^2
 $$
 
-Our coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\theta\,d\phi^2$.
+Our coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\thetad\phi^2$.
 
 The same metric in matrix form is
 
@@ -123,7 +123,7 @@ $$
 $$
 
 $$
-d\tau = \sqrt{1 - \frac{2m}{r}}\,dt
+d\tau = \sqrt{1 - \frac{2m}{r}}dt
 $$
 
 As the observer falls deeper into the gravitational field, his clock ticks more slowly. By [graphing](https://www.desmos.com/calculator/ygin2afpqh) $d\tau$ we can see that as r decreases from $+\infty$, $d\tau$ decreases and hits 0 at $r=2m$. This is the event horizon.
@@ -191,9 +191,9 @@ By solving for t and substituting into the metric we get the Schwarzschild metri
 $$
 ds^2 =
 -\left(1 - \frac{2m}{r}\right)dv^2 +
-2\,dv\,dr +
+2dvdr +
 r^2 d\theta^2 +
-r^2\sin^2\theta\,d\phi^2
+r^2\sin^2\thetad\phi^2
 $$
 
 And in matrix form:
@@ -232,15 +232,15 @@ $$
 \begin{aligned}
 ds^2 ={}&
 -\left(1 - \frac{2mr - e^2}{\rho^2}\right)dt^2
--\frac{2a(2mr - e^2)\sin^2\theta}{\rho^2}\,dt\,d\phi
-+\frac{\rho^2}{\Delta}\,dr^2
-+\rho^2\,d\theta^2 \\
+-\frac{2a(2mr - e^2)\sin^2\theta}{\rho^2}dtd\phi
++\frac{\rho^2}{\Delta}dr^2
++\rho^2d\theta^2 \\
 &+
 \left(
 r^2 + a^2 +
 \frac{a^2(2mr - e^2)\sin^2\theta}{\rho^2}
 \right)
-\sin^2\theta\,d\phi^2 .
+\sin^2\thetad\phi^2 .
 \end{aligned}
 $$
 
@@ -395,18 +395,18 @@ $$
 \begin{aligned}
 ds^2 ={}&
 -\left(1-\frac{2mr-e^2}{\rho^2}\right)dv^2
-+2\,dv\,dr
-+\rho^2\,d\theta^2
--\frac{2a(2mr-e^2)\sin^2\theta}{\rho^2}\,dv\,d\phi
++2dvdr
++\rho^2d\theta^2
+-\frac{2a(2mr-e^2)\sin^2\theta}{\rho^2}dvd\phi
 \\
-&-2a\sin^2\theta\,dr\,d\phi +
+&-2a\sin^2\thetadrd\phi +
 \frac{
 \left(r^2+a^2\right)^2 -
 a^2\Delta\sin^2\theta
 }{
 \rho^2
 }
-\sin^2\theta\,d\phi^2
+\sin^2\thetad\phi^2
 \end{aligned}
 $$
 
@@ -829,7 +829,7 @@ Finally, we have obtained out maximally extended geodesics. Solong as our observ
 We can make our lives easier by defining a new affine-like parameter $\gamma$, commonly called Mino time, by
 
 $$
-d\lambda = \rho^2\,d\gamma,
+d\lambda = \rho^2d\gamma,
 $$
 
 or equivalently
@@ -1095,11 +1095,11 @@ $$
 \\
 \lambda_{0}^{(1)}
 &=
-\sqrt{\frac{\rho^2}{\Delta}}\,\dot{r}
+\sqrt{\frac{\rho^2}{\Delta}}\dot{r}
 \\
 \lambda_{0}^{(2)}
 &=
-\sqrt{\rho^2}\,\dot{\theta}
+\sqrt{\rho^2}\dot{\theta}
 \\
 \lambda_{0}^{(3)}
 &=
@@ -1114,7 +1114,7 @@ $$
 \begin{aligned}
 \lambda_{2}^{(0)}
 &=
-\sqrt{\frac{\rho^2}{K\Delta}}\, a \cos\theta \,\dot{r}
+\sqrt{\frac{\rho^2}{K\Delta}} a \cos\theta \dot{r}
 \\
 \lambda_{2}^{(1)}
 &=
@@ -1128,7 +1128,7 @@ $$
 \\
 \lambda_{2}^{(3)}
 &=
-r \sqrt{\frac{\rho^2}{K}}\, \dot{\theta}
+r \sqrt{\frac{\rho^2}{K}} \dot{\theta}
 \end{aligned}
 $$
 
