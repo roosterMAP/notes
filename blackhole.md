@@ -1107,23 +1107,9 @@ This leaves only the two-dimensional plane orthogonal to both $`\lambda_{0}`$ an
 
 $$
 \begin{aligned}
-{\tilde{\lambda}}_{1}^{(0)}
-&=
-\alpha \sqrt{\frac{\rho^{2}}{K\Delta}}\, r\dot{r}
+x &= y
 \\
-{\tilde{\lambda}}_{1}^{(1)}
-&=
-\alpha \frac{r}{\sqrt{K\rho^{2}\Delta}}
-\left( E(r^{2}+a^{2}) - a\Phi \right)
-\\
-{\tilde{\lambda}}_{1}^{(2)}
-&=
-\beta \frac{a\cos\theta}{\sqrt{K\rho^{2}}}
-\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
-\\
-{\tilde{\lambda}}_{1}^{(3)}
-&=
--\beta \sqrt{\frac{\rho^{2}}{K}}\, a\cos\theta\,\dot{\theta}
+a &= b
 \end{aligned}
 $$
 
