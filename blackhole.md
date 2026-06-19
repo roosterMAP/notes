@@ -1136,8 +1136,8 @@ This leaves only the two-dimensional plane orthogonal to both $\lambda_0$ and $\
 
 $$
 \begin{array}{rcl}
-a &=& b \\
-c &=& d
+a &= b \\
+c &= d
 \end{array}
 $$
 
