@@ -1110,7 +1110,29 @@ $$
 
 The clever part is that the Killing-Yano tensor can be contracted with the geodesic velocity to produce another vector that is also parallel transported. In other words, two of the four tetrad legs are essentially fixed by the geodesic and Kerr's hidden symmetry. I dont know much about the Killing-Yano tensor other than it is responsible for Carter’s hidden constant $K$ and it is being exploited to obtain $\lambda_2$.
 
+$$
+\begin{aligned}
+\lambda_{2}^{(0)}
+&=
+\sqrt{\frac{\rho^2}{K\Delta}} a \cos\theta \dot{r}
+\\
+\lambda_{2}^{(1)}
+&=
+\frac{a\cos\theta}{\sqrt{K\rho^2\Delta}}
+( E(r^{2}+a^{2}) - a\Phi)
+\\
+\lambda_{2}^{(2)}
+&=
+-\frac{r}{\sqrt{K\rho^2}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+\\
+\lambda_{2}^{(3)}
+&=
+r \sqrt{\frac{\rho^2}{K}} \dot{\theta}
+\end{aligned}
+$$
 
+This
 
 
 $$
