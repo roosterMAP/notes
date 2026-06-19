@@ -272,7 +272,6 @@ g_{\mu\nu} =
 &
 -\frac{a(2mr - e^2)\sin^2\theta}{\rho^2}
 \\
-
 0
 &
 \frac{\rho^2}{\Delta}
@@ -281,7 +280,6 @@ g_{\mu\nu} =
 &
 0
 \\
-
 0
 &
 0
@@ -290,7 +288,6 @@ g_{\mu\nu} =
 &
 0
 \\
-
 -\frac{a(2mr - e^2)\sin^2\theta}{\rho^2}
 &
 0
@@ -1158,6 +1155,8 @@ $$
 \end{aligned}
 $$
 
+and
+
 $$
 \begin{aligned}
 \tilde{\lambda}_{3}^{(0)}
@@ -1184,20 +1183,15 @@ where
 
 $$
 \begin{aligned}
-\alpha
-&=
-\frac{\sqrt{K-a^{2}\cos^{2}\theta}}
-     {\sqrt{r^{2}+K}}
+\alpha &=
+\frac{\sqrt{K-a^{2}\cos^{2}\theta}}{\sqrt{r^{2}+K}}
 \\
-\beta
-&=
-\frac{\sqrt{r^{2}+K}}
-     {\sqrt{K-a^{2}\cos^{2}\theta}}
+\beta &= \alpha^{-1}
 \end{aligned}
 $$
 
 
-The failure of $($\tilde{\lambda}_1$ and $\tilde{\lambda}_3$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
+The failure of $\tilde{\lambda}_1$ and $\tilde{\lambda}_3$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
 
 
 $$
