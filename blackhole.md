@@ -1153,13 +1153,11 @@ $$
 \tilde{\lambda}_{1}^{(3)}
 &=
 -\beta \sqrt{\frac{\rho^2}{K}}\, a\cos{\theta}\dot{\theta}
-\end{aligned}
 
 \\
 \quad
 \\
 
-\begin{aligned}
 \tilde{\lambda}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
