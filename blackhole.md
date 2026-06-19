@@ -92,7 +92,7 @@ r^2 d\theta^2 +
 r^2\sin^2\theta  d\phi^2
 $$
 
-Our coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\thetad\phi^2$.
+Our coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\theta d\phi^2$.
 
 The same metric in matrix form is
 
@@ -193,7 +193,7 @@ ds^2 =
 -\left(1 - \frac{2m}{r}\right)dv^2 +
 2dvdr +
 r^2 d\theta^2 +
-r^2\sin^2\thetad\phi^2
+r^2\sin^2\theta d\phi^2
 $$
 
 And in matrix form:
@@ -240,7 +240,7 @@ ds^2 ={}&
 r^2 + a^2 +
 \frac{a^2(2mr - e^2)\sin^2\theta}{\rho^2}
 \right)
-\sin^2\thetad\phi^2 .
+\sin^2\theta d\phi^2 .
 \end{aligned}
 $$
 
@@ -399,14 +399,14 @@ ds^2 ={}&
 +\rho^2d\theta^2
 -\frac{2a(2mr-e^2)\sin^2\theta}{\rho^2}dvd\phi
 \\
-&-2a\sin^2\thetadrd\phi +
+&-2a\sin^2\theta drd\phi +
 \frac{
 \left(r^2+a^2\right)^2 -
 a^2\Delta\sin^2\theta
 }{
 \rho^2
 }
-\sin^2\thetad\phi^2
+\sin^2\theta d\phi^2
 \end{aligned}
 $$
 
@@ -1153,8 +1153,6 @@ $$
 \tilde{\lambda}_{1}^{(3)}
 &=
 -\beta \sqrt{\frac{\rho^2}{K}} a\cos{\theta}\dot{\theta}
-\\
-\quad
 \\
 \tilde{\lambda}_{3}^{(0)}
 &=
