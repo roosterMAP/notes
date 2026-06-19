@@ -1005,7 +1005,8 @@ $|\vec{v}|^2 < 1.$
 The corresponding Lorentz factor is
 $\gamma =\frac{1}{\sqrt{1-|\vec{v}|^2}}$
 and the observer's local 4-velocity is
-$
+
+$$
 \gamma
 \begin{pmatrix}
 1\
@@ -1013,8 +1014,8 @@ v^{(1)}\
 v^{(2)}\
 v^{(3)}
 \end{pmatrix}
-$
-.
+$$
+
 The second step is to construct a local Lorentz boost to encode this velocity into the static tetrad $E_a$.
 
 $$
@@ -1152,15 +1153,11 @@ $$
 \tilde{\lambda}_{1}^{(3)}
 &=
 -\beta \sqrt{\frac{\rho^2}{K}}\, a\cos{\theta}\dot{\theta}
+\end{aligned}
+$$
 
-
-\\
-\quad
-\\
-\quad
-\\
-
-
+$$
+\begin{aligned}
 \tilde{\lambda}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
