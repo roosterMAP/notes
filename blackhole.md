@@ -1134,7 +1134,6 @@ This leaves only the two-dimensional plane orthogonal to both $`\lambda_{0}`$ an
 
 
 $$
-
 {\tilde{\lambda}}_{1}^{(0)}=
 \alpha \sqrt{\frac{\rho^{2}}{K\Delta}}\, r\dot{r}
 \\
@@ -1148,7 +1147,6 @@ $$
 \\
 {\tilde{\lambda}}_{1}^{(3)}=
 -\beta \sqrt{\frac{\rho^{2}}{K}}\, a\cos\theta\,\dot{\theta}
-
 $$
 
 and
