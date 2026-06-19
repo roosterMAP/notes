@@ -1150,7 +1150,6 @@ $$
 \\
 \tilde{\lambda}_{1}^{(3)} &=
 -\beta \sqrt{\frac{\rho^2}{K}} a\cos{\theta}\dot{\theta}
-\\\quad\\
 \tilde{\lambda}_{3}^{(0)} &=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
 \left( E(r^{2}+a^{2}) - a\Phi \right)
