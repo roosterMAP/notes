@@ -1,8 +1,8 @@
 # Rendering A Black Hole
 
-In the previous project, we rendered a simplified version of a Morris-Thorne Wormhole using differential geometry. We started with a metric in modified spherical coordinates and derive Christoffell Symbols, then used those to build the first order system of Parallel Transport equations and a second order system of Null Goedesic equations. We also constructed the Hamiltonian for the system to get a first order set of null geodesic equations that evolve in a phase space. The observer was tracked along null geodesics and the tetrad frame was build by simply transforming the minkowskian basis of the observer with the jacobian of the modified spherical coordinate system we defined, then orthonormalizing with respect to the metric. While this works from a rendering perspective, many laws of physics were ignored. The observer was assumed to have no mass and no velocity. Instead of evolving the observes position and inertial frame through the curved space-time of the wormhole, we were simply teleporting the player to different points along a null geodesic.
+In the previous project, we rendered a simplified version of a Morris-Thorne Wormhole using differential geometry. We started with a metric in modified spherical coordinates and derive Christoffell Symbols, then used those to build a first order system of Parallel Transport equations and a second order system of Null Goedesic equations. We also constructed the Hamiltonian for the system to get a first order set of null geodesic equations that evolve in a phase space. The observer was tracked along null geodesics and the tetrad frame was build by simply transforming the minkowskian basis of the observer with the jacobian of the modified spherical coordinate system we defined, then orthonormalizing with respect to the metric. While this works from a rendering perspective, many laws of physics were ignored. The observer was assumed to have no mass and no velocity. Instead of evolving the observes position and inertial frame through the curved space-time of the wormhole, we were simply teleporting the player to different points along a null geodesic.
 
-In this project we will faithfully simulate a spinning black hole and the physical timelike path an observer would take while traversing its gravitational field. We will start by exploring the Schwarzschild metric and the coordinate singularity at the event horizon, motivating the need for a horizon-penetrating coordinate system. Then we will analyze the Kerr-Newman metric and weigh the difficulties of solving geodesic equations with regular geometric methods. This will take us into a deep dive of the work of Brandon Carter who discovered how to leverage symmetris in the Kerr-Newman system to elegantly solve both null and timelike geodesics. This seminal paper will be the backbone of our implementation. Once done, we will shift our focus to our innertial observe and do a deep dive of tetrad construction and parallel transport. We will analyze both numerical and analytical methods. Tieing these together will give us a faithful simulation of an observer in a Kerr gravitational field. To complete the picture, we will also briefly explore the physics of accretion flows, relativistic aberration, gravitational redshift, and radiative transfer. Finally, we will discuss analytical solutions of the null geodesic equations, the evaluation of elliptic integrals, and several other techniques used to render black holes in real time.
+In this project we will faithfully simulate a spinning black hole and the physical time-like path an observer would take while traversing its gravitational field. We will start by exploring the Schwarzschild metric and the coordinate singularity at the event horizon, motivating the need for a horizon-penetrating coordinate system. Then we will analyze the Kerr-Newman metric and weigh the difficulties of solving geodesic equations with regular geometric methods. This will take us into a deep dive of the work of Brandon Carter who discovered how to leverage symmetries in the Kerr-Newman system to elegantly solve both null and time-like geodesics. This seminal paper will be the backbone of our implementation. Once done, we will shift our focus to our inertial observe and do a deep dive of tetrad construction and parallel transport. We will analyze both numerical and analytical methods. Tieing these together will give us a faithful simulation of an observer in a Kerr-Newman gravitational field. To complete the picture, we will also briefly explore the physics of accretion flows, relativistic aberration, gravitational redshift, and radiative transfer. Finally, we will discuss analytical solutions of the null geodesic equations, the evaluation of elliptic integrals, and several other techniques used to render black holes in real time.
 
 # Geometry
 
@@ -12,21 +12,19 @@ In 1687, Isaac Newton published *Mathematical Principles of Natural Philosophy* 
 
 In it, he proposed a fundamental law of Gravity:
 
-By started with Newtonian total mechanical enery and his law of gravitation:
+By starting with Newtonian total mechanical Energy and $S$ and his law of gravitation $F$:
 
 $$
-E = K + U
+E = K + U \quad\text{where}\quad K = \frac{1}{2} m v^2
 $$
 
 $$
 F = G\frac{Mm}{r^2} \quad\text{where G is a constant}
 $$
 
-By integrating the force law wrt $r$ we can get the gravitational potential for a test mass $m$ moving away from a larger mass $M$:
+By integrating the force law $F$ wrt $r$ we can get the gravitational potential $U$ for a test mass $m$ moving away from a larger mass $M$:
 
 $$
-K = \frac{1}{2} m v^2
-\\
 U = -\frac{GMm}{r}
 $$
 
@@ -38,15 +36,13 @@ $$
 v = \sqrt{\frac{2GM}{r}}
 $$
 
-Setting the escape velocity to the speed of light we get:
+Setting the escape velocity to the speed of light $c$ we get:
 
 $$
 c = \sqrt{\frac{2GM}{r}}
 $$
 
-Btw, the speed of light was first estimated by Ole Romer in 1676 by measuring the timing of Io's eclipses given Earth's position relative to Jupiter. He measured approximately 226,663 km/s which is about %75 of our modern measurment.
-
-Solving for r gives
+Solving for $r$ gives
 
 $$
 r = \frac{2GM}{c^2}
@@ -59,7 +55,7 @@ This is not yet the modern definition of a black hole. Michell's dark star is a 
 Still, the Newtonian argument is a useful historical doorway. It gives us the same characteristic radius,
 
 $$
-r = \frac{2GM}{c^2},
+r = \frac{2GM}{c^2}
 $$
 
 which will reappear as the Schwarzschild radius. To understand why this radius is not merely an escape-velocity threshold, but a geometric boundary in spacetime, we need the Schwarzschild metric.
@@ -87,7 +83,7 @@ r^2 d\theta^2 +
 r^2\sin^2\theta  d\phi^2
 $$
 
-Our coordinate system $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\theta d\phi^2$.
+Our coordinate system is $x_\mu = (t, r, \theta, \phi)$. This coordinate system represents a stationary observer infinetly far from the black hole. We can show this by taking the limit of the line element as $r \rightarrow \infty$ which gives us the Minkowski line element in spherical coordinates: $ds^2 \rightarrow -dt^2 + dr^2 + r^2d\theta^2 + r^2\sin^2\theta d\phi^2$.
 
 The same metric in matrix form is
 
