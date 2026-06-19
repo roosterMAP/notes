@@ -1103,7 +1103,7 @@ r \sqrt{\frac{\rho^2}{K}} \dot{\theta}
 \end{aligned}
 $$
 
-This leaves only the two-dimensional plane orthogonal to both $\lambda_{0}$ and $\lambda_{2}$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $\tilde{\lambda}_{1}$ and $\tilde{\lambda}_{3}$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
+This leaves only the two-dimensional plane orthogonal to both $`\lambda_{0}`$ and $`\lambda_{2}`$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $`\tilde{\lambda}_{1}`$ and $`\tilde{\lambda}_{3}`$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
 
 $$
 \begin{aligned}
