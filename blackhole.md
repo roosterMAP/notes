@@ -1107,9 +1107,23 @@ This leaves only the two-dimensional plane orthogonal to both $`\lambda_{0}`$ an
 
 $$
 \begin{aligned}
-x &= y
+{\tilde{\lambda}}_{1}^{(0)}
+&=
+\alpha \sqrt{\frac{\rho^{2}}{K\Delta}}\, r\dot{r}
 \\
-a &= b
+{\tilde{\lambda}}_{1}^{(1)}
+&=
+\alpha \frac{r}{\sqrt{K\rho^{2}\Delta}}
+\left( E(r^{2}+a^{2}) - a\Phi \right)
+\\
+{\tilde{\lambda}}_{1}^{(2)}
+&=
+\beta \frac{a\cos\theta}{\sqrt{K\rho^{2}}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
+\\
+{\tilde{\lambda}}_{1}^{(3)}
+&=
+-\beta \sqrt{\frac{\rho^{2}}{K}}\, a\cos\theta\,\dot{\theta}
 \end{aligned}
 $$
 
@@ -1117,9 +1131,23 @@ and
 
 $$
 \begin{aligned}
-x &= y
+{\tilde{\lambda}}_{3}^{(0)}
+&=
+\alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
+\left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
-a &= b
+{\tilde{\lambda}}_{3}^{(1)}
+&=
+\alpha \sqrt{\frac{\rho^{2}}{\Delta}}\,\dot{r}
+\\
+{\tilde{\lambda}}_{3}^{(2)}
+&=
+\beta \sqrt{\rho^{2}}\,\dot{\theta}
+\\
+{\tilde{\lambda}}_{3}^{(3)}
+&=
+\beta \frac{1}{\sqrt{\rho^{2}}}
+\left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \end{aligned}
 $$
 
@@ -1127,13 +1155,14 @@ where
 
 $$
 \begin{aligned}
-x &= y
+\alpha &=
+\frac{\sqrt{K-a^{2}\cos^{2}\theta}}{\sqrt{r^{2}+K}}
 \\
-a &= b
+\beta &= \alpha^{-1}
 \end{aligned}
 $$
 
-The failure of $\tilde{\lambda}_{1}$ and $\tilde{\lambda}_{3}$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
+The failure of $`\tilde{\lambda}_{1}`$ and $`\tilde{\lambda}_{3}`$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
 
 $$
 \dot{\Psi} =
