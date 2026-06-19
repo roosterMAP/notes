@@ -1135,7 +1135,10 @@ $$
 This leaves only the two-dimensional plane orthogonal to both $\lambda_0$ and $\lambda_2$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $\tilde{\lambda}_1$ and $\tilde{\lambda}_3$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
 
 $$
-a=b
+\begin{array}{rcl}
+a &=& b \\
+c &=& d
+\end{array}
 $$
 
 $$
