@@ -776,13 +776,13 @@ $$
 Now we can see that an ingoing geodesic can smoothly traverse the future horizon.
 This will be enough for the case of our renderer. However, this does not cover the entire maximally extended global structure. If a geodesic avoids the ring singularity at $\rho^2=0$, it may pass through $r=0$ into a negative-$r$ region of the extended Kerr-Newman geometry. Carter introduces additional coordinate patches to describe horizon crossings with the opposite null orientation and to cover more of the maximal extension. For the purposes of an infalling observer that terminates at the singularity, this extra patching is not necessary.
 
-The starting point for this transformation is the remark that the invertible form can be extended in a symmetric manner in an inverted direction in terms of a new time and angle coordinate $w$ and $\dot{\phi}$:
+The starting point for this transformation is the remark that the invertible form can be extended in a symmetric manner in an inverted direction in terms of a new time and angle coordinate $w$ and $\tilde{\phi}$:
 
 $$
 \begin{aligned}
 d\hat{t} &= -dw + (r^2+a^2)\Delta^{-1}dr
 \\
-d\hat{\phi} &= -d\dot{\phi} + a\Delta^{-1}dr
+d\hat{\phi} &= -d\tilde{\phi} + a\Delta^{-1}dr
 \end{aligned}
 $$
 
@@ -792,13 +792,13 @@ $$
 \begin{aligned}
 du + dw &= 2(r^2 + a^2)\Delta^{-1}dr
 \\
-d\phi + d\dot{\phi} &= 2a\Delta^{-1}dr
+d\phi + d\tilde{\phi} &= 2a\Delta^{-1}dr
 \end{aligned}
 $$
 
 This means transforming from an infalling coordinate system to an outgoing one. Its convenient that this transformation is its own inverse.
 
-We can substitute into our $\dot{v}$ and $\dot{\phi}$ equations to get a new set of $\dot{w}$ and $\dot{\dot{\phi}}$ equations. From there we can once again cancel out the divergent $\Delta$ terms via the series expansion, taking care to respect the sign of $\sqrt(R)$.
+We can substitute into our $\dot{v}$ and $\dot{\phi}$ equations to get a new set of $\dot{w}$ and $\dot{\tilde{\phi}}$ equations. From there we can once again cancel out the divergent $\Delta$ terms via the series expansion, taking care to respect the sign of $\sqrt(R)$.
 
 Finally, we have obtained out maximally extended geodesics. Solong as our observer/photon doesn't hit the singularity at $\rho^2=0$, he can go from $+\infty$ to $-\infty$.
 
@@ -1103,25 +1103,25 @@ r \sqrt{\frac{\rho^2}{K}} \dot{\theta}
 \end{aligned}
 $$
 
-This leaves only the two-dimensional plane orthogonal to both $\lambda_{0}$ and $\lambda_{2}$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $\dot{\lambda}_{1}$ and $\dot{\lambda}_{3}$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
+This leaves only the two-dimensional plane orthogonal to both $\lambda_{0}$ and $\lambda_{2}$. Within that plane, the only remaining freedom is an ordinary spatial rotation. Marck chooses two convenient intermediate basis vectors, $\tilde{\lambda}_{1}$ and $\tilde{\lambda}_{3}$, spanning this plane. These intermediate vectors are orthonormal, but they are not individually parallel transported. Instead, as the observer moves along the geodesic, they rotate within their own two-plane.
 
 $$
 \begin{aligned}
-{\dot{\lambda}}_{1}^{(0)}
+{\tilde{\lambda}}_{1}^{(0)}
 &=
 \alpha \sqrt{\frac{\rho^{2}}{K\Delta}}\, r\dot{r}
 \\
-{\dot{\lambda}}_{1}^{(1)}
+{\tilde{\lambda}}_{1}^{(1)}
 &=
 \alpha \frac{r}{\sqrt{K\rho^{2}\Delta}}
 \left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
-{\dot{\lambda}}_{1}^{(2)}
+{\tilde{\lambda}}_{1}^{(2)}
 &=
 \beta \frac{a\cos\theta}{\sqrt{K\rho^{2}}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
 \\
-{\dot{\lambda}}_{1}^{(3)}
+{\tilde{\lambda}}_{1}^{(3)}
 &=
 -\beta \sqrt{\frac{\rho^{2}}{K}}\, a\cos\theta\,\dot{\theta}
 \end{aligned}
@@ -1131,20 +1131,20 @@ and
 
 $$
 \begin{aligned}
-{\dot{\lambda}}_{3}^{(0)}
+{\tilde{\lambda}}_{3}^{(0)}
 &=
 \alpha \frac{1}{\sqrt{\Delta\rho^{2}}}
 \left( E(r^{2}+a^{2}) - a\Phi \right)
 \\
-{\dot{\lambda}}_{3}^{(1)}
+{\tilde{\lambda}}_{3}^{(1)}
 &=
 \alpha \sqrt{\frac{\rho^{2}}{\Delta}}\,\dot{r}
 \\
-{\dot{\lambda}}_{3}^{(2)}
+{\tilde{\lambda}}_{3}^{(2)}
 &=
 \beta \sqrt{\rho^{2}}\,\dot{\theta}
 \\
-{\dot{\lambda}}_{3}^{(3)}
+{\tilde{\lambda}}_{3}^{(3)}
 &=
 \beta \frac{1}{\sqrt{\rho^{2}}}
 \left( aE\sin\theta - \frac{\Phi}{\sin\theta} \right)
@@ -1162,7 +1162,7 @@ $$
 \end{aligned}
 $$
 
-The failure of $\dot{\lambda}_{1}$ and $\dot{\lambda}_{3}$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
+The failure of $\tilde{\lambda}_{1}$ and $\tilde{\lambda}_{3}$ to be parallel transported is therefore captured by a single angular velocity $\dot{\Psi}$. By accumulating this angle and applying the rotation we cancel that residual rotation. The result is a full orthonormal tetrad $\Lambda$ that is parallel transported along the timelike geodesic.
 
 $$
 \dot{\Psi} =
@@ -1183,8 +1183,8 @@ $$
 \sin\Psi & \cos\Psi
 \end{pmatrix}
 \begin{pmatrix}
-\dot{\lambda}_{1} \\
-\dot{\lambda}_{3}
+\tilde{\lambda}_{1} \\
+\tilde{\lambda}_{3}
 \end{pmatrix}
 $$
 
