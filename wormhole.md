@@ -1,6 +1,6 @@
 ﻿# Simulating a Wormhole
 
-This page is a compilation of my notes and derivations for rendering, navigating around, and traversing a physically accurate Morrise-Thorn wormhole.
+This page is a compilation of my notes and derivations for rendering, navigating around, and traver\sing a physically accurate Morrise-Thorn wormhole.
 
 The wormhole implemented here was first described in 1987 in this paper:
 [American Journal of Physics Volume 56 issue 5 1988 [doi 10.1119%2F1.15620] Morris, Michael S. -- Wormholes in spacetime and their use for interstellar travel- A tool for teaching general relativity.pdf (PDFy mirror) : Free Download, Borrow, and Streaming : Internet Archive](https://archive.org/details/pdfy--5NLGQyfpB61dmyG/mode/2up)
@@ -40,77 +40,173 @@ $$
 
 ## Polar Coordinates
 
-In order to leverage the symetry of a wormhole we will be working in **Polar Coordinates**.
-The 2D implementation of our wormhole will be using this coordinate system: $(r, \theta )$. The parametric equations are shown below.
+To exploit the spherical symmetry of the Ellis wormhole, we describe its geometry u\sing spherical coordinates. For a two-dimensional illustration, we can restrict the angular coordinates to a plane and use ordinary **polar coordinates**:
 
 $$\begin{align*}
 x &= r \cos\theta \\
 y &= r \sin\theta
 \end{align*}$$
 
-## Wormhole Geometry
+Here, $r$ is the radial distance from the origin in the embedding diagram, and $\theta$ is the angular coordinate.
 
-The geometry of the wormhole is described using a very simple expression that is only in terms of the radial component. $$r(l) = \sqrt{ l^2 + r_0^2 } \quad \text{where } r_0 \text{ is the radius of the throat}$$
+For the wormhole, however, $r$ is not the most useful coordinate for describing radial motion through the throat. Instead, we introduce the proper radial coordinate $l$, which measures distance along a radial path to the throat of the wormhole.
 
-This is called the **shape function**. In this setup, the wormhole geometry is described using the coordinates $( l, \theta )$, where $l$ is the proper radial distance. The standard polar coordinates $(r, \theta)$ are modified so that the radial coordinate is now a function of $l$, i.e., $r = r(l)$
-This ensures the coordinate transformation depends on the geometry of the wormhole. Unlike standard spherical coordinates where $r$ is independent, here $r$ is a function of the proper radial distance $l$, which encodes the spatial curvature of the wormhole throat and flare-out shape. We will call this new coordinate system **wormhole coordinates** $(r(l), \theta)$.
+## Ellis Wormhole Geometry
+
+The Ellis wormhole is described by the shape function
+
+$$
+\boxed{r(l)=\sqrt{l^2+r_0^2}}
+$$
+
+where $r_0>0$ is the radius of the wormhole throat.
+
+The coordinate $l$ ranges over the entire real line:
+
+$$
+-\infty<l<\infty.
+$$
+
+The throat occurs at $l=0$, where the radius reaches its minimum value:
+
+$$
+r(0)=r_0.
+$$
+
+The two asymptotically flat regions lie on opposite sides of the throat.
+
+As $|l|$ increases, the radius $r(l)$ increases. In particular, $r(l)$ is an even function of $l$: both sides have the same radius at equal distances from the throat.
+
+The spatial geometry of the Ellis wormhole is described by the metric
+
+$$
+\boxed{
+ds^2=dl^2+r(l)^2
+\left(d\theta^2+\sin^2\theta,d\phi^2\right)
+}
+$$
+
+where $\theta$ and $\phi$ are the polar and azimuthal angles. For a two-dimensional equatorial slice, we can set $d\theta=0$, giving
+
+$$
+ds^2=dl^2+r(l)^2d\phi^2.
+$$
+
+This metric expresses the key geometric property of the wormhole: radial distance is measured directly by $l$, while angular distances are scaled by the radius $r(l)$.
+
+We will refer to $(l,\theta,\phi)$ as the wormhole coordinates. The radius $r(l)$ is a function of the proper radial coordinate, not an independent coordinate.
 
 
 ## Metric Tensor 
 
-The first thing we must do is define is our Jacobian. The Jacobian is a Tensor Field that lets us transform vectors at some point P from cartesian $(x,y)$ to our wormhole coordinates $(r(l),\theta)$.
+Previously, we introduced the wormhole's spatial geometry through its line element. We will now derive the corresponding metric tensor and clarify how the proper radial coordinate enters the geometry.
 
-We first define our transformation:
+For a two-dimensional equatorial slice, we use the coordinates $(l,\theta)$, where $l$ is proper radial distance and $\theta$ is the angular coordinate. We defined the radius function
 
 $$
-\begin{align*}
-x &= r(l) \cos\theta \\
-y &= r(l) \sin\theta
-\end{align*}
+r(l)=\sqrt{l^2+r_0^2}.
 $$
 
-Then we derive the Jacobian. To compute $g_{uv}$ for our modified Polar coordinates we need the Jacobian that maps to Cartesian coordinates.
+An embedding diagram can represent this slice using the map
+
+$$
+\begin{aligned}
+x &= r(l)\cos\theta
+\\
+y &= r(l)\sin\theta
+\\
+z &= z(l)
+\end{aligned}
+$$
+
+Differentiating wrt each variable gives us the Jacobian. It shows how a coordinate mapping changes with respect to its input coordinates. Its entries are the partial derivatives of the mapped position with respect to each input coordinate.
 
 $$J: (l, \theta) \mapsto (x, y) = 
 \begin{bmatrix}
 {\frac{\partial x}{\partial l}} & {\frac{\partial x}{\partial \theta}} \\
 {\frac{\partial y}{\partial l}} & {\frac{\partial y}{\partial \theta}} \\
+{\frac{\partial z}{\partial l}} & {\frac{\partial z}{\partial \theta}}
 \end{bmatrix}$$
 
 $$\begin{align*}
-{\frac{\partial x}{\partial l}} = r'(l)cos{\theta}     &\quad\quad {\frac{\partial x}{\partial \theta}} = -r(l)sin{\theta} \\
-{\frac{\partial y}{\partial l}} = r'(l)sin{\theta}     &\quad\quad {\frac{\partial y}{\partial \theta}} = r(l)cos{\theta}
+{\frac{\partial x}{\partial l}} = r'(l)\cos{\theta}     &\quad\quad {\frac{\partial x}{\partial \theta}} = -r(l)\sin{\theta}
+\\
+{\frac{\partial y}{\partial l}} = r'(l)\sin{\theta}     &\quad\quad {\frac{\partial y}{\partial \theta}} = r(l)\cos{\theta}
+\\
+{\frac{\partial z}{\partial l}} = z'     &\quad\quad {\frac{\partial z}{\partial \theta}} = 0
 \end{align*}$$
 
-And now we derive the Metric Tensor $g_{uv}$.
-The **metric tensor** is a rank-2 tensor that defines how distances and angles are measured on a curved space or manifold. It generalizes the dot product to arbitrary coordinates and geometries, allowing us to compute quantities like lengths, angles, and volumes.
+The Jacobian can be used to construct a metric tensor via $g=J^T J$ when the mapping describes a surface embedded in Euclidean space. The metric encodes how coordinate changes correspond to physical distances. The **metric tensor** is a rank-2 tensor that defines how distances and angles are measured on a curved space or manifold. It generalizes the dot product to arbitrary coordinates and geometries, allowing us to compute quantities like lengths, angles, and volumes.
 The metric $ds^2 = g_{\mu\nu}dx^{\mu}dx^{\upsilon}$ takes two vectors and returns a scalar: their inner product. It effectively tells us **how the basis vectors themselves are stretched, skewed, or rotated** at each point in space.
 
-$$g_{uv} = J^TJ = 
-\begin{bmatrix}
-{\frac{\partial x}{\partial l}}^2 {\frac{\partial y}{\partial l}}^2 &
-{\frac{\partial x}{\partial \theta}} {\frac{\partial x}{\partial l}} +  {\frac{\partial y}{\partial \theta}} {\frac{\partial y}{\partial l}}\\
-{\frac{\partial x}{\partial \theta}} {\frac{\partial x}{\partial l}} +  {\frac{\partial y}{\partial \theta}} {\frac{\partial y}{\partial l}} &
-{\frac{\partial y}{\partial l}}^2 {\frac{\partial x}{\partial l}}^2
-\end{bmatrix} \\ = 
-\begin{bmatrix}
-r'(l)cos^2(\theta) + r'(l)sin^2(\theta) & -r(l)cos{\theta}sin{\theta} + r(l)cos{\theta}sin{\theta}\\
--r(l)cos{\theta}sin{\theta} + r(l)cos{\theta}sin{\theta} & r'(l)r(l)^{2}cos^2(\theta) + r'(l)r(l)^{2}sin^2(\theta)
-\end{bmatrix} =
-\begin{bmatrix}
-r'(l) & 0 \\
-0 & r'(l)^2r(l)^2
-\end{bmatrix} $$
+The metric induced by the Euclidean embedding is (g=J^TJ), which gives:
 
-But wait! We defined $l$ as **proper radial distance**. It is defined such that:
-$$dl = dr = 1$$
+$$
 
-$$\dot{.\hspace{.05in}.} \quad g =\begin{bmatrix}
+\begin{aligned}
+g_{uv}=J^TJ
+&=
+\begin{bmatrix}
+\frac{\partial x}{\partial l} &
+\frac{\partial y}{\partial l} &
+\frac{\partial z}{\partial l}\\
+\frac{\partial x}{\partial\theta} &
+\frac{\partial y}{\partial\theta} &
+\frac{\partial z}{\partial\theta}
+\end{bmatrix}
+\begin{bmatrix}
+\frac{\partial x}{\partial l} &
+\frac{\partial x}{\partial\theta}\\
+\frac{\partial y}{\partial l} &
+\frac{\partial y}{\partial\theta}\\
+\frac{\partial z}{\partial l} &
+\frac{\partial z}{\partial\theta}
+\end{bmatrix}\\[8pt]
+&=
+\begin{bmatrix}
+(r'\cos\theta)^2+(r'\sin\theta)^2+(z')^2
+&
+-r'r\cos\theta\sin\theta+r'r\sin\theta\cos\theta\\
+-r'r\cos\theta\sin\theta+r'r\sin\theta\cos\theta
+&
+(-r\sin\theta)^2+(r\cos\theta)^2
+\end{bmatrix}\\[8pt]
+&=
+\begin{bmatrix}
+r'(l)^2+z'(l)^2&0\\
+0&r(l)^2
+\end{bmatrix}
+\end{aligned}
+
+$$
+
+Because $l$ is proper radial distance, the radial metric coefficient must equal one. Therefore, the embedding function must satisfy
+
+$$
+r'^2+z'^2=1.
+$$
+
+Since
+
+$$
+r'=\frac{l}{\sqrt{l^2+r_0^2}},
+$$
+
+we obtain
+
+$$
+z'=\pm\frac{r_0}{\sqrt{l^2+r_0^2}}.
+$$
+
+The resulting induced metric is
+
+$$
+\begin{bmatrix}
 1 & 0 \\
 0 & r(l)^2
-\end{bmatrix} $$
+\end{bmatrix}
+$$
 
-I still dont fully understand the justification for dropping $r(l)$ from the components of $g_{uv}$ considering its in our jacobian, tbh.
 
 ## Christoffel Symbols
 
@@ -138,11 +234,9 @@ $$\begin{align*}
 &\Gamma^\theta_{\theta l} = \Gamma^\theta_{l \theta} = \frac{r(l)}{r'(l)}
 \end{align*}$$
 
-## Null Geodesics
+## Geodesics
 We now have everything we need to compute our geodesics! But first, lets describe what they are.
 **Geodesics** are the "straightest possible" paths through curved spacetime — meaning a particle or ray moving along one experiences **no proper acceleration**. In other words, geodesics are the paths that extremize the interval $ds^2=0$, and they are solutions to the geodesic equation involving the metric and Christoffel symbols.
-
-A **null geodesic** is a special type of geodesic where the spacetime interval is zero. These paths are followed by **massless particles** like light. Null geodesics trace how light propagates through spacetime, bending in response to curvature caused by mass and energy.
 
 $$\frac{d^2 x^\alpha}{d\lambda^2 } + \Gamma^\alpha_{\beta\gamma} \frac{dx^\beta}{d\lambda} \frac{dx^\gamma}{d\lambda} = 0$$
 
@@ -152,7 +246,7 @@ $$\begin{align*}
 \end{align*}$$
 
 ## Implementation
-Our null geodesics are a system of 2nd order ordinary differential equations. Solving these analytically as very difficult and in many cases impossible. Thankfully we don't need a general solution to our geodesic equation. We can use a technique called **numerical integration**. The idea is simple, instead of trying to find a parametric equation where we can calculate the coordinate at param 500 along a path, we can just take 500 tiny steps along the path.
+Our geodesics are a system of 2nd order ordinary differential equations. Solving these analytically as very difficult and in many cases impossible. Thankfully we don't need a general solution to our geodesic equation. We can use a technique called **numerical integration**. The idea is simple, instead of trying to find a parametric equation where we can calculate the coordinate at param 500 along a path, we can just take 500 tiny steps along the path.
 The simplest form of numerical integration is called **Eulers method**:
 
 $$\begin{align*}
@@ -188,7 +282,7 @@ $$x_{n+1} = x_n + \frac{h}{6}(k_1 + 2k_2 + 2k_3 + k_4)$$
 
 Each $k_n$​ is a derivative estimate. RK4 combines them to get a better average slope for the whole step.
 
-We will be using either **Symplectic Euler** or **RK4** to solve our null geodesics (and other systems of ODEs) depending on the situation.
+We will be u\sing either **Symplectic Euler** or **RK4** to solve our null geodesics (and other systems of ODEs) depending on the situation.
 
 Once a ray has been marched remember to convert from our new polar coordinate system $(l,\theta)$ to the classical polar coordinate $(r,\theta)$ by applying our shape function to $l$.
 
@@ -346,13 +440,13 @@ $$
 ## 3D Implementation
 In principal, bringing this to 3D is a matter of rederiving everything in spherical coordinates. While true, there are quite a few gotchas to avoid due to some quirks about the spherical coordinate system and the extra degree of freedom.
 
-The first think we decide is which coordinate system we are using.
-In cartesian space (for rendering in OpenGL) we will be using a right-handed y-up coordinate system. We must keep this in mind during our derivation.
+The first think we decide is which coordinate system we are u\sing.
+In cartesian space (for rendering in OpenGL) we will be u\sing a right-handed y-up coordinate system. We must keep this in mind during our derivation.
 
 $$\begin{align*}
-&x = r(l)sin{\theta}cos(\phi \\
-&y = r(l)cos{\theta} \\
-&z = r(l)sin{\theta}sin{\phi}
+&x = r(l)\sin{\theta}\cos(\phi \\
+&y = r(l)\cos{\theta} \\
+&z = r(l)\sin{\theta}\sin{\phi}
 \end{align*}$$
 
 Here, $\theta$ is the polar angle ranging from $[0,\pi]$, and $\phi$ is the azimuthal angle ranging from $[0, 2\pi]$ which rotates around the vertical y-axis.
@@ -365,18 +459,18 @@ $$J: (l, \theta, \phi) \mapsto (x, y, z) =
 \end{bmatrix}$$
 
 $$\begin{align*}
-&{\frac{\partial x}{\partial l}} = r'(l)sin{\theta}cos{\phi} \quad\quad
-&{\frac{\partial x}{\partial \theta}} = r(l)cos{\theta}cos{\phi} \quad\quad
-&{\frac{\partial x}{\partial \phi}} = -r(l)sin{\theta}sin{\phi} \\
-&{\frac{\partial y}{\partial l}} = r'(l)cos{\theta} \quad\quad
-&{\frac{\partial y}{\partial \theta}} = -r(l)sin{\theta} \quad\quad
+&{\frac{\partial x}{\partial l}} = r'(l)\sin{\theta}\cos{\phi} \quad\quad
+&{\frac{\partial x}{\partial \theta}} = r(l)\cos{\theta}\cos{\phi} \quad\quad
+&{\frac{\partial x}{\partial \phi}} = -r(l)\sin{\theta}\sin{\phi} \\
+&{\frac{\partial y}{\partial l}} = r'(l)\cos{\theta} \quad\quad
+&{\frac{\partial y}{\partial \theta}} = -r(l)\sin{\theta} \quad\quad
 &{\frac{\partial y}{\partial \phi}} = 0.0 \\
-&{\frac{\partial z}{\partial l}} = r'(l)sin{\theta}sin{\phi} \quad\quad
-&{\frac{\partial z}{\partial \theta}} = r(l)cos{\theta}sin{\phi} \quad\quad
-&{\frac{\partial z}{\partial \phi}} = r(l)sin{\theta}cos{\phi} \\
+&{\frac{\partial z}{\partial l}} = r'(l)\sin{\theta}\sin{\phi} \quad\quad
+&{\frac{\partial z}{\partial \theta}} = r(l)\cos{\theta}\sin{\phi} \quad\quad
+&{\frac{\partial z}{\partial \phi}} = r(l)\sin{\theta}\cos{\phi} \\
 \end{align*}$$
 
-This kinda blows up the complexity of our metric tensor. Instead of expressing it as a matrix, here is the formula for each component using eistein notation:
+This kinda blows up the complexity of our metric tensor. Instead of expres\sing it as a matrix, here is the formula for each component u\sing eistein notation:
 
 $$g_\mu\nu = \frac{\partial\vec{x}}{\partial q^\mu} \frac{\partial\vec{x}}{\partial q^\nu}$$
 
@@ -396,60 +490,60 @@ $$
 
 $$\begin{align*}
 g_{l\theta} &= \frac{\partial\vec{x}}{\partial{l}} \cdot \frac{\partial\vec{x}}{\partial{\theta}} =
-\begin{bmatrix} sin{\theta}cos{\phi} \\ cos{\theta} \\ sin{\theta}sin{\phi}\end{bmatrix}
+\begin{bmatrix} \sin{\theta}\cos{\phi} \\ \cos{\theta} \\ \sin{\theta}\sin{\phi}\end{bmatrix}
 \cdot
-\begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix} \\
-&= r(l)sin{\theta}cos{\theta}cos^2(\phi) - r(l)sin{\theta}cos{\theta} + r(l)sin{\theta}cos{\theta}sin^2(\phi) \\
-&= r(l)sin{\theta}cos{\theta}(cos^2(\phi) + sin^2(\phi)) - r(l)sin{\theta}cos{\theta} \\
-&= r(l)sin( \theta )cos( \theta ) - r(l)sin{\theta}cos{\theta} \\
+\begin{bmatrix} r(l)\cos{\theta}\cos{\phi} \\ -r(l)\sin{\theta} \\ r(l)\cos{\theta}\sin{\phi}\end{bmatrix} \\
+&= r(l)\sin{\theta}\cos{\theta}\cos^2(\phi) - r(l)\sin{\theta}\cos{\theta} + r(l)\sin{\theta}\cos{\theta}\sin^2(\phi) \\
+&= r(l)\sin{\theta}\cos{\theta}(\cos^2(\phi) + \sin^2(\phi)) - r(l)\sin{\theta}\cos{\theta} \\
+&= r(l)\sin( \theta )\cos( \theta ) - r(l)\sin{\theta}\cos{\theta} \\
 &= 0 = g_{\theta l}
 \end{align*}$$
 
 
 $$\begin{align*}
 g_{l\phi} &= \frac{\partial\vec{x}}{\partial{l}} \cdot \frac{\partial\vec{x}}{\partial{\phi}} =
-\begin{bmatrix} sin{\theta}cos{\phi} \\ cos{\theta} \\ sin{\theta}sin{\phi}\end{bmatrix}
+\begin{bmatrix} \sin{\theta}\cos{\phi} \\ \cos{\theta} \\ \sin{\theta}\sin{\phi}\end{bmatrix}
 \cdot
-\begin{bmatrix} -r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix} \\
-&=-r(l)sin^2(\theta)cos{\phi}sin{\phi} + r(l)sin^2{\theta}sin{\phi}cos{\phi} \\
+\begin{bmatrix} -r(l)\sin{\theta}\sin{\phi} \\ 0 \\ r(l)\sin{\theta}\cos{\phi}\end{bmatrix} \\
+&=-r(l)\sin^2(\theta)\cos{\phi}\sin{\phi} + r(l)\sin^2{\theta}\sin{\phi}\cos{\phi} \\
 &= 0 = g_{\phi l}
 \end{align*}$$
 
 $$\begin{align*}
 g_{\theta\theta} &= \frac{\partial\vec{x}}{\partial{\theta}} \cdot \frac{\partial\vec{x}}{\partial{\theta}} = 
-\begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix}
+\begin{bmatrix} r(l)\cos{\theta}\cos{\phi} \\ -r(l)\sin{\theta} \\ r(l)\cos{\theta}\sin{\phi}\end{bmatrix}
 \cdot
-\begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix} \\
-&= r(l)^2cos^2(\theta)cos^2{\phi} + r(l)^2cos^2( \theta )sin^2(\phi) + r(l)^2sin^2(\theta) \\
-&= r(l)^2cos^2(\theta)(cos^2(\phi) + sin^2(\phi)) + r(l)^2sin^2(\theta) \\
-&= r(l)^2(cos^2(\theta)+sin^2(\theta)) \\
+\begin{bmatrix} r(l)\cos{\theta}\cos{\phi} \\ -r(l)\sin{\theta} \\ r(l)\cos{\theta}\sin{\phi}\end{bmatrix} \\
+&= r(l)^2\cos^2(\theta)\cos^2{\phi} + r(l)^2\cos^2( \theta )\sin^2(\phi) + r(l)^2\sin^2(\theta) \\
+&= r(l)^2\cos^2(\theta)(\cos^2(\phi) + \sin^2(\phi)) + r(l)^2\sin^2(\theta) \\
+&= r(l)^2(\cos^2(\theta)+\sin^2(\theta)) \\
 &= r(l)^2
 \end{align*}$$
 
 
 $$\begin{align*}
 g_{\theta\phi} &= \frac{\partial\vec{x}}{\partial{\theta}} \cdot \frac{\partial\vec{x}}{\partial{\phi}} = 
-\begin{bmatrix} r(l)cos{\theta}cos{\phi} \\ -r(l)sin{\theta} \\ r(l)cos{\theta}sin{\phi}\end{bmatrix}
+\begin{bmatrix} r(l)\cos{\theta}\cos{\phi} \\ -r(l)\sin{\theta} \\ r(l)\cos{\theta}\sin{\phi}\end{bmatrix}
 \cdot
-\begin{bmatrix} r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix} \\
-&= -r(l)^2sin{\theta}cos{\theta}sin{\phi}cos{\phi} + r(l)^2sin{\theta}cos{\theta}sin{\phi}cos{\phi} \\
+\begin{bmatrix} r(l)\sin{\theta}\sin{\phi} \\ 0 \\ r(l)\sin{\theta}\cos{\phi}\end{bmatrix} \\
+&= -r(l)^2\sin{\theta}\cos{\theta}\sin{\phi}\cos{\phi} + r(l)^2\sin{\theta}\cos{\theta}\sin{\phi}\cos{\phi} \\
 &= 0 = g_{\phi\theta}
 \end{align*}$$
 
 $$\begin{align*}
 g_{\phi\phi} &= \frac{\partial\vec{x}}{\partial{\phi}} \cdot \frac{\partial\vec{x}}{\partial{\phi}} = 
-\begin{bmatrix} -r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix}
+\begin{bmatrix} -r(l)\sin{\theta}\sin{\phi} \\ 0 \\ r(l)\sin{\theta}\cos{\phi}\end{bmatrix}
 \cdot
-\begin{bmatrix} -r(l)sin{\theta}sin{\phi} \\ 0 \\ r(l)sin{\theta}cos{\phi}\end{bmatrix} \\
-&= r(l)^2sin^2(\theta)sin^2(\phi) + r(l)sin^2(\theta)cos^2(\phi) \\
-&= r(l)^2sin^2(\theta)(sin^2(\phi) + cos^2(\phi)) \\
-&= r(l)^2sin^2(\theta)
+\begin{bmatrix} -r(l)\sin{\theta}\sin{\phi} \\ 0 \\ r(l)\sin{\theta}\cos{\phi}\end{bmatrix} \\
+&= r(l)^2\sin^2(\theta)\sin^2(\phi) + r(l)\sin^2(\theta)\cos^2(\phi) \\
+&= r(l)^2\sin^2(\theta)(\sin^2(\phi) + \cos^2(\phi)) \\
+&= r(l)^2\sin^2(\theta)
 \end{align*}$$
 
 $$\dot{.\hspace{.05in}.} \quad g =\begin{bmatrix}
 1 & 0 & 0 \\
 0 & r(l)^2 & 0 \\
-0 & 0 & r(l)^2sin{\theta}
+0 & 0 & r(l)^2\sin{\theta}
 \end{bmatrix} $$
 
 $$
@@ -457,12 +551,12 @@ $$
 \begin{bmatrix}
 1 & 0 & 0 \\
 0 & \frac{1}{r(l)^2} & 0 \\
-0 & 0 & \frac{1}{r(l)^2sin{\theta}}
+0 & 0 & \frac{1}{r(l)^2\sin{\theta}}
 \end{bmatrix}
 $$
 
 ## Christoffel Symbols
-That was brutal. But that is nothing compared to calculating all the non-zero christoffel symbols. In 3D there can be up to 18 of them! Since our metric tensor is a diagonal matrix, we can expect to only get 9 of them.
+That was brutal. But that is nothing compared to calculating all the non-zero christoffel symbols. In 3D there can be up to 18 of them! \since our metric tensor is a diagonal matrix, we can expect to only get 9 of them.
 
 Recall from earlier:
 
@@ -477,15 +571,15 @@ $$
 &\Gamma^\theta_{l\theta} = \frac{1}{2}(\frac{1}{r(l)^2})((\frac{\partial}{\partial l}(r(l)^2) + 0 - 0 ) + 0 + 0) = \frac{2r'(l)r(l)}{2r(l)^2} = \frac{r'(l)}{r(l)} \\
 &\Gamma^\theta_{l\phi} = 0 = \Gamma^\theta_{\phi l} \\
 &\Gamma^l_{\theta\theta} = \frac{1}{2}(1)((\partial_\theta0 + \partial_\theta0 - \partial_lr(l)^2 )+0+0) = \frac{1}{2}(-2r'(l)r(l)) = -r'(l)r(l) \\
-&\Gamma^l_{\phi\phi} = \frac{1}{2}(1)(\partial_lr(l)^2sin^2(\theta)) = \frac{1}{2}(-2r'(l)r(l)sin^2(\theta)) = -r'(l)r(l)sin^2(\theta) \\
+&\Gamma^l_{\phi\phi} = \frac{1}{2}(1)(\partial_lr(l)^2\sin^2(\theta)) = \frac{1}{2}(-2r'(l)r(l)\sin^2(\theta)) = -r'(l)r(l)\sin^2(\theta) \\
 &\Gamma^\theta_{\theta\theta} = \frac{1}{2}(\frac{1}{r(l)^2}(0)) = 0 \\
 &\Gamma^\theta_{\theta\phi} = \frac{1}{2}(\frac{1}{r(l)^2}(0)) = 0 = \Gamma^\theta_{\phi\theta} \\
-&\Gamma^\phi_{l l} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)}(0)) = 0 \\
-&\Gamma^\phi_{l \theta} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)}(0)) = 0 = \Gamma^\phi_{\theta l} \\
-&\Gamma^\phi_{l \phi} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)})(\partial_l(r(l)^2sin^2(\theta))) = \frac{2r'(l)r(l)sin^2(\theta)}{2r(l)^2sin^2(\theta)} = \frac{r'(l)}{r(l)} = \Gamma^\phi_{\phi l}\\
-&\Gamma^\phi_{\theta \theta} = \frac{1}{2}(\frac{1}{r(l)^2sin^2(\theta)}(0)) = 0 \\
-&\Gamma^\phi_{\theta \phi} = \frac{1}{2}(\frac{1}{r(l)^2\sin^2(\theta)})(\partial_\theta(r(l)^2\sin^2(\theta))) = \frac{2r(l)^2\sin{\theta}cos{\theta}}{2r(l)^2\sin^2(\theta)} = \cot \theta = \Gamma^\phi_{\phi\theta} \\
-&\Gamma^\theta_{\phi\phi} = \frac{1}{2}(\frac{1}{r(l)^2})(-\partial_\theta(r(l)^2sin^2(\theta))) = \frac{-2r(l)^2sin{\theta}cos{\theta}}{2r(l)^2} = -sin{\theta}cos{\theta} \\
+&\Gamma^\phi_{l l} = \frac{1}{2}(\frac{1}{r(l)^2\sin^2(\theta)}(0)) = 0 \\
+&\Gamma^\phi_{l \theta} = \frac{1}{2}(\frac{1}{r(l)^2\sin^2(\theta)}(0)) = 0 = \Gamma^\phi_{\theta l} \\
+&\Gamma^\phi_{l \phi} = \frac{1}{2}(\frac{1}{r(l)^2\sin^2(\theta)})(\partial_l(r(l)^2\sin^2(\theta))) = \frac{2r'(l)r(l)\sin^2(\theta)}{2r(l)^2\sin^2(\theta)} = \frac{r'(l)}{r(l)} = \Gamma^\phi_{\phi l}\\
+&\Gamma^\phi_{\theta \theta} = \frac{1}{2}(\frac{1}{r(l)^2\sin^2(\theta)}(0)) = 0 \\
+&\Gamma^\phi_{\theta \phi} = \frac{1}{2}(\frac{1}{r(l)^2\sin^2(\theta)})(\partial_\theta(r(l)^2\sin^2(\theta))) = \frac{2r(l)^2\sin{\theta}\cos{\theta}}{2r(l)^2\sin^2(\theta)} = \cot \theta = \Gamma^\phi_{\phi\theta} \\
+&\Gamma^\theta_{\phi\phi} = \frac{1}{2}(\frac{1}{r(l)^2})(-\partial_\theta(r(l)^2\sin^2(\theta))) = \frac{-2r(l)^2\sin{\theta}\cos{\theta}}{2r(l)^2} = -\sin{\theta}\cos{\theta} \\
 \end{align*}
 $$
 
@@ -493,8 +587,8 @@ And finally we have our non-zero christoffel symbols:
 
 $$\begin{align*}
 &\Gamma^l_{\theta\theta} = -r'(l)r(l) \quad
-&\Gamma^l_{\phi\phi} = -r'(l)r(l)sin^2(\theta) \\
-&\Gamma^\theta_{\phi\phi} = -sin{\theta}cos{\theta} \quad
+&\Gamma^l_{\phi\phi} = -r'(l)r(l)\sin^2(\theta) \\
+&\Gamma^\theta_{\phi\phi} = -\sin{\theta}\cos{\theta} \quad
 &\Gamma^\theta_{l\theta} = \Gamma^\theta_{\theta l} = \frac{r'(l)}{r(l)} \\
 &\Gamma^\phi_{l\phi} = \Gamma^\phi_{\phi l} = \frac{r'(l)}{r(l)} \quad
 &\Gamma^\phi_{\theta\phi} = \Gamma^\phi_{\phi\theta} = \frac{r'(l)}{r(l)}
@@ -509,10 +603,10 @@ $$\frac{d^2 x^\alpha}{d\lambda^2 } + \Gamma^\alpha_{\beta\gamma} \frac{dx^\beta}
 $$
 \begin{align*}
 &\frac{d^2l}{d\lambda^2} + \Gamma^l_{\theta\theta}(\frac{d\theta}{d\lambda}\frac{d\theta}{d\lambda^2}) + \Gamma^l_{\phi\phi}(\frac{d\phi}{d\lambda}\frac{d\phi}{d\lambda}) = 0 \\
-\Rightarrow &\frac{d^2l}{d\lambda^2} = r(l)'r(l)\theta'' + r'(l)r(l)sin^2(\theta)(\phi')^2 = \\
-&r'(l)r(l)(\theta'' + sin^2(\theta)(\phi')^2) \\\\
-&\frac{d^2\theta}{d\lambda^2} + 2\frac{r'(l)}{r(l)}l'\theta' - sin{\theta}cos{\theta}(\phi')^2 = 0 \\
-\Rightarrow&\frac{d^2\theta}{d\lambda^2} = -2\frac{r'(l)}{r(l)}l'\theta' + sin{\theta}cos{\theta}(\phi')^2 \\\\
+\Rightarrow &\frac{d^2l}{d\lambda^2} = r(l)'r(l)\theta'' + r'(l)r(l)\sin^2(\theta)(\phi')^2 = \\
+&r'(l)r(l)(\theta'' + \sin^2(\theta)(\phi')^2) \\\\
+&\frac{d^2\theta}{d\lambda^2} + 2\frac{r'(l)}{r(l)}l'\theta' - \sin{\theta}\cos{\theta}(\phi')^2 = 0 \\
+\Rightarrow&\frac{d^2\theta}{d\lambda^2} = -2\frac{r'(l)}{r(l)}l'\theta' + \sin{\theta}\cos{\theta}(\phi')^2 \\\\
 &\frac{d^2\phi}{d\lambda^2} + \frac{r'(l)}{r(l)}l'\phi' - \frac{r'(l)}{r(l)}\phi'l' + cot{\theta}\theta'\phi' + cot{\theta}\theta'\phi' = 0 \\
 \Rightarrow&\frac{d^2\phi}{d\lambda^2} = -2\frac{r'(l)}{r(l)}l'\phi' - 2cot{\theta}\theta'\phi'
 \end{align*}
@@ -527,11 +621,11 @@ $$\frac{dv^\mu}{d\lambda} = -\Gamma^\mu_{\nu\rho} v^\nu \frac{dx^\rho}{d\lambda}
 $$
 \begin{align*}
 \frac{dv^l}{d\lambda} &= -\Gamma^l_{\theta\theta}v^\theta\theta' - \Gamma^l_{\phi\phi}v^\phi\phi' \\
-&= r'(l)r(l)v^\theta\theta' + r'(l)r(l)sin{\theta}v^\phi\phi' \\
-&= r'(l)r(l)(v^\theta\theta' + sin^2(\theta)v^\phi\phi')
+&= r'(l)r(l)v^\theta\theta' + r'(l)r(l)\sin{\theta}v^\phi\phi' \\
+&= r'(l)r(l)(v^\theta\theta' + \sin^2(\theta)v^\phi\phi')
 \\\\
 \frac{dv^\theta}{d\lambda} &= -\Gamma^\theta_{l\theta}v^l\theta' - \Gamma^\theta_{\theta l}v^\theta l' - \Gamma^\theta_{\phi\phi}v^\phi\phi' \\
-&= -\frac{r'(l)}{r(l)}(v^l\theta' + v^\theta l') + sin{\theta}cos{\phi}v^\phi\phi'
+&= -\frac{r'(l)}{r(l)}(v^l\theta' + v^\theta l') + \sin{\theta}\cos{\phi}v^\phi\phi'
 \\\\
 \frac{dv^\phi}{d\lambda} &= -\Gamma^\phi_{l\phi}v^l\phi' - \Gamma^\phi_{\phi l}v^\phi l' - \Gamma^\phi_{\theta\phi}v^\theta\phi' - \Gamma^\phi_{\phi\theta}v^\phi\theta' \\
 &= -\frac{r'(l)}{r(l)}(v^l\phi' + v^\phi l') + cot{\theta}(v^\theta\phi + v^\phi\theta')
@@ -562,7 +656,7 @@ Like in the 2D case, we need to build a minkowskian tangent frame for our observ
 	}
 ```
 
-And just like in the 2D case, we parallel transport the columns of the tetrad as the camera moved through curved space and re-orthonormalize with repsect to the metric using **Reletavistic Gram-Schmidt**.
+And just like in the 2D case, we parallel transport the columns of the tetrad as the camera moved through curved space and re-orthonormalize with repsect to the metric u\sing **Reletavistic Gram-Schmidt**.
 
 
 ## Rendering
@@ -615,7 +709,7 @@ From a physics perspective a **Lagrangian** is a function for how a system evolv
 To do this we will use the squared distance lagrangian: $g_{\mu\nu} q'^\mu q'^\nu$.
 
 $$
-\mathcal{L}(l, \theta, \phi, l', \theta', \phi') = g_{\mu\nu} q'^\mu q'^\nu = l'^2 + r(l)^2\theta'^2 + r(l)^2 sin^2\theta \phi'^2
+\mathcal{L}(l, \theta, \phi, l', \theta', \phi') = g_{\mu\nu} q'^\mu q'^\nu = l'^2 + r(l)^2\theta'^2 + r(l)^2 \sin^2\theta \phi'^2
 $$
 
 Now we can apply Euler-Lagrange to get geodesic equations.
@@ -654,7 +748,7 @@ $$
 \begin{align*}
 &p_{l} = \frac{\partial\mathcal{L}}{\partial l'} = 2l' \\
 &p_{\theta} = \frac{\partial\mathcal{L}}{\partial \theta'} = 2r(l)^2 \theta' \\
-&p_{\phi} = \frac{\partial\mathcal{L}}{\partial \phi'} = 2r(l)^2sin^2\theta\phi' \theta' 
+&p_{\phi} = \frac{\partial\mathcal{L}}{\partial \phi'} = 2r(l)^2\sin^2\theta\phi' \theta' 
 \end{align*}
 $$
 
@@ -664,7 +758,7 @@ $$
 \begin{align*}
 &l' = \frac{p_l}{2} \\
 &\theta' = \frac{p_\theta}{2r(l)^2} \\
-&\phi' = \frac{p_\phi}{2r(l)^2sin^2\theta}
+&\phi' = \frac{p_\phi}{2r(l)^2\sin^2\theta}
 \end{align*}
 $$
 
@@ -673,11 +767,11 @@ Define the Hamiltonian for the system:
 $$
 \begin{align*}
 \mathcal{H} &= p_q q' - \mathcal{L} \\
-\mathcal{H} &= \frac{1}{4}( p_l^2 + \frac{p_\theta^2}{r(l)^2} + \frac{p_\phi^2}{r(l)^2sin^2\theta} )
+\mathcal{H} &= \frac{1}{4}( p_l^2 + \frac{p_\theta^2}{r(l)^2} + \frac{p_\phi^2}{r(l)^2\sin^2\theta} )
 \end{align*}
 $$
 
-Now evolve the system using the Hamiltonian equations of motion:
+Now evolve the system u\sing the Hamiltonian equations of motion:
 
 $$
 q'^i = \frac{\partial\mathcal{H}}{\partial p_i} \quad\quad p'^i = -\frac{\partial\mathcal{H}}{\partial q_i}
@@ -685,132 +779,135 @@ $$
 
 $$
 \begin{align*}
-&p'_l = \frac{r'(l)}{2r^(l)^3}(p^2_\theta + \frac{p^2_\phi}{sin^2\theta}) \\
-&p_\theta' = \frac{cos\theta}{2r(l)^2sin^3\theta}(p^2_\phi) \\
+&p'_l = \frac{r'(l)}{2r^(l)^3}(p^2_\theta + \frac{p^2_\phi}{\sin^2\theta}) \\
+&p_\theta' = \frac{\cos\theta}{2r(l)^2\sin^3\theta}(p^2_\phi) \\
 &p_\phi' = 0
 \end{align*}
 $$
 
-While these first order derivatives allow for better numerical stability, once big catch is that they are not compatible with variable step sizes which is a pretty big performance hit. Furthurmore, variable step sizes during numerical integration combined with better numerical integrators give you the same stability that these equations offer.
+# Signed Radius Coordinate System
 
-A big downside of the Spherical Coordinate system is the presense of coordinate singularities where $\theta = 0$ and $\pi$.
-One option to avoid them is to convert to Cartesian Coordinates. Doing this with the 2nd order geodesic equations is very difficult and yeilds monster expressions, but doing it with the Hamiltonian equations seemed more doable. The derivation below converts a 2D wormhole system from polar to cartesian. Polar coordinates have a coordinate singularity at the origin. Converting to cartesian would theoretically address this issue.
+The big problem with our approach (both with the Hamiltonian equations of motion and the 2nd order geodesic equations), is that we are using a modified spherical coordinate system that contains a coordinate singularity at the poles. While integrating a curve through the pole is smooth for the $l$ and $\theta$ terms, there is a discontinuity for the $\phi$ therm. For $\partial\phi$ this results in an infinitly high derivative. Look around and you will see $\sin\theta$ is in the denominator of many of the $\phi$ expressions.
+
+This can be seen visually in our raymarcher shader as a vertical artifact coming out of both poles of the wormhole. Decresing the step size might make the artifact smaller, but at the cost of high computation. A source of the visual artifacting is in the floating point precision near the poles and accumulating sub-steps in the RK integration. Switching to simple Euler integration when stepping across the pole may help minimize this effect, but nothing fully gets rid of it.
+
+The solution is to transform our equations to a new coordinate system that does not have this discontinuity.
+
+Here we define a *Signed Radius Coordinate* $(l, n)$ where $l$ is the signed distance to the throat (positive distance is on one sheet of the manifold, and negative is on the other), and $n$ is a unit normal vector pointing to the observer
+
+
+First we start with the definition of $n$. Here $n$ is a vector which can be expressed as a linear combination of basis vectors $e_\mu$.
 
 $$
 \begin{align*}
-\text{Shape Function} \quad\quad r(l) = \sqrt{l^2 + r_0^2} \\
-\text{Metric} \quad\quad g_{\mu,\nu}(l, \theta) = \begin{bmatrix}
-1 & 0 \\
-0 & r(l)^2
-\end{bmatrix} \\
-\text{Inverse Metric} \quad\quad \mathfrak{g}^{\mu\nu} =
-\begin{bmatrix}
-1 & 0 \\
-0 & \frac{1}{r(l)^2}
-\end{bmatrix} \\
-\text{Hamiltonian} \quad\quad \mathcal{H} = \frac{1}{2}({p_l^2 + \frac{p_\theta^2}{r(l)^2}}) \\
-\text{Hamiltons Equations} \quad \frac{dx^\mu}{d\lambda} = \frac{\partial \mathcal{H}}{\partial p_\mu} \quad,\quad \frac{dp_\mu}{d\lambda} = -\frac{\mathcal{H}}{\partial x^\mu}
+n &= \begin{pmatrix} \sin\theta\cos\phi \quad \sin\theta\sin\phi \quad \cos\theta \end{pmatrix}
+\\
+&= \sin\theta\cos\phi e_l + \sin\theta\sin\phi e_\theta + \cos\theta e_\phi
 \end{align*}
 $$
 
-Now we conver $\mathcal{H}$ to Cartesian.
+We take the derivative
+
+$$
+n' = \theta' e_\theta + \sin\theta \phi' e_\phi
+$$
+
+We know angular velocity is the angular velocity terms scaled by the radius.
+
+$$
+\text{angular velocity} = r n'
+$$
+
+And from Newton's second law:
+
+$$
+\text{angular momentum} = L = r^2 n \times n'
+$$
+
+Notice what happens to angular cannonical momenta:
 
 $$
 \begin{align*}
-&x = r(l)cos\theta \\
-&y = r(l)sin\theta
-\end{align*}
-$$
-
-Let's define
-
-$$
-\vec{x} = \begin{bmatrix} x \\ y \end{bmatrix}
-$$
-
-and re-express $\mathcal{H}(x, y, p_x, p_y)$.
-
-$$
-\hat{n} = \begin{bmatrix} cos{\theta} \\ sin{\theta} \end{bmatrix} \\
-J = \begin{bmatrix}
-&r'cos\theta & -rsin\theta \\
-&r'sin\theta & rcos\theta
-\end{bmatrix} \\
-\begin{bmatrix} p_l \\ p_\theta\end{bmatrix} = J^{-1} \begin{bmatrix} p_x \\ p_y\end{bmatrix}
-$$
-
-which gives:
-
-$$
-\begin{align*}
-&p_l = r'( p_x cos{\theta} + p_y sin\theta ) = r'(\hat{n} \cdot \vec{p}) \\
-&p_\theta = -rsin\theta p_x + rcos\theta p_y = r(\hat{n}_\perp \cdot \vec{p})
+p_\theta &= 2r^2 \theta'
+\\
+p_\phi &= 2r^2 \sin^2{\theta} \phi'
 \end{align*}
 $$
 
 $$
-\mathcal{H} = \frac{1}{2}(p_l^2 + \frac{p_\theta^2}{r^2}) =
-\frac{1}{2}(r'^2(\vec{p} \cdot \hat{n})^2 + (\hat{n_\perp \cdot \vec{p}})^2) \\
+\dot{.\hspace{.05in}.} \quad L = \frac{1}{2} ( p_\theta e_\phi - \sin^{-1}{\theta} p_\phi e_\theta )
 $$
 
-Now evolve the rays wit $\frac{dx}{d\lambda} = \frac{\partial\mathcal{H}}{\partial p_x}$ and $\frac{dp_x}{d\lambda} = -\frac{\partial\mathcal{H}}{\partial x}$.
-
-$$
-\begin{align*}
-\text{define:} \quad\quad &p_\parallel = \vec{p} \cdot \hat{n} = r'(p_x x + p_y y) \\
-&p_\perp = \vec{p} \cdot \hat{n}_\perp = r'( -p_x y + p_y x )
-\end{align*}
-$$
-
-$$
-\dot{.\hspace{.05in}.} \quad \mathcal{H} = \frac{1}{2} ( (\frac{r'}{r}p_\parallel )^2 + p_{\perp}^2 )
-$$
+The magnitude of $L$ satisfies:
 
 $$
 \begin{align*}
-&\frac{p_{\parallel}}{\partial p_x} = \frac{x}{r} \quad &\frac{\partial p_\parallel}{\partial p_y} = \frac{y}{r} \\
-&\frac{p_{\perp}}{\partial p_x} = -\frac{y}{r} \quad &\frac{\partial p_\perp}{\partial p_y} = \frac{x}{r}
+L^2 &= r^4 ( \theta'^2 + \sin^2{\theta} \phi'^2 )
+\\
+&= \frac{1}{4}( p^2_{\theta} + p^2_\phi \sin^{-2}{\theta} ) 
 \end{align*}
 $$
 
-$$
-\begin{align*}
-&\frac{\partial\mathcal{H}}{\partial p_x} = (\frac{r'}{r})^2p_{\parallel} \cdot \frac{\partial p_\parallel}{\partial p_x} + p_\perp \cdot \frac{\partial p_\perp}{\partial p_x} = (\frac{r'}{r})^2 p_\parallel \frac{x}{r} + p_\perp \frac{-y}{r} = \frac{dx}{d\lambda} \\
-&\frac{\partial\mathcal{H}}{\partial p_y} = (\frac{r'}{r})^2 p_\parallel \frac{y}{r} + p_\perp \frac{x}{r} = \frac{dy}{d\lambda}
-\end{align*}
-$$
+### Radial Equation
 
-$\frac{\partial\mathcal{H}}{\partial x}$ and $\frac{\partial\mathcal{H}}{\partial y}$ are harder because $r$ and $r'$ depend on $x$ and $y$ and so do $p_\parallel$ and $p_\perp$.
+Recall radial velocity in terms of momenta:
 
 $$
-r = \sqrt{x^2 + y^2} \Rightarrow \frac{\partial r}{\partial x} = \frac{x}{r} \quad\text{and}\quad \frac{\partial r}{\partial y} = \frac{y}{r} \\
-A = (\frac{r'}{r})^2 = 1 - (\frac{r_0}{r})^2
+l' = \frac{p_l}{2}
 $$
 
-$$
-\frac{\partial A}{\partial x} = \frac{dA}{dr} \cdot \frac{\partial r}{\partial x} = \frac{2r_0^2}{r^3} \cdot \frac{x}{r} = \frac{2r_0^2 x}{r^4} \\
-\frac{\partial A}{\partial y} = \frac{2r_0^2 y}{r^4}
-$$
+Substitute into cannonical radial momentum equation:
 
 $$
-\begin{align*}
-&\frac{\partial P_\parallel}{\partial x} = \frac{1}{r}p_x - \frac{x}{r^3}(p_x x + p_y y) = \frac{1}{r}p_x - \frac{x}{r^2}P_{\parallel} \\
-&\frac{\partial P_\perp}{\partial y} = \frac{1}{r}p_y - \frac{x}{r^2}P_{\perp}
-\end{align*}
+p'_l = \frac{r'}{2r^3}(p_\theta^2 + \frac{p_\phi^2}{\sin^2{\theta}})
+$$
+
+u\sing
+
+$$
+p_\theta^2 + \frac{p_\phi^2}{\sin^2{\theta}} = 4L^2
+$$
+
+we get
+
+$$
+p'_l = \frac{r'}{2r^3}(4L^2) = 2 \frac{r'L^2}{r^3}
+$$
+
+
+### Angular Equation
+
+Remember
+
+$$
+L = r^2 n \times n'
 $$
 
 $$
 \begin{align*}
-\frac{\partial p_x}{\partial \lambda} = -\frac{\partial\mathcal{H}}{\partial x} &= -\frac{1}{2}(\frac{2r_0^2 x}{r^4}P_{\parallel}^2 + 2AP_{\parallel}(\frac{1}{r}p_x - \frac{x}{r^2}P_{\parallel}) + 2P_{\perp}(\frac{1}{r}p_y - \frac{x}{r^2}P_{\perp})) \\
-&= -( \frac{r_0^2x}{r^4} P_{\parallel}^2 + AP_{\parallel}(\frac{1}{r}p_x - \frac{x}{r^2}P_{\parallel}) + P_{\perp}(\frac{1}{r}p_y - \frac{y}{r^2}P_{\perp}) )
+L \times n &= r^2(n \times n') \times n
+\\
+&= r^2 n'
 \end{align*}
 $$
+
+$$
+\dot{.\hspace{.05in}.} \quad n' = \frac{L \times n}{r^2}
+$$
+
+
+### Equations of Motion
+
+As you can see, this coordinate conversion also simplifies the equations of motion beautifully!
 
 $$
 \begin{align*}
-\frac{\partial p_y}{\partial \lambda} = -\frac{\partial\mathcal{H}}{\partial y}
-&= -( \frac{r_0^2y}{r^4} P_{\parallel}^2 + AP_{\parallel}(\frac{1}{r}p_y - \frac{y}{r^2}P_{\parallel}) + P_{\perp}(\frac{1}{r}p_y - \frac{y}{r^2}P_{\perp}) )
+l' &= \frac{p_l}{2}
+\\
+n' &= \frac{L \times n}{r^2}
+\\
+p'_l &= 2L^2\frac{r'}{r^3}
+\\
+p'_n &= L' = 0
 \end{align*}
 $$
-
-Doing this highlights a major downside of Cartesian Coordinates. It has no way of tracking geodesics through the throat. Polar Coordinates express the higher dimensional nature of a wormhole by allowing the radial coordinate to become negative. There is no mechanism like that in Cartesian. Thus, geodesics degenrate past the throat. Similar stuff would likely happen if I went ahead and converted the 3D Hamiltonian to Cartesian. This combined with the fact that the Hamiltonian equations dont allow for variable step size during integrations makes this idea a non-starter.
