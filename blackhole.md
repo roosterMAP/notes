@@ -152,9 +152,9 @@ $$
 -(r + 2m \ln\left|\frac{r}{2m} - 1\right|) + C
 $$
 
-[Graphing](https://www.desmos.com/calculator/0vj8rdktb9) multiple curves each with a different $C$ gives us an array of photon paths falling into the black hole. We can see that as r decreases, t increases, and the curve approaches a slope of nearly $-1$ far from the black hole. But t diverges as it approaches the horizon at $r=2m$. But on the other side of the horizon it seems to return to this nice slope oe $-1$.
+[Graphing](https://www.desmos.com/calculator/0vj8rdktb9) multiple curves each with a different $C$ gives us an array of photon paths falling into the black hole. We can see that as r decreases, t increases, and the curve approaches a slope of nearly $-1$ far from the black hole. It diverges as it approaches the horizon at $r=2m$, while on the other side of the horizon it seems to return to this nice slope of $-1$.
 
-It almost makes you want to pull t down from infinity to make this curve continuous through the horizon. The good news is we can do just that. It turns out that this singularity at $r=2m$ is actually a coordinate singularity and it can be removed using simple coordinate transformation.
+It almost makes you want to pull the divergent region down from infinity to make this curve continuous through the horizon. The good news is we can do just that. It turns out that this singularity at $r=2m$ is actually a coordinate singularity and it can be removed using simple coordinate transformation.
 
 Lets take our radial integral and use it to define a new term $r_\ast$. As we observed in our graph earlier, $r_\ast$ contains exactly the logarithmic divergence needed to cancel the divergence in t. As I stated above in the most hand-wavy way possible, we can "pull down" $t$ from infinity by subtracting the divergence in $r_\ast$ (for infalling rays). We do the reverse for outgoing rays.
 
@@ -854,7 +854,7 @@ $$
 \frac{d^2\theta}{d\gamma^2} &= \frac{d\Theta}{d\theta} = -\left(aE\sin\theta-\frac{\Phi}{\sin\theta}\right)
 \left(aE\cos\theta+\frac{\Phi\cos\theta}{\sin^2\theta}\right)
 +
-a^2\sin\theta\cos\theta .
+a^2\sin\theta\cos\theta
 \end{aligned}
 $$
 
